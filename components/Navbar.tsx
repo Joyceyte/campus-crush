@@ -1,0 +1,57 @@
+"use client";
+import { useEffect, useState } from "react";
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 60);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  function openWaitlist() {
+    window.dispatchEvent(new CustomEvent("open-waitlist"));
+  }
+
+  return (
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between"
+      style={{
+        padding: scrolled ? "1rem 3rem" : "1.5rem 3rem",
+        background: scrolled ? "rgba(8,16,30,0.72)" : "transparent",
+        backdropFilter: scrolled ? "blur(16px) saturate(160%)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(16px) saturate(160%)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
+        transition: "0.3s cubic-bezier(0,0,0.2,1)",
+      }}
+      aria-label="Site navigation"
+    >
+      <span className="font-jersey text-xl tracking-widest text-white" aria-label="Campus Crush">
+        campus crush
+      </span>
+
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <a
+          href="#"
+          className="glass-btn"
+          style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
+          aria-label="Find Campus Crush on Instagram"
+        >
+          Find us on Instagram
+        </a>
+        <button
+          className="neon-btn"
+          style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
+          onClick={openWaitlist}
+          aria-label="Join the Campus Crush waitlist"
+        >
+          Join Waitlist
+        </button>
+      </div>
+    </nav>
+  );
+}
