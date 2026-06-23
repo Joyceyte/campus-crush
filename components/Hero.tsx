@@ -172,7 +172,10 @@ export default function Hero() {
           marginBottom: '2rem',
           marginTop: '1.5rem',
         }}>
-          Launching at University of Melbourne · Winter 2026
+          Launching at University of Melbourne
+          <span className="hidden sm:inline"> · </span>
+          <br className="sm:hidden" />
+          Winter 2026
         </p>
 
         <div>
@@ -204,19 +207,12 @@ export default function Hero() {
                   >
                     {displayedSpots ?? spotsLeft}
                   </span>
-                  <span style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
+                  <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
                     spots left
                   </span>
                 </span>
               )}
             </div>
-            <span style={{ display: 'block', fontSize: '0.9rem', letterSpacing: '0.04em', fontWeight: 600, color: '#ffffff' }}>
-              first 100 users get{' '}
-              <span style={{ color: '#ff1f71', textShadow: '0 0 10px rgba(255,31,113,0.4)' }}>one month</span>
-              {' '}of premium{' '}
-              <span style={{ color: '#ff1f71', textShadow: '0 0 10px rgba(255,31,113,0.4)' }}>FREE</span>
-             
-            </span>
           </div>
         </div>
 

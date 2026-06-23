@@ -188,8 +188,8 @@ export default function WaitlistModal() {
               >
                 Join the Waitlist
               </h2>
-              <p style={{ fontSize: "0.75rem", color: "#ff1f71", letterSpacing: "0.04em", fontWeight: 600 }}>
-                First 100 users get one month of premium free
+              <p style={{ fontSize: "0.95rem", color: "#ff1f71", letterSpacing: "0.04em", fontWeight: 600 }}>
+                First 100 users get one month of<br />premium FREE
               </p>
             </div>
 
