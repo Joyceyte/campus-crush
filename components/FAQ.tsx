@@ -7,6 +7,10 @@ const faqs = [
     a: "Every Wednesday at 7pm, you'll get an iMessage from us with your match for the week. We pick someone compatible on your campus and suggest a date idea — all you have to do is say yes.",
   },
   {
+    q: "How does Campus Crush pair people?",
+    a: "Campus Crush pairs you with another UniMelb student by analysing your profile and preferences. This process involves rigorous competition to provide the most successful dates. Using the reasoning abilities of the best LLM models, we can orchestrate different agents such as matchmaking experts and analysis experts to create the perfect date for you.",
+  },
+  {
     q: "Who can join Campus Crush?",
     a: "Right now we're launching exclusively at the University of Melbourne. Every profile is verified with a student email, so you'll only ever meet real students.",
   },
@@ -104,31 +108,50 @@ export default function FAQ() {
                 >
                   {faq.q}
                 </span>
-                <span
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.55)"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                   style={{
-                    color: "rgba(255,255,255,0.5)",
-                    fontSize: "1.2rem",
                     flexShrink: 0,
                     marginLeft: "1rem",
+                    transform: openIndex === i ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                   }}
-                  aria-hidden="true"
                 >
-                  {openIndex === i ? "−" : "+"}
-                </span>
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </button>
-              {openIndex === i && (
-                <div
-                  className="faq-answer"
-                  style={{
-                    padding: "0 1.5rem 1.25rem",
-                    fontSize: "0.85rem",
-                    lineHeight: 1.7,
-                    color: "rgba(255,255,255,0.70)",
-                  }}
-                >
-                  {faq.a}
+              {/* grid-rows accordion — smooth height transition, no layout snap */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateRows: openIndex === i ? "1fr" : "0fr",
+                  transition: "grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+              >
+                <div style={{ overflow: "hidden", minHeight: 0 }}>
+                  <div
+                    className="faq-answer"
+                    style={{
+                      padding: "0 1.5rem 1.25rem",
+                      fontSize: "0.85rem",
+                      lineHeight: 1.7,
+                      color: "rgba(255,255,255,0.70)",
+                      opacity: openIndex === i ? 1 : 0,
+                      transition: "opacity 0.35s ease",
+                    }}
+                  >
+                    {faq.a}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>

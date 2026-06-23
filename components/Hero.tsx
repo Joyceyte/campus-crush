@@ -7,6 +7,8 @@ const carouselImages = [
   "/bar-date.jpeg",
   "/noodle-date.jpeg",
   "/park-date.jpeg",
+  "/gay-date.jpg",
+  "/lesbian-date.jpeg",
 ];
 
 const rotatingPhrases = [
@@ -30,7 +32,7 @@ const steps = [
   },
   {
     number: "02",
-    title: "Schedule the date",
+    title: "The Tuesday Drop",
     desc: "Confirm your match and lock in a time. We handle the spot, the vibe, and everything in between.",
   },
   {
@@ -130,7 +132,16 @@ export default function Hero() {
           </p>
         </div>
 
-        <p style={{ fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.40)', marginBottom: '2rem', marginTop: '1.5rem' }}>
+        <p style={{
+          fontSize: '0.78rem',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          fontWeight: 700,
+          color: '#ffffff',
+          textShadow: '0 1px 8px rgba(0,0,0,0.5)',
+          marginBottom: '2rem',
+          marginTop: '1.5rem',
+        }}>
           Launching at University of Melbourne · Winter 2026
         </p>
 
