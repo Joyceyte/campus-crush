@@ -104,7 +104,7 @@ function welcomeHtml(name: string, email: string) {
                   </p>
                   <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#c9cede;">
                     Congrats on being one of the <strong style="color:#ffffff;">first 100 users</strong> to sign up! You'll automatically get
-                    <strong style="color:#ff1f71;">one year free</strong> access to our invite-only app.
+                    <strong style="color:#ff1f71;">one month free</strong> access to our invite-only app.
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:#c9cede;">
                     We won't spam you with details. You'll only hear from us when the app launches

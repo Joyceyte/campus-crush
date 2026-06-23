@@ -211,7 +211,7 @@ export default function Hero() {
               )}
             </div>
             <span style={{ display: 'block', fontSize: '0.9rem', letterSpacing: '0.04em', fontWeight: 600, color: '#ffffff' }}>
-              first 100 users get a year free
+              first 100 users get a month free
             </span>
           </div>
         </div>
