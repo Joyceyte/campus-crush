@@ -1,32 +1,18 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
-
-const LAUNCH_TARGET = new Date("2026-06-29T00:00:00+10:00");
-
-function useCountdown(target: Date) {
-  const calc = useCallback(() => Math.max(0, target.getTime() - Date.now()), [target]);
-  const [ms, setMs] = useState(calc);
-  useEffect(() => {
-    const id = setInterval(() => setMs(calc()), 1000);
-    return () => clearInterval(id);
-  }, [calc]);
-  return {
-    d: Math.floor(ms / 86400000),
-    h: Math.floor((ms % 86400000) / 3600000),
-    m: Math.floor((ms % 3600000) / 60000),
-    s: Math.floor((ms % 60000) / 1000),
-  };
-}
+import { useEffect, useState } from "react";
+import { useSignupCount } from "@/lib/useSignupCount";
 
 export default function WaitlistModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [genderError, setGenderError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [apiError, setApiError] = useState("");
-  const { d, h, m, s } = useCountdown(LAUNCH_TARGET);
+  const signups = useSignupCount();
 
   useEffect(() => {
     function handleOpen() { setIsOpen(true); }
@@ -40,6 +26,8 @@ export default function WaitlistModal() {
       setSuccess(false);
       setName("");
       setEmail("");
+      setGender("");
+      setGenderError("");
       setEmailError("");
       setApiError("");
     }, 300);
@@ -57,13 +45,17 @@ export default function WaitlistModal() {
   async function handleSubmit() {
     setApiError("");
     if (!name.trim()) return;
+    if (!gender) {
+      setGenderError("Please select an option");
+      return;
+    }
     if (!validateEmail(email)) return;
     setLoading(true);
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ name, email, gender }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -197,43 +189,20 @@ export default function WaitlistModal() {
                 Join the Waitlist
               </h2>
               <p style={{ fontSize: "0.75rem", color: "#ff1f71", letterSpacing: "0.04em", fontWeight: 600 }}>
-                First 100 users get a free lifetime membership
+                First 100 users get a free 1-year membership
               </p>
             </div>
 
-            {/* Countdown */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "0.5rem",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.10)",
-                borderRadius: "0.9rem",
-                padding: "0.85rem 0.75rem",
-              }}
-            >
-              {[
-                { val: d, label: "days" },
-                { val: h, label: "hrs" },
-                { val: m, label: "min" },
-                { val: s, label: "sec" },
-              ].map(({ val, label }) => (
-                <div key={label} style={{ textAlign: "center" }}>
-                  <div
-                    className="font-jersey"
-                    style={{ fontSize: "1.6rem", color: "#ff1f71", lineHeight: 1, letterSpacing: "0.04em",
-                      textShadow: "0 0 12px rgba(255,31,113,0.5)" }}
-                  >
-                    {String(val).padStart(2, "0")}
-                  </div>
-                  <div style={{ fontSize: "0.58rem", letterSpacing: "0.12em", textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.40)", marginTop: "0.2rem" }}>
-                    {label}
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Signup count */}
+            {signups !== null && (
+              <p style={{ textAlign: "center", fontSize: "0.85rem", color: "rgba(255,255,255,0.7)", letterSpacing: "0.02em" }}>
+                <span className="font-jersey" style={{ fontSize: "1.15rem", color: "#ff1f71", letterSpacing: "0.04em",
+                  textShadow: "0 0 12px rgba(255,31,113,0.5)" }}>
+                  {signups}
+                </span>{" "}
+                campus singles already joined
+              </p>
+            )}
 
             {/* Name */}
             <div>
@@ -246,6 +215,39 @@ export default function WaitlistModal() {
                 onChange={(e) => setName(e.target.value)}
                 style={inputStyle}
               />
+            </div>
+
+            {/* Gender */}
+            <div>
+              <label htmlFor="waitlist-gender" style={labelStyle}>Gender</label>
+              <select
+                id="waitlist-gender"
+                value={gender}
+                onChange={(e) => { setGender(e.target.value); if (genderError) setGenderError(""); }}
+                style={{
+                  ...inputStyle,
+                  colorScheme: "dark",
+                  appearance: "none",
+                  cursor: "pointer",
+                  color: gender ? "white" : "rgba(255,255,255,0.45)",
+                  borderColor: genderError ? "rgba(255,31,113,0.7)" : "rgba(255,255,255,0.18)",
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffffff' fill-opacity='0.5' d='M6 8L0 0h12z'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 1rem center",
+                }}
+              >
+                <option value="" disabled style={{ color: "rgba(255,255,255,0.45)", background: "#0f2044" }}>Select…</option>
+                <option value="male" style={{ color: "white", background: "#0f2044" }}>Male</option>
+                <option value="female" style={{ color: "white", background: "#0f2044" }}>Female</option>
+                <option value="non-binary" style={{ color: "white", background: "#0f2044" }}>Non-binary</option>
+                <option value="other" style={{ color: "white", background: "#0f2044" }}>Other</option>
+              </select>
+              {genderError && (
+                <p style={{ fontSize: "0.7rem", color: "#ff1f71", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                  {genderError}
+                </p>
+              )}
             </div>
 
             {/* Email */}

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 
 const carouselImages = [
   "/blurry-iceskating.jpeg",
@@ -50,6 +51,35 @@ export default function Hero() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [fading, setFading] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
+  const signups = useSignupCount();
+  const spotsLeft = signups === null ? null : Math.max(0, SIGNUP_GOAL - signups);
+  // Animated "spots left" — counts down from SIGNUP_GOAL (100) to the real
+  // remaining count once, when the number first loads. Honors reduced motion.
+  const [displayedSpots, setDisplayedSpots] = useState<number | null>(null);
+  const [landed, setLanded] = useState(false);
+  useEffect(() => {
+    if (spotsLeft === null) return;
+    const start = SIGNUP_GOAL;
+    const end = spotsLeft;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || start === end) {
+      setDisplayedSpots(end);
+      setLanded(true);
+      return;
+    }
+    const duration = 900;
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - t0) / duration);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      setDisplayedSpots(Math.round(start + (end - start) * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else setLanded(true); // triggers the one-time settle-pulse
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [spotsLeft]);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -153,6 +183,37 @@ export default function Hero() {
           >
             Join the Waitlist →
           </button>
+          <div style={{ marginTop: '1.1rem', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>
+            {/* Scarcity number — the focal point. Space is reserved so the
+                fade-in never shifts the benefit line below it. */}
+            <div style={{ minHeight: '1.7em', display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '0.45rem' }}>
+              {spotsLeft !== null && spotsLeft > 0 && (
+                <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.45rem', animation: 'fadeIn 0.4s ease' }}>
+                  <span
+                    className="font-jersey"
+                    style={{
+                      display: 'inline-block',
+                      fontSize: '1.5rem',
+                      lineHeight: 1,
+                      letterSpacing: '0.02em',
+                      color: '#ff1f71',
+                      fontVariantNumeric: 'tabular-nums',
+                      textShadow: '0 0 12px rgba(255,31,113,0.5)',
+                      animation: landed ? 'spotPulse 0.25s ease' : undefined,
+                    }}
+                  >
+                    {displayedSpots ?? spotsLeft}
+                  </span>
+                  <span style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
+                    spots left
+                  </span>
+                </span>
+              )}
+            </div>
+            <span style={{ display: 'block', fontSize: '0.9rem', letterSpacing: '0.04em', fontWeight: 600, color: '#ffffff' }}>
+              first 100 users get a year free
+            </span>
+          </div>
         </div>
 
       </section>

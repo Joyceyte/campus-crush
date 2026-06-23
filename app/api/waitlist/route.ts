@@ -2,11 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
 
+const GENDERS = ["male", "female", "non-binary", "other"];
+
 export async function POST(req: NextRequest) {
-  const { name, email } = await req.json();
+  const { name, email, gender } = await req.json();
 
   if (!name?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
+  }
+
+  if (!GENDERS.includes(gender)) {
+    return NextResponse.json({ error: "Please select a gender." }, { status: 400 });
   }
 
   if (!email.endsWith("@student.unimelb.edu.au")) {
@@ -18,7 +24,7 @@ export async function POST(req: NextRequest) {
 
   const { error } = await supabase
     .from("waitlist")
-    .insert({ name: cleanName, email: cleanEmail, university: "University of Melbourne" });
+    .insert({ name: cleanName, email: cleanEmail, gender, university: "University of Melbourne" });
 
   if (error) {
     if (error.code === "23505") {

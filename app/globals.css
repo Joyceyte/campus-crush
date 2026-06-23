@@ -249,6 +249,19 @@ body {
   100% { transform: rotate(0deg); }
 }
 
+/* Simple opacity fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Single settle-pulse for the spots-left number when its countdown lands */
+@keyframes spotPulse {
+  0%   { transform: scale(1);    text-shadow: 0 0 12px rgba(255,31,113,0.5); }
+  40%  { transform: scale(1.08); text-shadow: 0 0 22px rgba(255,31,113,0.85); }
+  100% { transform: scale(1);    text-shadow: 0 0 12px rgba(255,31,113,0.5); }
+}
+
 .wiggle-text {
   display: inline-block;
   animation: headline-wiggle 3.6s ease-in-out infinite;
