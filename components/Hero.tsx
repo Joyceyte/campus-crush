@@ -213,9 +213,9 @@ export default function Hero() {
             <span style={{ display: 'block', fontSize: '0.9rem', letterSpacing: '0.04em', fontWeight: 600, color: '#ffffff' }}>
               first 100 users get{' '}
               <span style={{ color: '#ff1f71', textShadow: '0 0 10px rgba(255,31,113,0.4)' }}>one month</span>
-              {' '}of{' '}
-              <span style={{ color: '#ff1f71', textShadow: '0 0 10px rgba(255,31,113,0.4)' }}>FREE premium</span>
-              {' '}membership
+              {' '}of premium{' '}
+              <span style={{ color: '#ff1f71', textShadow: '0 0 10px rgba(255,31,113,0.4)' }}>FREE</span>
+             
             </span>
           </div>
         </div>
