@@ -36,10 +36,12 @@ export default function Navbar() {
 
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
         <a
-          href="#"
+          href="https://www.instagram.com/campus_crush_org"
+          target="_blank"
+          rel="noopener noreferrer"
           className="glass-btn"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
-          aria-label="Find Campus Crush on Instagram"
+          aria-label="Find Campus Crush (@campus_crush_org) on Instagram"
         >
           Find us on Instagram
         </a>
