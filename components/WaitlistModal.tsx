@@ -64,7 +64,7 @@ export default function WaitlistModal() {
         setApiError(data.error || "Something went wrong.");
       }
     } catch {
-      setApiError("Network error — try again.");
+      setApiError("Network error. Try again.");
     } finally {
       setLoading(false);
     }
