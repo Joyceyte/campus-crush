@@ -4,7 +4,7 @@ export default function Footer() {
       style={{
         background: "var(--navy-dark)",
         borderTop: "1px solid rgba(255,255,255,0.08)",
-        padding: "1.5rem 2rem",
+        padding: "0.25rem 2rem",
       }}
     >
       <div
@@ -18,12 +18,12 @@ export default function Footer() {
           gap: "1rem",
         }}
       >
-        <span
-          className="font-jersey"
-          style={{ fontSize: "1.1rem", letterSpacing: "0.15em", color: "white" }}
-        >
-          campus crush
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo-footer.png"
+          alt="Campus Crush"
+          style={{ height: "170px", width: "auto", display: "block", margin: "-1rem 0" }}
+        />
         <nav aria-label="Footer links">
           <div
             style={{

@@ -2,7 +2,7 @@ const notifications = [
   { emoji: "🔥", app: "Tinder", text: "You have 14 new likes", color: "#FF4458", top: 0, left: 20, rotate: -3 },
   { emoji: "💬", app: "Hinge", text: "Someone commented on your prompt", color: "#9933CC", top: 40, left: 0, rotate: 2 },
   { emoji: "🔥", app: "Tinder", text: "Your match expired!", color: "#FF4458", top: 80, left: 30, rotate: -1 },
-  { emoji: "💬", app: "Hinge", text: "She's popular — send something unique", color: "#9933CC", top: 120, left: 10, rotate: 3 },
+  { emoji: "💬", app: "Hinge", text: "She's popular, send something unique", color: "#9933CC", top: 120, left: 10, rotate: 3 },
   { emoji: "🔥", app: "Tinder", text: "Boost now to get 10x more matches", color: "#FF4458", top: 160, left: 40, rotate: -2 },
   { emoji: "💬", app: "Hinge", text: "Rose sent!", color: "#9933CC", top: 200, left: 5, rotate: 1 },
 ];
@@ -13,7 +13,7 @@ const features = [
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e0.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
     title: "Learns your type",
-    desc: "Not just your likes — your patterns. The more you go on dates, the smarter it gets.",
+    desc: "Not just your likes, but your patterns. The more you go on dates, the smarter it gets.",
   },
   {
     icon: (

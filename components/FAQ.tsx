@@ -3,8 +3,8 @@ import { useState } from "react";
 
 const faqs = [
   {
-    q: "How does the Wednesday Drop work?",
-    a: "Every Wednesday at 7pm, you'll get an iMessage from us with your match for the week. We pick someone compatible on your campus and suggest a date idea — all you have to do is say yes.",
+    q: "How does the Tuesday Drop work?",
+    a: "Every Tuesday at 7pm, you'll get an iMessage from us with your match for the week. We pick someone compatible on your campus and suggest a date idea. All you have to do is say yes.",
   },
   {
     q: "How does Campus Crush pair people?",
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "What if I'm not feeling the match?",
-    a: "No pressure. You can pass on any match — and we'll use that to get smarter about what works for you. Every answer teaches Campus Crush more.",
+    a: "No pressure. You can pass on any match, and we'll use that to get smarter about what works for you. Every answer teaches Campus Crush more.",
   },
   {
     q: "Is my profile public?",
@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "What does a Campus Crush date look like?",
-    a: "Always a casual campus coffee or a walk — something low-pressure and familiar. We pick the spot and time based on both your schedules. It's meant to feel easy.",
+    a: "Always a casual campus coffee or a walk, something low-pressure and familiar. We pick the spot and time based on both your schedules. It's meant to feel easy.",
   },
 ];
 

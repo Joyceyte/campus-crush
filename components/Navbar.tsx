@@ -30,9 +30,12 @@ export default function Navbar() {
       }}
       aria-label="Site navigation"
     >
-      <span className="font-jersey text-xl tracking-widest text-white" aria-label="Campus Crush">
-        campus crush
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo-header.png"
+        alt="Campus Crush"
+        style={{ height: "30px", width: "auto", display: "block" }}
+      />
 
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
         <a

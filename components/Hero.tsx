@@ -29,7 +29,7 @@ const steps = [
   {
     number: "01",
     title: "Tell us your type",
-    desc: "Every Wednesday — the Wednesday Drop — check your iMessage at 7pm. We'll send you a personalized match and a curated date, just for you.",
+    desc: "Every Tuesday is the Tuesday Drop. Check your iMessage at 7pm. We'll send you a personalized match and a curated date, just for you.",
   },
   {
     number: "02",
@@ -39,7 +39,7 @@ const steps = [
   {
     number: "03",
     title: "Have fun",
-    desc: "Show up as yourself. No pressure, no swiping — just a real campus connection.",
+    desc: "Show up as yourself. No pressure, no swiping, just a real campus connection.",
   },
 ];
 
