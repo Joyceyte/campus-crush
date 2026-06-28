@@ -19,9 +19,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between"
+      className="site-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between"
       style={{
-        padding: scrolled ? "1rem 3rem" : "1.5rem 3rem",
+        paddingTop: scrolled ? "1rem" : "1.5rem",
+        paddingBottom: scrolled ? "1rem" : "1.5rem",
         background: scrolled ? "rgba(8,16,30,0.72)" : "transparent",
         backdropFilter: scrolled ? "blur(16px) saturate(160%)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(16px) saturate(160%)" : "none",
@@ -37,24 +38,25 @@ export default function Navbar() {
         style={{ height: "30px", width: "auto", display: "block" }}
       />
 
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+      <div className="nav-actions" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
         <a
           href="https://www.instagram.com/campus_crush_org"
           target="_blank"
           rel="noopener noreferrer"
-          className="glass-btn"
+          className="glass-btn nav-cta"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
-          aria-label="Find Campus Crush (@campus_crush_org) on Instagram"
+          aria-label="Campus Crush (@campus_crush_org) on Instagram"
         >
-          Find us on Instagram
+          Instagram
         </a>
         <button
-          className="neon-btn"
+          className="neon-btn nav-cta"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
           onClick={openWaitlist}
           aria-label="Join the Campus Crush waitlist"
         >
-          Join Waitlist
+          <span className="sm:hidden">Join</span>
+          <span className="hidden sm:inline">Join Waitlist</span>
         </button>
       </div>
     </nav>

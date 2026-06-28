@@ -17,8 +17,8 @@ const pillars = [
     icon: (
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2615.png" width="40" height="40" alt="" aria-hidden="true" />
     ),
-    title: "Date on campus",
-    desc: "Every first date is a casual campus coffee: familiar, safe, and zero pressure.",
+    title: "Public, low-key dates",
+    desc: "Every first date is somewhere public and relaxed: a cafe, a gallery, or a walk, planned for you. Familiar, safe, zero pressure.",
   },
 ];
 

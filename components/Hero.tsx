@@ -2,14 +2,17 @@
 import { useState, useEffect } from "react";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 
-const carouselImages = [
-  "/blurry-iceskating.jpeg",
-  "/beachdate.jpeg",
-  "/bar-date.jpeg",
-  "/noodle-date.jpeg",
-  "/park-date.jpeg",
-  "/gay-date.jpg",
-  "/lesbian-date.jpeg",
+// Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
+// in `.bento` (app/globals.css). gay-date / lesbian-date are deliberately
+// spread (B and E) so they never cluster at the bottom of the grid.
+const bentoTiles = [
+  { src: "/blurry-iceskating.jpeg", area: "tile-a" },
+  { src: "/gay-date.jpg", area: "tile-b" },
+  { src: "/park-date.jpeg", area: "tile-c" },
+  { src: "/beachdate.jpeg", area: "tile-d" },
+  { src: "/lesbian-date.jpeg", area: "tile-e" },
+  { src: "/noodle-date.jpeg", area: "tile-f" },
+  { src: "/bar-date.jpeg", area: "tile-g" },
 ];
 
 const rotatingPhrases = [
@@ -28,18 +31,18 @@ const rotatingPhrases = [
 const steps = [
   {
     number: "01",
-    title: "Tell us your type",
-    desc: "Every Tuesday is the Tuesday Drop. Check your iMessage at 7pm. We'll send you a personalized match and a curated date, just for you.",
+    title: "Tell us who you are",
+    desc: "A short conversation with our AI. Not a quiz. We pick up on things you wouldn't think to write in a bio.",
   },
   {
     number: "02",
-    title: "The Tuesday Drop",
-    desc: "Confirm your match and lock in a time. We handle the spot, the vibe, and everything in between.",
+    title: "We find your match",
+    desc: "Every Tuesday, our algorithm pairs you with one person, and tells you why you matched.",
   },
   {
     number: "03",
-    title: "Have fun",
-    desc: "Show up as yourself. No pressure, no swiping, just a real campus connection.",
+    title: "Just show up",
+    desc: "We plan the perfect date. Time, place, even an icebreaker. You do the easy part.",
   },
 ];
 
@@ -50,7 +53,6 @@ function openWaitlist() {
 export default function Hero() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [fading, setFading] = useState(false);
-  const [imgIndex, setImgIndex] = useState(0);
   const signups = useSignupCount();
   const spotsLeft = signups === null ? null : Math.max(0, SIGNUP_GOAL - signups);
   // Animated "spots left" — counts down from SIGNUP_GOAL (100) to the real
@@ -87,144 +89,125 @@ export default function Hero() {
       setTimeout(() => {
         setPhraseIndex((i) => (i + 1) % rotatingPhrases.length);
         setFading(false);
-      }, 380);
-    }, 2800);
-    return () => clearInterval(id);
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setImgIndex((i) => (i + 1) % carouselImages.length);
-    }, 4000);
+      }, 320);
+    }, 2000);
     return () => clearInterval(id);
   }, []);
 
   return (
     <>
-      {/* ── Fixed photo carousel behind everything ── */}
-      <div style={{ position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" }}>
-        {carouselImages.map((src, i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={src}
-            src={src}
-            alt=""
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center 40%",
-              filter: "saturate(0.9) brightness(0.92)",
-              opacity: i === imgIndex ? 1 : 0,
-              transition: "opacity 1.4s ease-in-out",
-            }}
-          />
-        ))}
-        <div style={{ position: "absolute", inset: 0, background: "rgba(6,12,22,0.42)" }} />
-      </div>
+      {/* ── Fold 1: Bento split — left text panel + right photo grid ── */}
+      <section className="hero-bento" aria-labelledby="hero-heading">
+        {/* Left: navy text panel (desktop) / photo-background hero (mobile) */}
+        <div className="hero-panel grain">
+          <div
+            className="leading-[0.88] tracking-widest"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {/* Static label — does NOT wobble */}
+            <h1
+              id="hero-heading"
+              className="font-jersey text-[clamp(1rem,3vw,1.5rem)] tracking-[0.3em] uppercase text-white/60"
+            >
+              meet your
+            </h1>
+            {/* Only the interchanging phrase wobbles. It's an inline-block so it
+                shrinks to its own width and inherits the panel's alignment —
+                left-indented on desktop, centered on the mobile photo hero. */}
+            <span className="wiggle-text" style={{ display: "inline-block" }}>
+              <p
+                className="font-jersey text-[clamp(3rem,7vw,4.5rem)] text-white/90"
+                style={{
+                  opacity: fading ? 0 : 1,
+                  transform: fading ? "translateY(-12px)" : "translateY(0)",
+                  transition: "opacity 0.32s ease, transform 0.32s ease",
+                  textShadow: "0 2px 24px rgba(0,0,0,0.55)",
+                  margin: 0,
+                }}
+              >
+                {rotatingPhrases[phraseIndex]}
+              </p>
+            </span>
+            {/* Static label — does NOT wobble */}
+            <p className="font-jersey text-[clamp(0.75rem,2vw,1rem)] tracking-[0.3em] uppercase text-white/45 mt-3">
+              this winter
+            </p>
+          </div>
 
-      {/* ── Fold 1: Landing view — transparent, shows carousel ── */}
-      <section
-        className="flex flex-col items-center justify-center text-center px-6 grain"
-        style={{
-          minHeight: "100vh",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        aria-labelledby="hero-heading"
-      >
-        <div
-          className="wiggle-text flex flex-col items-center leading-[0.88] tracking-widest"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <h1
-            id="hero-heading"
-            className="font-jersey text-[clamp(1rem,3vw,1.5rem)] tracking-[0.3em] uppercase text-white/60"
-          >
-            meet your
-          </h1>
-          <p
-            className="font-jersey text-[clamp(3.2rem,11vw,7.5rem)] text-white/90"
-            style={{
-              opacity: fading ? 0 : 1,
-              transform: fading ? "translateY(-12px)" : "translateY(0)",
-              transition: "opacity 0.32s ease, transform 0.32s ease",
-              textShadow: "0 2px 24px rgba(0,0,0,0.55)",
-            }}
-          >
-            {rotatingPhrases[phraseIndex]}
+          <p style={{
+            fontSize: '0.78rem',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            fontWeight: 700,
+            color: '#ffffff',
+            marginBottom: '2rem',
+            marginTop: '1.5rem',
+          }}>
+            Launching at University of Melbourne
+            <span className="hidden sm:inline"> · </span>
+            <br className="sm:hidden" />
+            Winter 2026
           </p>
-          <p className="font-jersey text-[clamp(0.75rem,2vw,1rem)] tracking-[0.3em] uppercase text-white/45 mt-3">
-            this winter
-          </p>
-        </div>
 
-        <p style={{
-          fontSize: '0.78rem',
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          fontWeight: 700,
-          color: '#ffffff',
-          textShadow: '0 1px 8px rgba(0,0,0,0.5)',
-          marginBottom: '2rem',
-          marginTop: '1.5rem',
-        }}>
-          Launching at University of Melbourne
-          <span className="hidden sm:inline"> · </span>
-          <br className="sm:hidden" />
-          Winter 2026
-        </p>
-
-        <div>
-          <button
-            className="neon-btn"
-            onClick={openWaitlist}
-            aria-label="Join the Campus Crush waitlist"
-          >
-            Join the Waitlist →
-          </button>
-          <div style={{ marginTop: '1.1rem', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>
-            {/* Scarcity number — the focal point. Space is reserved so the
-                fade-in never shifts the benefit line below it. */}
-            <div style={{ minHeight: '1.7em', display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '0.45rem' }}>
-              {spotsLeft !== null && spotsLeft > 0 && (
-                <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.45rem', animation: 'fadeIn 0.4s ease' }}>
-                  <span
-                    className="font-jersey"
-                    style={{
-                      display: 'inline-block',
-                      fontSize: '1.5rem',
-                      lineHeight: 1,
-                      letterSpacing: '0.02em',
-                      color: '#ff1f71',
-                      fontVariantNumeric: 'tabular-nums',
-                      textShadow: '0 0 12px rgba(255,31,113,0.5)',
-                      animation: landed ? 'spotPulse 0.25s ease' : undefined,
-                    }}
-                  >
-                    {displayedSpots ?? spotsLeft}
+          <div>
+            <button
+              className="neon-btn"
+              onClick={openWaitlist}
+              aria-label="Join the Campus Crush waitlist"
+            >
+              Join the Waitlist →
+            </button>
+            <div style={{ marginTop: '1.1rem' }}>
+              {/* Scarcity number — the focal point. Space is reserved so the
+                  fade-in never shifts the content below it. */}
+              <div style={{ minHeight: '1.7em', display: 'flex', alignItems: 'baseline', gap: '0.45rem' }}>
+                {spotsLeft !== null && spotsLeft > 0 && (
+                  <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.45rem', animation: 'fadeIn 0.4s ease' }}>
+                    <span
+                      className="font-jersey"
+                      style={{
+                        display: 'inline-block',
+                        fontSize: '1.5rem',
+                        lineHeight: 1,
+                        letterSpacing: '0.02em',
+                        color: '#ff1f71',
+                        fontVariantNumeric: 'tabular-nums',
+                        textShadow: '0 0 12px rgba(255,31,113,0.5)',
+                        animation: landed ? 'spotPulse 0.25s ease' : undefined,
+                      }}
+                    >
+                      {displayedSpots ?? spotsLeft}
+                    </span>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
+                      spots left
+                    </span>
                   </span>
-                  <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
-                    spots left
-                  </span>
-                </span>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Right: bento photo grid — decorative, no captions */}
+        <div className="bento">
+          {bentoTiles.map((tile) => (
+            <div key={tile.src} className={`bento-tile grain-heavy ${tile.area}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={tile.src} alt="" />
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* ── Fold 2: How It Works — transparent, shows carousel behind ── */}
+      {/* ── Fold 2: How It Works — solid navy (carousel removed) ── */}
       <section
         aria-labelledby="how-it-works-heading"
         className="grain"
         style={{
           position: "relative",
           overflow: "hidden",
+          background: "var(--navy-dark)",
         }}
       >
         <div className="relative" style={{ zIndex: 1, padding: "6rem 1.5rem", textAlign: "center" }}>
@@ -233,7 +216,7 @@ export default function Hero() {
             className="section-label"
             style={{ color: '#ff1f71', borderColor: 'rgba(255,31,113,0.35)', background: 'rgba(255,31,113,0.10)' }}
           >
-            how it works
+            user journey
           </p>
 
           {/* Three columns — dark glass step cards */}

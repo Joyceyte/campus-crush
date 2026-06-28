@@ -40,3 +40,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# test artifacts
+/test-results
+
+# local scratch & planning (NOT for production / public/)
+/BENTO_HERO_PLAN.md
+/public/bento-mockup.html
+/public/matchcard-mockup.html
+/public/bento-box-idea.webp
+/public/heading-page-inspo.jpg
+/public/campus crush actual.pdf

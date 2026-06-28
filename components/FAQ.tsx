@@ -4,15 +4,19 @@ import { useState } from "react";
 const faqs = [
   {
     q: "How does the Tuesday Drop work?",
-    a: "Every Tuesday at 7pm, you'll get an iMessage from us with your match for the week. We pick someone compatible on your campus and suggest a date idea. All you have to do is say yes.",
+    a: "Every Tuesday at 7pm you'll get a message with your match for the week — who they are, why you matched, and a date we've already planned (time, place, even an icebreaker). All you have to do is say yes.",
   },
   {
     q: "How does Campus Crush pair people?",
-    a: "Campus Crush pairs you with another UniMelb student by analysing your profile and preferences. This process involves rigorous competition to provide the most successful dates. Using the reasoning abilities of the best LLM models, we can orchestrate different agents such as matchmaking experts and analysis experts to create the perfect date for you.",
+    a: "It starts with a short conversation with our AI — not a quiz. From it we learn your values, personality, interests and dealbreakers. Each week our algorithm scores everyone you could meet on both what you have in common and the ways you balance each other out, then pairs you with your most compatible match.",
+  },
+  {
+    q: "Do I write a profile or bio?",
+    a: "No. Your profile is built from your conversation with the AI, not a bio you craft. You can fix factual details like your faculty or year and set your dealbreakers, but you can't rewrite it — that honesty is the whole point.",
   },
   {
     q: "Who can join Campus Crush?",
-    a: "Right now we're launching exclusively at the University of Melbourne. Every profile is verified with a student email, so you'll only ever meet real students.",
+    a: "Right now we're launching exclusively at the University of Melbourne. Every profile is verified with a student email, and you're only ever matched with other students at your university.",
   },
   {
     q: "What if I'm not feeling the match?",
@@ -20,11 +24,11 @@ const faqs = [
   },
   {
     q: "Is my profile public?",
-    a: "Never. Your profile is only visible to the person we match you with that week. No strangers, no swiping, no public listing.",
+    a: "Never. Your profile is only ever shown to the person we match you with that week. No strangers, no swiping, no public listing.",
   },
   {
     q: "What does a Campus Crush date look like?",
-    a: "Always a casual campus coffee or a walk, something low-pressure and familiar. We pick the spot and time based on both your schedules. It's meant to feel easy.",
+    a: "We plan the whole thing. It might be a cafe, a gallery, a market, live music, or a walk in the park — chosen around what you'd both enjoy and both your schedules — with a time and an icebreaker to get you started.",
   },
 ];
 

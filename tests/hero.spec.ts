@@ -29,30 +29,25 @@ test.describe("Hero — first view", () => {
   });
 
   test("rotating phrase is visible on load", async ({ page }) => {
-    // First phrase should be visible immediately
-    const rotatingEl = page.locator("[aria-live='polite'] p:last-child");
+    // The interchanging phrase is the <p> inside the .wiggle-text wrapper.
+    const rotatingEl = page.locator(".wiggle-text p");
     await expect(rotatingEl).toBeVisible();
     const initialText = await rotatingEl.textContent();
     expect(initialText?.trim().length).toBeGreaterThan(0);
   });
 
-  test("rotating phrase changes after ~3 seconds", async ({ page }) => {
-    const rotatingEl = page.locator("[aria-live='polite'] p:last-child");
+  test("rotating phrase changes after a couple seconds", async ({ page }) => {
+    const rotatingEl = page.locator(".wiggle-text p");
     const first = await rotatingEl.textContent();
-    // Wait for at least one rotation (2.8s interval + buffer)
-    await page.waitForTimeout(3200);
+    // Wait for at least one rotation (2s interval + buffer)
+    await page.waitForTimeout(2600);
     const second = await rotatingEl.textContent();
     expect(second).not.toBe(first);
   });
 
-  test("dark overlay is present on hero", async ({ page }) => {
-    const overlay = page.locator("section").first().locator("div").first();
-    // Overlay should exist and page background should be dark (white text on dark)
-    const h1Color = await page.locator("h1#hero-heading").evaluate((el) => {
-      return window.getComputedStyle(el).color;
-    });
-    // White text: rgb(255, 255, 255)
-    expect(h1Color).toBe("rgb(255, 255, 255)");
+  test("hero renders the bento grid with 7 photo tiles", async ({ page }) => {
+    await expect(page.locator(".hero-panel")).toBeVisible();
+    await expect(page.locator(".bento-tile")).toHaveCount(7);
   });
 
   test("Join the Waitlist button is visible", async ({ page }) => {

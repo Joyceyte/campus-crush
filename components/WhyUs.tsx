@@ -1,3 +1,9 @@
+"use client";
+
+function openWaitlist() {
+  window.dispatchEvent(new CustomEvent("open-waitlist"));
+}
+
 const notifications = [
   { emoji: "🔥", app: "Tinder", text: "You have 14 new likes", color: "#FF4458", top: 0, left: 20, rotate: -3 },
   { emoji: "💬", app: "Hinge", text: "Someone commented on your prompt", color: "#9933CC", top: 40, left: 0, rotate: 2 },
@@ -10,24 +16,24 @@ const notifications = [
 const features = [
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e0.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f393.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
-    title: "Learns your type",
-    desc: "Not just your likes, but your patterns. The more you go on dates, the smarter it gets.",
+    title: "Same university",
+    desc: "You are only matched with people in your university.",
   },
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f50d.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f512.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
-    title: "Scans the whole pool",
-    desc: "We match across your entire campus, not just who swiped right.",
+    title: "Private by default",
+    desc: "Your profile only gets shown to the person you're matched with.",
   },
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2728.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2705.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
-    title: "Gets better every date",
-    desc: "Each date teaches Campus Crush more about what actually works for you.",
+    title: "We do the work",
+    desc: "No swiping. We do everything for your first date, all you need to do is accept.",
   },
 ];
 
@@ -190,45 +196,172 @@ export default function WhyUs() {
             An AI matchmaker that learns exactly what you&apos;re into.
           </p>
 
-          {/* Three feature columns */}
-          <div className="cols-3" style={{ marginTop: "3rem" }}>
-            {features.map((f) => (
+          {/* ── Match card: a play on the dating "It's a Match" card —
+               your match is Campus Crush, and the features are the reasons why ── */}
+          <div
+            className="grain"
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "30rem",
+              margin: "2.5rem auto 0",
+              textAlign: "left",
+              background: "linear-gradient(180deg, rgba(20,30,52,0.92), rgba(10,16,30,0.92))",
+              border: "1px solid rgba(255,31,113,0.45)",
+              borderRadius: "1.75rem",
+              padding: "1.9rem 1.6rem 1.6rem",
+              overflow: "hidden",
+              boxShadow:
+                "0 24px 70px rgba(0,0,0,0.55), 0 0 40px rgba(255,31,113,0.18), inset 0 1px 0 rgba(255,255,255,0.06)",
+            }}
+          >
+            {/* Match-found ping */}
+            <span
+              className="font-jersey"
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: "1.1rem",
+                right: "1.1rem",
+                fontSize: "0.72rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#ff1f71",
+                textShadow: "0 0 12px rgba(255,31,113,0.6)",
+              }}
+            >
+              ● Match found
+            </span>
+
+            {/* Avatars — your type ♥ Campus Crush (footer logo) */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "0.25rem 0 0.9rem" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/noodle-date.jpeg"
+                alt=""
+                aria-hidden="true"
+                style={{
+                  width: "84px",
+                  height: "84px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "3px solid rgba(255,255,255,0.9)",
+                  marginRight: "-14px",
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
+                }}
+              />
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "relative",
+                  zIndex: 2,
+                  width: "46px",
+                  height: "46px",
+                  borderRadius: "50%",
+                  background: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.4rem",
+                  color: "#ff1f71",
+                  boxShadow: "0 6px 18px rgba(255,31,113,0.5)",
+                }}
+              >
+                ♥
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-footer.png"
+                alt="Campus Crush"
+                style={{
+                  width: "84px",
+                  height: "84px",
+                  borderRadius: "50%",
+                  objectFit: "contain",
+                  background: "#fff",
+                  padding: "9px",
+                  border: "3px solid #ff1f71",
+                  marginLeft: "-14px",
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
+                }}
+              />
+            </div>
+
+            <div
+              className="font-jersey"
+              style={{
+                textAlign: "center",
+                fontSize: "2.2rem",
+                lineHeight: 1,
+                letterSpacing: "0.04em",
+                color: "#fff",
+                textShadow: "0 0 18px rgba(255,31,113,0.45)",
+                marginBottom: "0.25rem",
+              }}
+            >
+              It&apos;s a Match!
+            </div>
+            <p style={{ textAlign: "center", color: "rgba(255,255,255,0.72)", fontSize: "0.82rem", marginBottom: "1.4rem" }}>
+              You &amp; Campus Crush are a perfect pair. Here&apos;s why:
+            </p>
+
+            <p
+              className="font-jersey"
+              style={{
+                fontSize: "0.72rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.55)",
+                margin: "0 0 0.4rem 0.1rem",
+              }}
+            >
+              Reasons you match
+            </p>
+
+            {features.map((f, i) => (
               <div
                 key={f.title}
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
+                  alignItems: "flex-start",
                   gap: "0.75rem",
-                  minWidth: 0,
-                  color: "#ffffff",
+                  padding: "0.7rem 0",
+                  borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
                 }}
               >
-                {f.icon}
-                <h3
-                  className="font-jersey"
+                <span
+                  aria-hidden="true"
                   style={{
-                    fontSize: "1.1rem",
-                    letterSpacing: "0.1em",
-                    lineHeight: 1.2,
-                    color: "#ffffff",
+                    flex: "0 0 auto",
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "0.75rem",
+                    background: "rgba(255,31,113,0.14)",
+                    border: "1px solid rgba(255,31,113,0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  {f.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "0.78rem",
-                    color: "rgba(255,255,255,0.75)",
-                    lineHeight: 1.65,
-                    maxWidth: "20ch",
-                  }}
-                >
-                  {f.desc}
-                </p>
+                  {f.icon}
+                </span>
+                <div>
+                  <h3 className="font-jersey" style={{ fontSize: "1rem", letterSpacing: "0.06em", color: "#fff", margin: "0.15rem 0 0.15rem" }}>
+                    {f.title}
+                  </h3>
+                  <p style={{ fontSize: "0.76rem", lineHeight: 1.5, color: "rgba(255,255,255,0.66)" }}>{f.desc}</p>
+                </div>
               </div>
             ))}
+
+            <button
+              className="neon-btn"
+              onClick={openWaitlist}
+              aria-label="Join the Campus Crush waitlist"
+              style={{ marginTop: "1.4rem", width: "100%", justifyContent: "center" }}
+            >
+              See your match →
+            </button>
           </div>
         </div>
       </div>
