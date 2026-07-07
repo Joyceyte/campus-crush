@@ -23,10 +23,10 @@ export default function Navbar() {
       style={{
         paddingTop: scrolled ? "1rem" : "1.5rem",
         paddingBottom: scrolled ? "1rem" : "1.5rem",
-        background: scrolled ? "rgba(8,16,30,0.72)" : "transparent",
+        background: scrolled ? "rgba(247,239,225,0.92)" : "transparent",
         backdropFilter: scrolled ? "blur(16px) saturate(160%)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(16px) saturate(160%)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
+        borderBottom: scrolled ? "1px solid rgba(43,27,18,0.14)" : "1px solid transparent",
         transition: "0.3s cubic-bezier(0,0,0.2,1)",
       }}
       aria-label="Site navigation"
