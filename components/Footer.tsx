@@ -34,10 +34,17 @@ export default function Footer() {
               textTransform: "uppercase",
             }}
           >
-            <a href="#" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Privacy</a>
-            <a href="#" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Terms</a>
-            <a href="#" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Contact</a>
-            <a href="#" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Instagram</a>
+            <a href="/blog" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Blog</a>
+            <a href="/privacy" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Privacy</a>
+            <a href="/contact" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Contact</a>
+            <a
+              href="https://www.instagram.com/campus_crush_org"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}
+            >
+              Instagram
+            </a>
           </div>
         </nav>
       </div>
