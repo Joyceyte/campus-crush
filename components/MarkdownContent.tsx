@@ -30,7 +30,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
         <a
           key={key}
           href={url}
-          style={{ color: "#fff", textDecoration: "underline" }}
+          style={{ color: "var(--ink)", textDecoration: "underline" }}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
         >
@@ -40,7 +40,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
     } else if (match[3] !== undefined) {
       const email = match[3];
       nodes.push(
-        <a key={key} href={`mailto:${email}`} style={{ color: "#fff", textDecoration: "underline" }}>
+        <a key={key} href={`mailto:${email}`} style={{ color: "var(--ink)", textDecoration: "underline" }}>
           {email}
         </a>
       );
@@ -74,7 +74,7 @@ export default function MarkdownContent({ content }: { content: string }) {
           return (
             <h2
               key={i}
-              style={{ fontSize: "1.15rem", marginTop: "2.25rem", marginBottom: "0.75rem", color: "#fff" }}
+              style={{ fontSize: "1.15rem", marginTop: "2.25rem", marginBottom: "0.75rem", color: "var(--ink)" }}
             >
               {renderInline(block.replace(/^##\s*/, ""), `h-${i}`)}
             </h2>
@@ -93,7 +93,7 @@ export default function MarkdownContent({ content }: { content: string }) {
               style={{
                 marginBottom: "1rem",
                 paddingLeft: "1.25rem",
-                color: "rgba(255,255,255,0.75)",
+                color: "rgba(43,27,18,0.75)",
                 listStyleType: "disc",
               }}
             >
@@ -107,7 +107,7 @@ export default function MarkdownContent({ content }: { content: string }) {
         }
 
         return (
-          <p key={i} style={{ marginBottom: "1rem", color: "rgba(255,255,255,0.75)" }}>
+          <p key={i} style={{ marginBottom: "1rem", color: "rgba(43,27,18,0.75)" }}>
             {renderInline(block, `p-${i}`)}
           </p>
         );
