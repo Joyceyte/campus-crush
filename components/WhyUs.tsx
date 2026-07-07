@@ -117,8 +117,6 @@ export default function WhyUs() {
                   borderLeft: `3px solid ${n.color}`,
                   borderRadius: "8px",
                   padding: "0.6rem 0.9rem",
-                  backdropFilter: "blur(8px)",
-                  WebkitBackdropFilter: "blur(8px)",
                   transform: `rotate(${n.rotate}deg)`,
                   display: "flex",
                   flexDirection: "column",
