@@ -518,6 +518,45 @@ body {
   mix-blend-mode: multiply;
 }
 
+/* Torn-paper section divider (spec §5) — a jagged clip-path, no image asset.
+   Note: Hero's Fold 2 section already carries `.grain`, whose ::after sets
+   `inset: 0` (pinning top: 0), `opacity: .12` and `mix-blend-mode: multiply`.
+   Because both rules target the same ::after pseudo-element, those grain
+   values would otherwise survive the cascade and make this edge invisible —
+   so top/opacity/blend/z-index are explicitly reset here to win regardless
+   of class order on the element. */
+.torn-edge {
+  position: relative;
+}
+.torn-edge::after {
+  content: "";
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 14px;
+  /* var(--parchment) is this section's own background colour, so a solid
+     parchment fill has zero contrast against it (confirmed: renders as a
+     flat line, not a visible tear). A drop-shadow was tried to add contrast
+     without a colour change, but the section also has overflow:hidden and
+     that clips filter effects entirely on this element — verified with an
+     exaggerated debug shadow that produced no visible glow at all. Using
+     the same low-opacity ink tint as the step-card borders below (e.g.
+     `rgba(43,27,18,0.14)`) keeps the accent subtle and on-brand while
+     actually rendering as a visible jagged edge. */
+  background: rgba(43, 27, 18, 0.14);
+  opacity: 1;
+  mix-blend-mode: normal;
+  z-index: 4;
+  clip-path: polygon(
+    0% 0%, 4% 100%, 8% 20%, 12% 100%, 16% 10%, 20% 100%, 24% 30%, 28% 100%,
+    32% 0%, 36% 100%, 40% 15%, 44% 100%, 48% 25%, 52% 100%, 56% 5%, 60% 100%,
+    64% 20%, 68% 100%, 72% 10%, 76% 100%, 80% 30%, 84% 100%, 88% 15%, 92% 100%,
+    96% 5%, 100% 100%, 100% 100%, 0% 100%
+  );
+}
+
 
 /* FAQ alignment helpers */
 .faq-answer {

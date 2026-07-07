@@ -150,13 +150,25 @@ export default function Hero() {
           </p>
 
           <div>
-            <button
-              className="neon-btn"
-              onClick={openWaitlist}
-              aria-label="Join the Campus Crush waitlist"
-            >
-              Join the Waitlist →
-            </button>
+            <div style={{ position: "relative", display: "inline-block" }}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="var(--terracotta)"
+                aria-hidden="true"
+                style={{ position: "absolute", top: "-8px", right: "-8px", pointerEvents: "none" }}
+              >
+                <path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L1 11l8.5-2.5z" />
+              </svg>
+              <button
+                className="neon-btn"
+                onClick={openWaitlist}
+                aria-label="Join the Campus Crush waitlist"
+              >
+                Join the Waitlist →
+              </button>
+            </div>
             <div style={{ marginTop: '1.1rem' }}>
               {/* Scarcity number — the focal point. Space is reserved so the
                   fade-in never shifts the content below it. */}
@@ -202,7 +214,7 @@ export default function Hero() {
       {/* ── Fold 2: How It Works — solid navy (carousel removed) ── */}
       <section
         aria-labelledby="how-it-works-heading"
-        className="grain"
+        className="grain torn-edge"
         style={{
           position: "relative",
           overflow: "hidden",
