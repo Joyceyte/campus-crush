@@ -347,7 +347,7 @@ body {
   min-height: 100svh;
   padding: 6.5rem 1.5rem 3rem; /* top clears the fixed navbar + leaves a gap */
   background-image:
-    linear-gradient(180deg, rgba(8, 18, 40, 0.5) 0%, rgba(8, 18, 40, 0.66) 100%),
+    linear-gradient(180deg, rgba(247, 239, 225, 0.5) 0%, rgba(247, 239, 225, 0.7) 100%),
     url("/blurry-iceskating.jpeg");
   background-size: cover;
   background-position: center 40%;
