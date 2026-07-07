@@ -45,10 +45,10 @@ export default function PrivateSafe() {
         src="/park-date.jpeg"
         alt=""
         aria-hidden="true"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px)", transform: "scale(1.06)", opacity: 1 }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px) saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)", transform: "scale(1.06)", opacity: 1 }}
       />
       {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(6,12,22,0.55) 0%, rgba(6,12,22,0.72) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.6) 0%, rgba(247,239,225,0.8) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5 }}>
@@ -70,10 +70,7 @@ export default function PrivateSafe() {
               fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
               lineHeight: 1.05,
               letterSpacing: "0.02em",
-              background: "linear-gradient(135deg, #ffffff 55%, #ff1f71 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              color: "var(--terracotta)",
             }}
           >
             Private &amp; Safe
@@ -91,7 +88,7 @@ export default function PrivateSafe() {
                   textAlign: "center",
                   gap: "0.75rem",
                   minWidth: 0,
-                  color: "#ffffff",
+                  color: "var(--ink)",
                 }}
               >
                 {p.icon}
@@ -101,7 +98,7 @@ export default function PrivateSafe() {
                     fontSize: "1.1rem",
                     letterSpacing: "0.1em",
                     lineHeight: 1.2,
-                    color: "#ffffff",
+                    color: "var(--ink)",
                   }}
                 >
                   {p.title}
@@ -109,7 +106,7 @@ export default function PrivateSafe() {
                 <p
                   style={{
                     fontSize: "0.78rem",
-                    color: "rgba(255,255,255,0.75)",
+                    color: "rgba(43,27,18,0.75)",
                     lineHeight: 1.65,
                     maxWidth: "20ch",
                   }}
