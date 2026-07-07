@@ -271,7 +271,7 @@ export default function WhyUs() {
                   height: "84px",
                   borderRadius: "50%",
                   objectFit: "contain",
-                  background: "#fff",
+                  background: "var(--parchment)",
                   padding: "9px",
                   border: "3px solid var(--terracotta)",
                   marginLeft: "-14px",
