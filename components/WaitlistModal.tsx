@@ -9,6 +9,8 @@ export default function WaitlistModal() {
   const [gender, setGender] = useState("");
   const [genderError, setGenderError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [ageChecked, setAgeChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [apiError, setApiError] = useState("");
@@ -30,6 +32,8 @@ export default function WaitlistModal() {
       setGenderError("");
       setEmailError("");
       setApiError("");
+      setConsentChecked(false);
+      setAgeChecked(false);
     }, 300);
   }
 
@@ -50,6 +54,7 @@ export default function WaitlistModal() {
       return;
     }
     if (!validateEmail(email)) return;
+    if (!consentChecked || !ageChecked) return;
     setLoading(true);
     try {
       const res = await fetch("/api/waitlist", {
@@ -92,6 +97,30 @@ export default function WaitlistModal() {
     textTransform: "uppercase",
     color: "rgba(255,255,255,0.50)",
     marginBottom: "0.4rem",
+  };
+
+  const consentLabelStyle: React.CSSProperties = {
+    display: "flex",
+    gap: "0.6rem",
+    alignItems: "flex-start",
+    fontSize: "0.72rem",
+    lineHeight: 1.55,
+    color: "rgba(255,255,255,0.60)",
+    cursor: "pointer",
+  };
+
+  const consentCheckboxStyle: React.CSSProperties = {
+    marginTop: "0.15rem",
+    width: "1rem",
+    height: "1rem",
+    flexShrink: 0,
+    accentColor: "#ff1f71",
+    cursor: "pointer",
+  };
+
+  const consentLinkStyle: React.CSSProperties = {
+    color: "#ffffff",
+    textDecoration: "underline",
   };
 
   return (
@@ -272,6 +301,37 @@ export default function WaitlistModal() {
               )}
             </div>
 
+            {/* Consent checkboxes */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+              <label style={consentLabelStyle}>
+                <input
+                  type="checkbox"
+                  checked={consentChecked}
+                  onChange={(e) => setConsentChecked(e.target.checked)}
+                  style={consentCheckboxStyle}
+                />
+                <span>
+                  I consent to Campus Crush collecting and storing my personal information — including my{" "}
+                  <strong>name</strong> and <strong>email address</strong> — to contact me about my match, and
+                  understand anonymised data may be used for marketing purposes. This information is held in
+                  accordance with the Privacy Act 1988 (Cth) and our{" "}
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" style={consentLinkStyle}>
+                    Privacy Policy
+                  </a>
+                  .
+                </span>
+              </label>
+              <label style={consentLabelStyle}>
+                <input
+                  type="checkbox"
+                  checked={ageChecked}
+                  onChange={(e) => setAgeChecked(e.target.checked)}
+                  style={consentCheckboxStyle}
+                />
+                <span>I confirm that I am 18 years of age or older.</span>
+              </label>
+            </div>
+
             {/* API error */}
             {apiError && (
               <p style={{ fontSize: "0.75rem", color: "#ff1f71", textAlign: "center" }}>{apiError}</p>
@@ -280,9 +340,14 @@ export default function WaitlistModal() {
             {/* Submit */}
             <button
               className="neon-btn"
-              style={{ width: "100%", justifyContent: "center", opacity: loading ? 0.7 : 1 }}
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                opacity: loading || !consentChecked || !ageChecked ? 0.5 : 1,
+                cursor: loading || !consentChecked || !ageChecked ? "not-allowed" : "pointer",
+              }}
               type="button"
-              disabled={loading}
+              disabled={loading || !consentChecked || !ageChecked}
               onClick={handleSubmit}
             >
               {loading ? "Joining…" : "Join the Waitlist →"}

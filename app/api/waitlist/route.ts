@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
 
+export const dynamic = "force-dynamic";
+
 const GENDERS = ["male", "female", "non-binary", "other"];
 
 export async function POST(req: NextRequest) {
@@ -129,9 +131,8 @@ function welcomeHtml(name: string, email: string) {
 }
 
 export async function GET() {
-  const { count } = await supabase
-    .from("waitlist")
-    .select("*", { count: "exact", head: true });
+  const { data: count, error } = await supabase.rpc("waitlist_count");
+  if (error) console.error("waitlist_count RPC failed:", error);
 
   return NextResponse.json({ count: count ?? 0 });
 }
