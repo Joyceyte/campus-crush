@@ -121,13 +121,13 @@ function PrivacyBody() {
       {blocks.map((block, i) => {
         if (block.startsWith("## ")) {
           return (
-            <h2 key={i} style={{ fontSize: "1.15rem", marginTop: "2.25rem", marginBottom: "0.75rem", color: "#fff" }}>
+            <h2 key={i} style={{ fontSize: "1.15rem", marginTop: "2.25rem", marginBottom: "0.75rem", color: "var(--ink)" }}>
               {renderInline(block.replace(/^##\s*/, ""))}
             </h2>
           );
         }
         return (
-          <p key={i} style={{ marginBottom: "1rem", color: "rgba(255,255,255,0.75)" }}>
+          <p key={i} style={{ marginBottom: "1rem", color: "rgba(43,27,18,0.75)" }}>
             {renderInline(block)}
           </p>
         );
@@ -140,16 +140,16 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       <Navbar />
-      <main id="main-content" style={{ background: "var(--navy-dark)", paddingTop: "8rem", paddingBottom: "5rem" }}>
+      <main id="main-content" style={{ background: "var(--parchment)", paddingTop: "8rem", paddingBottom: "5rem" }}>
         <div style={{ maxWidth: "42rem", margin: "0 auto", padding: "0 1.5rem", lineHeight: 1.65, fontSize: "0.95rem" }}>
-          <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem", color: "#fff" }}>Campus Crush Privacy Policy</h1>
-          <p style={{ marginBottom: "2rem", color: "rgba(255,255,255,0.55)", fontSize: "0.85rem" }}>
+          <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem", color: "var(--ink)" }}>Campus Crush Privacy Policy</h1>
+          <p style={{ marginBottom: "2rem", color: "rgba(43,27,18,0.55)", fontSize: "0.85rem" }}>
             Effective date: 07/07/2026
           </p>
-          <p style={{ marginBottom: "1rem", color: "rgba(255,255,255,0.75)" }}>
+          <p style={{ marginBottom: "1rem", color: "rgba(43,27,18,0.75)" }}>
             Campus Crush&apos;s ambition is to help university students find genuine connections through one thoughtful, curated match each week. To do that, there is certain personal information we need to collect about you, including some information that is deeply personal. We recognise the importance of your privacy and we want you to feel confident using our platform. We don&apos;t take this responsibility lightly. If you do not agree with this policy, please do not proceed with signing up to the platform.
           </p>
-          <p style={{ marginBottom: "1rem", color: "rgba(255,255,255,0.75)" }}>
+          <p style={{ marginBottom: "1rem", color: "rgba(43,27,18,0.75)" }}>
             This Privacy Policy applies to all personal information collected by Yue Hu and Alexandra Zhang (Campus Crush, we or us) via the website and application located at www.campus-crush.org.
           </p>
           <PrivacyBody />

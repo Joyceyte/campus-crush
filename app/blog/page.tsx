@@ -15,10 +15,10 @@ export default function BlogIndexPage() {
   return (
     <>
       <Navbar />
-      <main id="main-content" style={{ background: "var(--navy-dark)", paddingTop: "8rem", paddingBottom: "5rem" }}>
+      <main id="main-content" style={{ background: "var(--parchment)", paddingTop: "8rem", paddingBottom: "5rem" }}>
         <div style={{ maxWidth: "42rem", margin: "0 auto", padding: "0 1.5rem" }}>
-          <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem", color: "#fff" }}>Campus Crush Blog</h1>
-          <p style={{ marginBottom: "2.5rem", color: "rgba(255,255,255,0.55)", fontSize: "0.95rem" }}>
+          <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem", color: "var(--ink)" }}>Campus Crush Blog</h1>
+          <p style={{ marginBottom: "2.5rem", color: "rgba(43,27,18,0.55)", fontSize: "0.95rem" }}>
             Guides and updates from the team.
           </p>
 
@@ -31,16 +31,16 @@ export default function BlogIndexPage() {
                   display: "block",
                   padding: "1.5rem",
                   borderRadius: "0.75rem",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(43,27,18,0.14)",
+                  background: "var(--parchment-deep)",
                   textDecoration: "none",
                 }}
               >
-                <p style={{ marginBottom: "0.5rem", color: "rgba(255,255,255,0.5)", fontSize: "0.8rem" }}>
+                <p style={{ marginBottom: "0.5rem", color: "rgba(43,27,18,0.5)", fontSize: "0.8rem" }}>
                   {formatPostDate(post.date)}
                 </p>
-                <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "#fff" }}>{post.title}</h2>
-                <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem", lineHeight: 1.55 }}>
+                <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "var(--ink)" }}>{post.title}</h2>
+                <p style={{ color: "rgba(43,27,18,0.7)", fontSize: "0.9rem", lineHeight: 1.55 }}>
                   {post.excerpt}
                 </p>
               </Link>

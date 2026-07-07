@@ -14,20 +14,20 @@ export default function ContactPage() {
       <main
         id="main-content"
         style={{
-          background: "var(--navy-dark)",
+          background: "var(--parchment)",
           paddingTop: "8rem",
           paddingBottom: "5rem",
           minHeight: "60vh",
         }}
       >
         <div style={{ maxWidth: "42rem", margin: "0 auto", padding: "0 1.5rem", textAlign: "center" }}>
-          <h1 style={{ fontSize: "2rem", marginBottom: "1rem", color: "#fff" }}>Contact us</h1>
-          <p style={{ marginBottom: "1.5rem", color: "rgba(255,255,255,0.75)", fontSize: "0.95rem" }}>
+          <h1 style={{ fontSize: "2rem", marginBottom: "1rem", color: "var(--ink)" }}>Contact us</h1>
+          <p style={{ marginBottom: "1.5rem", color: "rgba(43,27,18,0.75)", fontSize: "0.95rem" }}>
             Questions, feedback, or need a hand? Reach out any time.
           </p>
           <a
             href="mailto:support@campus-crush.org"
-            style={{ fontSize: "1.15rem", color: "#fff", textDecoration: "underline" }}
+            style={{ fontSize: "1.15rem", color: "var(--ink)", textDecoration: "underline" }}
           >
             support@campus-crush.org
           </a>
