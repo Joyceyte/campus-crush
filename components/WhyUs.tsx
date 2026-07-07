@@ -238,7 +238,7 @@ export default function WhyUs() {
                   objectFit: "cover",
                   border: "3px solid var(--parchment)",
                   marginRight: "-14px",
-                  boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
+                  boxShadow: "0 6px 20px rgba(43,27,18,0.5)",
                 }}
               />
               <span
@@ -273,7 +273,7 @@ export default function WhyUs() {
                   padding: "9px",
                   border: "3px solid var(--terracotta)",
                   marginLeft: "-14px",
-                  boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
+                  boxShadow: "0 6px 20px rgba(43,27,18,0.5)",
                 }}
               />
             </div>
