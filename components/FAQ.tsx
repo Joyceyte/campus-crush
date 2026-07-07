@@ -51,10 +51,10 @@ export default function FAQ() {
         src="/blurry-iceskating.jpeg"
         alt=""
         aria-hidden="true"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px)", transform: "scale(1.06)", opacity: 1 }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px) saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)", transform: "scale(1.06)", opacity: 1 }}
       />
       {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(6,12,22,0.55) 0%, rgba(6,12,22,0.72) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.6) 0%, rgba(247,239,225,0.8) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5, textAlign: "center" }}>
@@ -65,10 +65,7 @@ export default function FAQ() {
             fontSize: "clamp(2rem, 8vw, 3.5rem)",
             lineHeight: 1.05,
             letterSpacing: "0.02em",
-            background: "linear-gradient(135deg, #ffffff 55%, #ff1f71 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            color: "var(--terracotta)",
           }}
         >
           Everything you need to know
@@ -77,10 +74,8 @@ export default function FAQ() {
         {/* ONE combined glass container */}
         <div
           style={{
-            background: "rgba(255,255,255,0.07)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.15)",
+            background: "var(--parchment-deep)",
+            border: "1px solid rgba(43,27,18,0.14)",
             borderRadius: "1.25rem",
             overflow: "hidden",
             maxWidth: "42rem",
@@ -89,7 +84,7 @@ export default function FAQ() {
         >
           {faqs.map((faq, i) => (
             <div key={i}>
-              {i > 0 && <div style={{ borderTop: "1px solid rgba(255,255,255,0.10)" }} />}
+              {i > 0 && <div style={{ borderTop: "1px solid rgba(43,27,18,0.12)" }} />}
               <button
                 className="faq-question-btn"
                 onClick={() => toggle(i)}
@@ -108,7 +103,7 @@ export default function FAQ() {
               >
                 <span
                   className="font-jersey"
-                  style={{ fontSize: "1rem", letterSpacing: "0.05em", color: "#ffffff" }}
+                  style={{ fontSize: "1rem", letterSpacing: "0.05em", color: "var(--ink)" }}
                 >
                   {faq.q}
                 </span>
@@ -117,7 +112,7 @@ export default function FAQ() {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="rgba(255,255,255,0.55)"
+                  stroke="rgba(43,27,18,0.55)"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -147,7 +142,7 @@ export default function FAQ() {
                       padding: "0 1.5rem 1.25rem",
                       fontSize: "0.85rem",
                       lineHeight: 1.7,
-                      color: "rgba(255,255,255,0.70)",
+                      color: "rgba(43,27,18,0.72)",
                       opacity: openIndex === i ? 1 : 0,
                       transition: "opacity 0.35s ease",
                     }}
