@@ -16,7 +16,7 @@ export default function BlogPreview() {
         position: "relative",
         paddingTop: "5rem",
         paddingBottom: "5rem",
-        background: "var(--navy-dark)",
+        background: "var(--parchment)",
       }}
     >
       <div className="section-pad relative" style={{ textAlign: "center" }}>
@@ -29,10 +29,7 @@ export default function BlogPreview() {
             fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
             lineHeight: 1.05,
             letterSpacing: "0.02em",
-            background: "linear-gradient(135deg, #ffffff 55%, #ff1f71 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            color: "var(--terracotta)",
           }}
         >
           Read Before Your First Date
@@ -41,7 +38,7 @@ export default function BlogPreview() {
           style={{
             marginTop: "0.5rem",
             fontSize: "0.95rem",
-            color: "rgba(255,255,255,0.7)",
+            color: "rgba(43,27,18,0.7)",
             maxWidth: "40ch",
             marginLeft: "auto",
             marginRight: "auto",
@@ -70,21 +67,21 @@ export default function BlogPreview() {
                 display: "block",
                 padding: "1.75rem",
                 borderRadius: "1rem",
-                border: "1px solid rgba(255,31,113,0.35)",
-                background: "linear-gradient(180deg, rgba(20,30,52,0.6), rgba(10,16,30,0.6))",
+                border: "1px solid rgba(193,81,47,0.3)",
+                background: "var(--parchment-deep)",
                 textDecoration: "none",
               }}
             >
-              <p style={{ marginBottom: "0.5rem", color: "rgba(255,255,255,0.5)", fontSize: "0.8rem" }}>
+              <p style={{ marginBottom: "0.5rem", color: "rgba(43,27,18,0.5)", fontSize: "0.8rem" }}>
                 {formatPostDate(post.date)}
               </p>
-              <h3 className="font-jersey" style={{ fontSize: "1.3rem", letterSpacing: "0.03em", marginBottom: "0.6rem", color: "#fff" }}>
+              <h3 className="font-jersey" style={{ fontSize: "1.3rem", letterSpacing: "0.03em", marginBottom: "0.6rem", color: "var(--ink)" }}>
                 {post.title}
               </h3>
-              <p style={{ color: "rgba(255,255,255,0.72)", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "0.75rem" }}>
+              <p style={{ color: "rgba(43,27,18,0.72)", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "0.75rem" }}>
                 {post.excerpt}
               </p>
-              <span style={{ color: "#ff1f71", fontSize: "0.85rem", fontWeight: 600 }}>Read more →</span>
+              <span style={{ color: "var(--terracotta)", fontSize: "0.85rem", fontWeight: 600 }}>Read more →</span>
             </Link>
           ))}
         </div>
