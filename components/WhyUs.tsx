@@ -60,10 +60,10 @@ export default function WhyUs() {
         src="/bar-date.jpeg"
         alt=""
         aria-hidden="true"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px)", transform: "scale(1.06)", opacity: 1 }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px) saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)", transform: "scale(1.06)", opacity: 1 }}
       />
       {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(6,12,22,0.45) 0%, rgba(6,12,22,0.62) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.55) 0%, rgba(247,239,225,0.75) 100%)" }} />
 
       {/* ── TOP HALF: Anti-App ── */}
       <div className="section-pad relative" style={{ zIndex: 5 }}>
@@ -77,10 +77,7 @@ export default function WhyUs() {
                 fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
                 lineHeight: 1.05,
                 letterSpacing: "0.02em",
-                background: "linear-gradient(135deg, #ffffff 55%, #ff1f71 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
+                color: "var(--terracotta)",
               }}
             >
               Tired of Tinder and Hinge
@@ -88,7 +85,7 @@ export default function WhyUs() {
             <p
               style={{
                 fontSize: "0.95rem",
-                color: "rgba(255,255,255,0.80)",
+                color: "rgba(43,27,18,0.80)",
                 lineHeight: 1.6,
                 maxWidth: "40ch",
                 margin: "0 auto",
@@ -116,7 +113,7 @@ export default function WhyUs() {
                   top: n.top,
                   left: n.left,
                   width: "240px",
-                  background: "rgba(8,18,40,0.85)",
+                  background: "var(--parchment-deep)",
                   borderLeft: `3px solid ${n.color}`,
                   borderRadius: "8px",
                   padding: "0.6rem 0.9rem",
@@ -134,7 +131,7 @@ export default function WhyUs() {
                     style={{
                       fontSize: "0.65rem",
                       fontWeight: 700,
-                      color: "#ffffff",
+                      color: "var(--ink)",
                       letterSpacing: "0.04em",
                       textTransform: "uppercase",
                     }}
@@ -145,7 +142,7 @@ export default function WhyUs() {
                 <p
                   style={{
                     fontSize: "0.7rem",
-                    color: "rgba(255,255,255,0.6)",
+                    color: "rgba(43,27,18,0.6)",
                     lineHeight: 1.4,
                   }}
                 >
@@ -176,10 +173,7 @@ export default function WhyUs() {
               fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
               lineHeight: 1.05,
               letterSpacing: "0.02em",
-              background: "linear-gradient(135deg, #ffffff 55%, #ff1f71 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              color: "var(--terracotta)",
             }}
           >
             Your Matchmaker
@@ -187,7 +181,7 @@ export default function WhyUs() {
           <p
             style={{
               fontSize: "0.95rem",
-              color: "rgba(255,255,255,0.80)",
+              color: "rgba(43,27,18,0.80)",
               lineHeight: 1.6,
               maxWidth: "40ch",
               margin: "0 auto",
@@ -206,13 +200,12 @@ export default function WhyUs() {
               maxWidth: "30rem",
               margin: "2.5rem auto 0",
               textAlign: "left",
-              background: "linear-gradient(180deg, rgba(20,30,52,0.92), rgba(10,16,30,0.92))",
-              border: "1px solid rgba(255,31,113,0.45)",
+              background: "var(--parchment-deep)",
+              border: "1px solid rgba(193,81,47,0.35)",
               borderRadius: "1.75rem",
               padding: "1.9rem 1.6rem 1.6rem",
               overflow: "hidden",
-              boxShadow:
-                "0 24px 70px rgba(0,0,0,0.55), 0 0 40px rgba(255,31,113,0.18), inset 0 1px 0 rgba(255,255,255,0.06)",
+              boxShadow: "0 24px 70px rgba(43,27,18,0.18), inset 0 1px 0 rgba(255,255,255,0.4)",
             }}
           >
             {/* Match-found ping */}
@@ -226,8 +219,8 @@ export default function WhyUs() {
                 fontSize: "0.72rem",
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: "#ff1f71",
-                textShadow: "0 0 12px rgba(255,31,113,0.6)",
+                color: "var(--terracotta)",
+                textShadow: "0 0 10px rgba(193,81,47,0.35)",
               }}
             >
               ● Match found
@@ -245,7 +238,7 @@ export default function WhyUs() {
                   height: "84px",
                   borderRadius: "50%",
                   objectFit: "cover",
-                  border: "3px solid rgba(255,255,255,0.9)",
+                  border: "3px solid var(--parchment)",
                   marginRight: "-14px",
                   boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
                 }}
@@ -258,13 +251,13 @@ export default function WhyUs() {
                   width: "46px",
                   height: "46px",
                   borderRadius: "50%",
-                  background: "#fff",
+                  background: "var(--parchment)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: "1.4rem",
-                  color: "#ff1f71",
-                  boxShadow: "0 6px 18px rgba(255,31,113,0.5)",
+                  color: "var(--terracotta)",
+                  boxShadow: "0 6px 18px rgba(193,81,47,0.35)",
                 }}
               >
                 ♥
@@ -280,7 +273,7 @@ export default function WhyUs() {
                   objectFit: "contain",
                   background: "#fff",
                   padding: "9px",
-                  border: "3px solid #ff1f71",
+                  border: "3px solid var(--terracotta)",
                   marginLeft: "-14px",
                   boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
                 }}
@@ -294,14 +287,13 @@ export default function WhyUs() {
                 fontSize: "2.2rem",
                 lineHeight: 1,
                 letterSpacing: "0.04em",
-                color: "#fff",
-                textShadow: "0 0 18px rgba(255,31,113,0.45)",
+                color: "var(--ink)",
                 marginBottom: "0.25rem",
               }}
             >
               It&apos;s a Match!
             </div>
-            <p style={{ textAlign: "center", color: "rgba(255,255,255,0.72)", fontSize: "0.82rem", marginBottom: "1.4rem" }}>
+            <p style={{ textAlign: "center", color: "rgba(43,27,18,0.72)", fontSize: "0.82rem", marginBottom: "1.4rem" }}>
               You &amp; Campus Crush are a perfect pair. Here&apos;s why:
             </p>
 
@@ -311,7 +303,7 @@ export default function WhyUs() {
                 fontSize: "0.72rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.55)",
+                color: "rgba(43,27,18,0.55)",
                 margin: "0 0 0.4rem 0.1rem",
               }}
             >
@@ -326,7 +318,7 @@ export default function WhyUs() {
                   alignItems: "flex-start",
                   gap: "0.75rem",
                   padding: "0.7rem 0",
-                  borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
+                  borderTop: i === 0 ? "none" : "1px solid rgba(43,27,18,0.12)",
                 }}
               >
                 <span
@@ -336,8 +328,8 @@ export default function WhyUs() {
                     width: "48px",
                     height: "48px",
                     borderRadius: "0.75rem",
-                    background: "rgba(255,31,113,0.14)",
-                    border: "1px solid rgba(255,31,113,0.3)",
+                    background: "rgba(193,81,47,0.12)",
+                    border: "1px solid rgba(193,81,47,0.3)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -346,10 +338,10 @@ export default function WhyUs() {
                   {f.icon}
                 </span>
                 <div>
-                  <h3 className="font-jersey" style={{ fontSize: "1rem", letterSpacing: "0.06em", color: "#fff", margin: "0.15rem 0 0.15rem" }}>
+                  <h3 className="font-jersey" style={{ fontSize: "1rem", letterSpacing: "0.06em", color: "var(--ink)", margin: "0.15rem 0 0.15rem" }}>
                     {f.title}
                   </h3>
-                  <p style={{ fontSize: "0.76rem", lineHeight: 1.5, color: "rgba(255,255,255,0.66)" }}>{f.desc}</p>
+                  <p style={{ fontSize: "0.76rem", lineHeight: 1.5, color: "rgba(43,27,18,0.66)" }}>{f.desc}</p>
                 </div>
               </div>
             ))}
