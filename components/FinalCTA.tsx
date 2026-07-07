@@ -30,7 +30,7 @@ export default function FinalCTA() {
         }}
       />
       {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(6,12,22,0.45) 0%, rgba(6,12,22,0.62) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.5) 0%, rgba(247,239,225,0.7) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5, textAlign: "center", minHeight: "360px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -42,17 +42,14 @@ export default function FinalCTA() {
             lineHeight: 1,
             letterSpacing: "0.06em",
             marginBottom: "0.75rem",
-            background: "linear-gradient(135deg, #ffffff 55%, #ff1f71 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            color: "var(--terracotta)",
           }}
         >
           Date Without Swiping.
         </h2>
-        <p style={{ fontSize: '0.875rem', maxWidth: '34ch', margin: '0 auto 2rem', color: 'rgba(255,255,255,0.60)', lineHeight: 1.7 }}>
+        <p style={{ fontSize: '0.875rem', maxWidth: '34ch', margin: '0 auto 2rem', color: 'rgba(43,27,18,0.66)', lineHeight: 1.7 }}>
           Join the waitlist and be the first to know when Campus Crush launches at{' '}
-          <span style={{ color: '#ffffff', fontWeight: 600 }}>the University of Melbourne</span>.
+          <span style={{ color: 'var(--ink)', fontWeight: 600 }}>the University of Melbourne</span>.
         </p>
         <button
           className="neon-btn"
