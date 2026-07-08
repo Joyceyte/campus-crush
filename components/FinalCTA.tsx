@@ -30,7 +30,7 @@ export default function FinalCTA() {
         }}
       />
       {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.5) 0%, rgba(247,239,225,0.7) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.65) 0%, rgba(247,239,225,0.85) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5, textAlign: "center", minHeight: "360px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
