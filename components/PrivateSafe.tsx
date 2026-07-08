@@ -1,21 +1,21 @@
 const pillars = [
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f393.png" width="40" height="40" alt="" aria-hidden="true" />
+      <img src="/twemoji/1f393.png" width="40" height="40" alt="" aria-hidden="true" />
     ),
     title: "Verified students only",
     desc: "University of Melbourne students only. Every profile is verified with your student email.",
   },
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f512.png" width="40" height="40" alt="" aria-hidden="true" />
+      <img src="/twemoji/1f512.png" width="40" height="40" alt="" aria-hidden="true" />
     ),
     title: "Only your date sees you",
     desc: "No public profile. No strangers. Just the person we matched you with.",
   },
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2615.png" width="40" height="40" alt="" aria-hidden="true" />
+      <img src="/twemoji/2615.png" width="40" height="40" alt="" aria-hidden="true" />
     ),
     title: "Public, low-key dates",
     desc: "Every first date is somewhere public and relaxed: a cafe, a gallery, or a walk, planned for you. Familiar, safe, zero pressure.",

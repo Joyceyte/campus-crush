@@ -16,21 +16,21 @@ const notifications = [
 const features = [
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f393.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
+      <img src="/twemoji/1f393.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
     title: "Same university",
     desc: "You are only matched with people in your university.",
   },
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f512.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
+      <img src="/twemoji/1f512.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
     title: "Private by default",
     desc: "Your profile only gets shown to the person you're matched with.",
   },
   {
     icon: (
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2705.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
+      <img src="/twemoji/2705.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
     title: "We do the work",
     desc: "No swiping. We do everything for your first date, all you need to do is accept.",
