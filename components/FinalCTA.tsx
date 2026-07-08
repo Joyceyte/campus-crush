@@ -24,7 +24,7 @@ export default function FinalCTA() {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          filter: "blur(3px) saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)",
+          filter: "saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)",
           transform: "scale(1.06)",
           opacity: 1,
         }}
