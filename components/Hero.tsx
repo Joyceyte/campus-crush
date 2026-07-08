@@ -214,7 +214,7 @@ export default function Hero() {
       {/* ── Fold 2: How It Works — solid navy (carousel removed) ── */}
       <section
         aria-labelledby="how-it-works-heading"
-        className="grain torn-edge"
+        className="grain"
         style={{
           position: "relative",
           overflow: "hidden",
