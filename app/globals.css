@@ -248,6 +248,20 @@ body {
   transform: translateY(-1px);
 }
 
+/* Secondary nav CTA (Instagram) — .glass-btn is intentionally subtle for
+   BlogPreview's "View all posts", but sitting next to .neon-btn in the navbar
+   it reads as nearly invisible against the parchment background. Give it a
+   tinted fill and stronger border so it's visible while staying secondary to
+   the terracotta "Join Waitlist" primary CTA. Scoped so .glass-btn itself is
+   untouched elsewhere. */
+.nav-cta.glass-btn {
+  background: rgba(193,81,47,0.10);
+  border: 1.5px solid rgba(43,27,18,0.5);
+}
+.nav-cta.glass-btn:hover {
+  background: rgba(193,81,47,0.18);
+}
+
 /* Section label pill */
 .section-label {
   display: inline-block;
