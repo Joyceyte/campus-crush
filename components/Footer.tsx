@@ -32,7 +32,7 @@ export default function Footer() {
             <a href="/privacy" style={{ color: "var(--parchment)", textDecoration: "none" }}>Privacy</a>
             <a href="/contact" style={{ color: "var(--parchment)", textDecoration: "none" }}>Contact</a>
             <a
-              href="https://www.instagram.com/campus_crush_org"
+              href="https://www.instagram.com/campuscrush_uni/"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "var(--parchment)", textDecoration: "none" }}

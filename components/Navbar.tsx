@@ -48,12 +48,12 @@ export default function Navbar() {
 
       <div className="nav-actions" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
         <a
-          href="https://www.instagram.com/campus_crush_org"
+          href="https://www.instagram.com/campuscrush_uni/"
           target="_blank"
           rel="noopener noreferrer"
           className="glass-btn nav-cta"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
-          aria-label="Campus Crush (@campus_crush_org) on Instagram"
+          aria-label="Campus Crush (@campuscrush_uni) on Instagram"
         >
           Instagram
         </a>
