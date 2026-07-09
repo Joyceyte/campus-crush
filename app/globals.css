@@ -74,6 +74,10 @@
   --parchment-deep: #EFE3CD;
   --ink: #2B1B12;
   --terracotta: #C1512F;
+  /* Darker terracotta variant — same hue, ~8% darker, used where parchment-toned
+     text needs to sit directly on a terracotta fill (e.g. Footer) and the base
+     --terracotta only reaches ~4.1:1 contrast, short of WCAG AA's 4.5:1. */
+  --terracotta-deep: #B24B2B;
   --yellow: #E8B23D;
   --burgundy: #6E1F2B;
   --rose: #D48C82;

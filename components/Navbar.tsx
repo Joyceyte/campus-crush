@@ -32,12 +32,18 @@ export default function Navbar() {
       aria-label="Site navigation"
     >
       <a href="/" aria-label="Campus Crush home" style={{ display: "block" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/logo-header.png"
-          alt="Campus Crush"
-          style={{ height: "30px", width: "auto", display: "block" }}
-        />
+        <span
+          className="font-jersey"
+          style={{
+            fontSize: "clamp(1.1rem, 3vw, 1.5rem)",
+            letterSpacing: "0.02em",
+            color: "var(--ink)",
+            display: "block",
+          }}
+        >
+          campus <span style={{ color: "var(--terracotta)" }}>crush</span>{" "}
+          <span style={{ color: "var(--terracotta)" }} aria-hidden="true">♥</span>
+        </span>
       </a>
 
       <div className="nav-actions" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>

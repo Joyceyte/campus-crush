@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: "var(--terracotta)",
+        background: "var(--terracotta-deep)",
         borderTop: "1px solid rgba(247,239,225,0.14)",
         padding: "1.5rem 2rem",
       }}
