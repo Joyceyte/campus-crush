@@ -6,6 +6,15 @@ export const dynamic = "force-dynamic";
 
 const GENDERS = ["male", "female", "non-binary", "other"];
 
+// Accepted student email domains, mapped to the university they verify.
+// Checked longest-suffix-first isn't needed since none of these overlap.
+const UNI_DOMAINS = [
+  { suffix: "@student.unimelb.edu.au", university: "University of Melbourne" },
+  { suffix: "@student.monash.edu", university: "Monash University" },
+  { suffix: "@deakin.edu.au", university: "Deakin University" },
+  { suffix: "@student.rmit.edu.au", university: "RMIT University" },
+];
+
 export async function POST(req: NextRequest) {
   const { name, email, gender } = await req.json();
 
@@ -17,16 +26,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Please select a gender." }, { status: 400 });
   }
 
-  if (!email.endsWith("@student.unimelb.edu.au")) {
-    return NextResponse.json({ error: "Must be a @student.unimelb.edu.au email." }, { status: 400 });
+  const cleanEmail = email.trim().toLowerCase();
+  const matchedUni = UNI_DOMAINS.find((d) => cleanEmail.endsWith(d.suffix));
+
+  if (!matchedUni) {
+    return NextResponse.json(
+      {
+        error:
+          "Must be a University of Melbourne, Monash, Deakin, or RMIT student email. We're working hard to expand to more unis — please be patient with us!",
+      },
+      { status: 400 }
+    );
   }
 
   const cleanName = name.trim();
-  const cleanEmail = email.trim().toLowerCase();
 
   const { error } = await supabase
     .from("waitlist")
-    .insert({ name: cleanName, email: cleanEmail, gender, university: "University of Melbourne" });
+    .insert({ name: cleanName, email: cleanEmail, gender, university: matchedUni.university });
 
   if (error) {
     if (error.code === "23505") {

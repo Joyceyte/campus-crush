@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
+import OtherUnis from "@/components/OtherUnis";
 
 // Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
 // in `.bento` (app/globals.css). gay-date / lesbian-date are deliberately
@@ -143,7 +144,7 @@ export default function Hero() {
             marginBottom: '2rem',
             marginTop: '1.5rem',
           }}>
-            Launching at University of Melbourne
+            Launching in unis across Melbourne
             <span className="hidden sm:inline"> · </span>
             <br className="sm:hidden" />
             Winter 2026
@@ -210,6 +211,8 @@ export default function Hero() {
           ))}
         </div>
       </section>
+
+      <OtherUnis />
 
       {/* ── Fold 2: How It Works — solid navy (carousel removed) ── */}
       <section
