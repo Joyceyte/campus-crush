@@ -91,7 +91,7 @@ export default function PrivateSafe() {
                   gap: "0.75rem",
                   minWidth: 0,
                   color: "var(--ink)",
-                  padding: "1.75rem 1.25rem",
+                  padding: "1.75rem 1.25rem 1.75rem 1.75rem",
                   transform: `rotate(${i === 1 ? 0 : i === 0 ? -1 : 1}deg)`,
                 }}
               >

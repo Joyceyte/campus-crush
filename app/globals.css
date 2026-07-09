@@ -500,16 +500,32 @@ body {
   transform: scale(0.96);
 }
 
-/* Solid parchment "paper plate" — sits headline/body copy on top of a
-   full-bleed backdrop photo so the photo itself can run much lighter
-   scrim/full vividness while text keeps guaranteed ink-on-parchment
-   contrast, independent of what's in the photo behind it. */
+/* Torn notepad-page "paper plate" (per specs/social-media-inspo.png) —
+   sits headline/body copy on top of a full-bleed backdrop photo so the
+   photo itself can run much lighter scrim/full vividness while text
+   keeps guaranteed ink-on-parchment contrast, independent of what's in
+   the photo behind it. Ruled notebook lines + a torn left edge instead
+   of a plain rounded rectangle. clip-path (not border-radius) shapes the
+   tear, so filter: drop-shadow (not box-shadow) is used for lift — it
+   follows the torn silhouette instead of casting a rectangular shadow. */
 .paper-plate {
   position: relative;
-  background: var(--parchment);
-  border-radius: 1rem;
-  box-shadow: 0 16px 48px rgba(43,27,18,0.28), inset 0 1px 0 rgba(255,255,255,0.5);
-  padding: 2rem 1.75rem;
+  background-color: var(--parchment);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 27px,
+    rgba(43,27,18,0.09) 28px
+  );
+  clip-path: polygon(
+    6% 0%, 2% 3%, 5% 6%, 1% 9%, 4% 13%, 0% 17%, 3% 21%, 1% 25%, 4% 29%,
+    0% 33%, 3% 37%, 1% 41%, 4% 45%, 0% 49%, 3% 53%, 1% 57%, 4% 61%,
+    0% 65%, 3% 69%, 1% 73%, 4% 77%, 0% 81%, 3% 85%, 1% 89%, 4% 93%,
+    1% 97%, 5% 100%,
+    100% 100%, 100% 0%
+  );
+  filter: drop-shadow(0 14px 30px rgba(43,27,18,0.3));
+  padding: 2rem 1.75rem 2rem 2.75rem;
 }
 
 /* Film grain / digital camera feel overlay */
