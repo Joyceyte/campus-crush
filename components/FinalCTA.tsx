@@ -29,28 +29,30 @@ export default function FinalCTA() {
           opacity: 1,
         }}
       />
-      {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.65) 0%, rgba(247,239,225,0.85) 100%)" }} />
+      {/* Light warmth glaze — text contrast now comes from the paper-plate card, not this scrim */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.12) 0%, rgba(247,239,225,0.25) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5, textAlign: "center", minHeight: "360px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        <h2
-          id="cta-heading"
-          className="font-jersey"
-          style={{
-            fontSize: "clamp(2.5rem, 10vw, 5.5rem)",
-            lineHeight: 1,
-            letterSpacing: "0.06em",
-            marginBottom: "0.75rem",
-            color: "var(--terracotta)",
-          }}
-        >
-          Date Without Swiping.
-        </h2>
-        <p style={{ fontSize: '0.875rem', maxWidth: '34ch', margin: '0 auto 2rem', color: 'rgba(43,27,18,0.66)', lineHeight: 1.7 }}>
-          Join the waitlist and be the first to know when Campus Crush launches at{' '}
-          <span style={{ color: 'var(--ink)', fontWeight: 600 }}>the University of Melbourne</span>.
-        </p>
+        <div className="paper-plate grain" style={{ marginBottom: "1.75rem" }}>
+          <h2
+            id="cta-heading"
+            className="font-jersey"
+            style={{
+              fontSize: "clamp(2.5rem, 10vw, 5.5rem)",
+              lineHeight: 1,
+              letterSpacing: "0.06em",
+              marginBottom: "0.75rem",
+              color: "var(--terracotta)",
+            }}
+          >
+            Date Without Swiping.
+          </h2>
+          <p style={{ fontSize: '0.875rem', maxWidth: '34ch', margin: '0 auto', color: 'rgba(43,27,18,0.66)', lineHeight: 1.7 }}>
+            Join the waitlist and be the first to know when Campus Crush launches at{' '}
+            <span style={{ color: 'var(--ink)', fontWeight: 600 }}>the University of Melbourne</span>.
+          </p>
+        </div>
         <button
           className="neon-btn"
           onClick={handleWaitlist}

@@ -47,8 +47,8 @@ export default function PrivateSafe() {
         aria-hidden="true"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)", transform: "scale(1.06)", opacity: 1 }}
       />
-      {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.75) 0%, rgba(247,239,225,0.92) 100%)" }} />
+      {/* Light warmth glaze — text contrast now comes from the paper-plate cards, not this scrim */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.15) 0%, rgba(247,239,225,0.3) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5 }}>
@@ -65,22 +65,24 @@ export default function PrivateSafe() {
         >
           <h2
             id="private-safe-heading"
-            className="font-jersey"
+            className="font-jersey paper-plate grain"
             style={{
               fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
               lineHeight: 1.05,
               letterSpacing: "0.02em",
               color: "var(--terracotta)",
+              display: "inline-block",
             }}
           >
             Private &amp; Safe
           </h2>
 
-          {/* Three feature columns */}
+          {/* Three feature columns — each its own small paper plate */}
           <div className="cols-3" style={{ marginTop: "1rem" }}>
-            {pillars.map((p) => (
+            {pillars.map((p, i) => (
               <div
                 key={p.title}
+                className="paper-plate grain"
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -89,6 +91,8 @@ export default function PrivateSafe() {
                   gap: "0.75rem",
                   minWidth: 0,
                   color: "var(--ink)",
+                  padding: "1.75rem 1.25rem",
+                  transform: `rotate(${i === 1 ? 0 : i === 0 ? -1 : 1}deg)`,
                 }}
               >
                 {p.icon}

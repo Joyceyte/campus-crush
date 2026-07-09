@@ -500,6 +500,18 @@ body {
   transform: scale(0.96);
 }
 
+/* Solid parchment "paper plate" — sits headline/body copy on top of a
+   full-bleed backdrop photo so the photo itself can run much lighter
+   scrim/full vividness while text keeps guaranteed ink-on-parchment
+   contrast, independent of what's in the photo behind it. */
+.paper-plate {
+  position: relative;
+  background: var(--parchment);
+  border-radius: 1rem;
+  box-shadow: 0 16px 48px rgba(43,27,18,0.28), inset 0 1px 0 rgba(255,255,255,0.5);
+  padding: 2rem 1.75rem;
+}
+
 /* Film grain / digital camera feel overlay */
 .grain {
   position: relative;

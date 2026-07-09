@@ -53,19 +53,20 @@ export default function FAQ() {
         aria-hidden="true"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)", transform: "scale(1.06)", opacity: 1 }}
       />
-      {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.75) 0%, rgba(247,239,225,0.92) 100%)" }} />
+      {/* Light warmth glaze — text contrast now comes from the paper-plate cards, not this scrim */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.15) 0%, rgba(247,239,225,0.3) 100%)" }} />
 
       {/* Content */}
       <div className="section-pad relative" style={{ zIndex: 5, textAlign: "center" }}>
         <h2
           id="faq-heading"
-          className="font-jersey"
+          className="font-jersey paper-plate grain"
           style={{
             fontSize: "clamp(2rem, 8vw, 3.5rem)",
             lineHeight: 1.05,
             letterSpacing: "0.02em",
             color: "var(--terracotta)",
+            display: "inline-block",
           }}
         >
           Everything you need to know

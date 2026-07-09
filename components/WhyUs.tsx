@@ -62,14 +62,14 @@ export default function WhyUs() {
         aria-hidden="true"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.72) brightness(1.1) contrast(0.9) sepia(0.14)", transform: "scale(1.06)", opacity: 1 }}
       />
-      {/* Single scrim for text legibility */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.7) 0%, rgba(247,239,225,0.9) 100%)" }} />
+      {/* Light warmth glaze — text contrast now comes from the paper-plate cards, not this scrim */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(247,239,225,0.15) 0%, rgba(247,239,225,0.3) 100%)" }} />
 
       {/* ── TOP HALF: Anti-App ── */}
       <div className="section-pad relative" style={{ zIndex: 5 }}>
         <div className="cols-2" style={{ maxWidth: "64rem", gap: "4rem" }}>
           {/* Left column */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", textAlign: "center" }}>
+          <div className="paper-plate grain" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", textAlign: "center" }}>
             <h2
               id="why-us-heading"
               className="font-jersey"
@@ -165,28 +165,30 @@ export default function WhyUs() {
             gap: "1.25rem",
           }}
         >
-          <h2
-            className="font-jersey"
-            style={{
-              fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
-              lineHeight: 1.05,
-              letterSpacing: "0.02em",
-              color: "var(--terracotta)",
-            }}
-          >
-            Your Matchmaker
-          </h2>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              color: "rgba(43,27,18,0.80)",
-              lineHeight: 1.6,
-              maxWidth: "40ch",
-              margin: "0 auto",
-            }}
-          >
-            An AI matchmaker that learns exactly what you&apos;re into.
-          </p>
+          <div className="paper-plate grain" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <h2
+              className="font-jersey"
+              style={{
+                fontSize: "clamp(2.2rem, 5vw, 3.75rem)",
+                lineHeight: 1.05,
+                letterSpacing: "0.02em",
+                color: "var(--terracotta)",
+              }}
+            >
+              Your Matchmaker
+            </h2>
+            <p
+              style={{
+                fontSize: "0.95rem",
+                color: "rgba(43,27,18,0.80)",
+                lineHeight: 1.6,
+                maxWidth: "40ch",
+                margin: "0 auto",
+              }}
+            >
+              An AI matchmaker that learns exactly what you&apos;re into.
+            </p>
+          </div>
 
           {/* ── Match card: a play on the dating "It's a Match" card —
                your match is Campus Crush, and the features are the reasons why ── */}
