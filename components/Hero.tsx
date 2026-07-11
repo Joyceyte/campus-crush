@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
-import OtherUnis from "@/components/OtherUnis";
+import LaunchBanner from "@/components/LaunchBanner";
 
 // Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
 // in `.bento` (app/globals.css). gay-date / lesbian-date are deliberately
@@ -29,21 +29,33 @@ const rotatingPhrases = [
   "spontaneous adventure",
 ];
 
+// Each step is a torn page glued into the scrapbook: a paper variety
+// (ruled / grid / kraft), a slight off-kilter tilt, and its own tape angle
+// so the three cards don't look machine-placed.
 const steps = [
   {
     number: "01",
     title: "Tell us who you are",
     desc: "A short conversation with our AI. Not a quiz. We pick up on things you wouldn't think to write in a bio.",
+    paper: "scrap-card--ruled",
+    tilt: -1.6,
+    tapeTilt: -5,
   },
   {
     number: "02",
     title: "We find your match",
     desc: "Every Tuesday, our algorithm pairs you with one person, and tells you why you matched.",
+    paper: "scrap-card--grid",
+    tilt: 1.1,
+    tapeTilt: 4,
   },
   {
     number: "03",
     title: "Just show up",
     desc: "We plan the perfect date. Time, place, even an icebreaker. You do the easy part.",
+    paper: "scrap-card--kraft",
+    tilt: -0.8,
+    tapeTilt: -3,
   },
 ];
 
@@ -135,20 +147,27 @@ export default function Hero() {
             </p>
           </div>
 
-          <p style={{
-            fontSize: '0.78rem',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            fontWeight: 700,
-            color: 'var(--ink)',
-            marginBottom: '2rem',
-            marginTop: '1.5rem',
-          }}>
-            Launching in unis across Melbourne
-            <span className="hidden sm:inline"> · </span>
-            <br className="sm:hidden" />
-            Winter 2026
-          </p>
+          <div style={{ marginTop: '1.5rem', marginBottom: '2rem' }}>
+            <p style={{
+              fontSize: '0.78rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              fontWeight: 700,
+              color: 'var(--ink)',
+            }}>
+              Launching at the University of Melbourne, winter 2026.
+            </p>
+            <p style={{
+              fontSize: '0.7rem',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              color: 'rgba(43,27,18,0.6)',
+              marginTop: '0.5rem',
+            }}>
+              Coming soon to Monash, Deakin, RMIT, and La Trobe.
+            </p>
+          </div>
 
           <div>
             <div style={{ position: "relative", display: "inline-block" }}>
@@ -210,11 +229,12 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
+        {/* Typing banner — a grid row of the hero, so it stays in the first fold */}
+        <LaunchBanner />
       </section>
 
-      <OtherUnis />
-
-      {/* ── Fold 2: How It Works — solid navy (carousel removed) ── */}
+      {/* ── Fold 2: User journey — scrapbook spread ── */}
       <section
         aria-labelledby="how-it-works-heading"
         className="grain"
@@ -224,51 +244,54 @@ export default function Hero() {
           background: "var(--parchment)",
         }}
       >
+        {/* Faded torn sheets scattered behind the cards — decorative only */}
+        <div aria-hidden="true" className="scrap-sheet"
+          style={{ top: "-2rem", left: "-4rem", width: "20rem", height: "14rem", transform: "rotate(-13deg)" }} />
+        <div aria-hidden="true" className="scrap-sheet"
+          style={{ bottom: "-3rem", right: "-5rem", width: "24rem", height: "16rem", transform: "rotate(9deg)" }} />
+        <div aria-hidden="true" className="scrap-sheet"
+          style={{ top: "-3.5rem", right: "18%", width: "14rem", height: "10rem", transform: "rotate(6deg)", opacity: 0.35 }} />
+
         <div className="relative" style={{ zIndex: 1, padding: "6rem 1.5rem", textAlign: "center" }}>
-          <p
-            id="how-it-works-heading"
-            className="section-label"
-            style={{ color: 'var(--terracotta)', borderColor: 'rgba(193,81,47,0.35)', background: 'rgba(193,81,47,0.10)' }}
-          >
+          <p id="how-it-works-heading" className="tape-label">
             user journey
           </p>
 
-          {/* Three columns — dark glass step cards */}
-          <div className="cols-3" style={{ gap: "1.25rem" }}>
+          {/* Three torn pages taped into the spread. The clip-path on
+              .scrap-card would clip the tape, so it sits on the wrapper. */}
+          <div className="cols-3" style={{ gap: "1.75rem" }}>
             {steps.map((step) => (
               <div
                 key={step.title}
-                style={{
-                  background: "var(--parchment-deep)",
-                  border: "1px solid rgba(43,27,18,0.14)",
-                  borderRadius: "1.25rem",
-                  padding: "2rem 1.5rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  gap: "0.75rem",
-                }}
+                className="scrap-wrap"
+                style={{ transform: `rotate(${step.tilt}deg)` }}
               >
-                <span
-                  className="font-jersey"
-                  style={{
-                    fontSize: "3.5rem",
-                    lineHeight: 1,
-                    color: "var(--terracotta)",
-                    textShadow: "0 0 20px rgba(193,81,47,0.35), 0 0 40px rgba(193,81,47,0.18)",
-                    letterSpacing: "-0.02em",
-                  }}
+                <div
                   aria-hidden="true"
-                >
-                  {step.number}
-                </span>
-                <h3 className="font-jersey" style={{ fontSize: "1.2rem", letterSpacing: "0.08em", color: "var(--ink)", lineHeight: 1.2 }}>
-                  {step.title}
-                </h3>
-                <p style={{ fontSize: "0.78rem", color: "rgba(43,27,18,0.75)", lineHeight: 1.7 }}>
-                  {step.desc}
-                </p>
+                  className="washi"
+                  style={{ transform: `translateX(-50%) rotate(${step.tapeTilt}deg)` }}
+                />
+                <div className={`scrap-card ${step.paper}`}>
+                  <span
+                    className="font-jersey"
+                    style={{
+                      fontSize: "3.5rem",
+                      lineHeight: 1,
+                      color: "var(--terracotta)",
+                      textShadow: "0 0 20px rgba(193,81,47,0.35), 0 0 40px rgba(193,81,47,0.18)",
+                      letterSpacing: "-0.02em",
+                    }}
+                    aria-hidden="true"
+                  >
+                    {step.number}
+                  </span>
+                  <h3 className="font-jersey" style={{ fontSize: "1.2rem", letterSpacing: "0.08em", color: "var(--ink)", lineHeight: 1.2 }}>
+                    {step.title}
+                  </h3>
+                  <p style={{ fontSize: "0.78rem", color: "var(--ink)", lineHeight: 1.7 }}>
+                    {step.desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

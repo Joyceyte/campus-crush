@@ -43,7 +43,7 @@ export default function FAQ() {
     <section
       aria-labelledby="faq-heading"
       className="grain-heavy"
-      style={{ position: "relative", overflow: "hidden", minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: "5rem", paddingBottom: "5rem" }}
+      style={{ position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: "3rem", paddingBottom: "3rem" }}
     >
       {/* Full-bleed blurred photo backdrop */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

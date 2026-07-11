@@ -31,12 +31,11 @@ export default function PrivateSafe() {
       style={{
         position: "relative",
         overflow: "hidden",
-        minHeight: "92vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        paddingTop: "5rem",
-        paddingBottom: "5rem",
+        paddingTop: "3rem",
+        paddingBottom: "3rem",
       }}
     >
       {/* Full-bleed blurred photo backdrop */}
