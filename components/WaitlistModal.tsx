@@ -2,29 +2,22 @@
 import { useEffect, useState } from "react";
 import { useSignupCount } from "@/lib/useSignupCount";
 
-type Cohort = "unimelb" | "other";
-
 // Mirrors the accepted domains in app/api/waitlist/route.ts — kept here too
-// so the modal can give instant per-cohort feedback before hitting the API.
+// so the modal can give instant feedback before hitting the API.
 const EXPANSION_NOTE = "We're working hard to expand to more unis — please be patient with us!";
-const COHORT_CONFIG: Record<Cohort, { domains: string[]; placeholder: string; acceptedText: string; errorText: string }> = {
-  unimelb: {
-    domains: ["@student.unimelb.edu.au"],
-    placeholder: "you@student.unimelb.edu.au",
-    acceptedText: "Currently open to University of Melbourne students.",
-    errorText: `Needs to be a @student.unimelb.edu.au address. ${EXPANSION_NOTE}`,
-  },
-  other: {
-    domains: ["@student.monash.edu", "@deakin.edu.au", "@student.rmit.edu.au"],
-    placeholder: "you@student.monash.edu",
-    acceptedText: "Currently open to Monash, Deakin, and RMIT students.",
-    errorText: `Needs to be a Monash, Deakin, or RMIT student email. ${EXPANSION_NOTE}`,
-  },
-};
+const ACCEPTED_DOMAINS = [
+  "@student.unimelb.edu.au",
+  "@student.monash.edu",
+  "@deakin.edu.au",
+  "@student.rmit.edu.au",
+  "@students.latrobe.edu.au",
+];
+const EMAIL_PLACEHOLDER = "you@student.unimelb.edu.au";
+const EMAIL_ACCEPTED_TEXT = "Open to UniMelb, Monash, Deakin, RMIT, and La Trobe students.";
+const EMAIL_ERROR_TEXT = `Needs to be a UniMelb, Monash, Deakin, RMIT, or La Trobe student email. ${EXPANSION_NOTE}`;
 
 export default function WaitlistModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [cohort, setCohort] = useState<Cohort>("unimelb");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
@@ -38,9 +31,7 @@ export default function WaitlistModal() {
   const signups = useSignupCount();
 
   useEffect(() => {
-    function handleOpen(e: Event) {
-      const detail = (e as CustomEvent<{ cohort?: Cohort }>).detail;
-      setCohort(detail?.cohort === "other" ? "other" : "unimelb");
+    function handleOpen() {
       setIsOpen(true);
     }
     window.addEventListener("open-waitlist", handleOpen);
@@ -63,9 +54,8 @@ export default function WaitlistModal() {
   }
 
   function validateEmail(val: string) {
-    const { domains, errorText } = COHORT_CONFIG[cohort];
-    if (!domains.some((domain) => val.endsWith(domain))) {
-      setEmailError(errorText);
+    if (!ACCEPTED_DOMAINS.some((domain) => val.endsWith(domain))) {
+      setEmailError(EMAIL_ERROR_TEXT);
       return false;
     }
     setEmailError("");
@@ -225,7 +215,7 @@ export default function WaitlistModal() {
             <p style={{ fontSize: "0.85rem", color: "rgba(43,27,18,0.7)", lineHeight: 1.7, maxWidth: "28ch", margin: "0 auto 1.5rem" }}>
               This is your in on Campus Crush. We&apos;re launching once we hit our first{" "}
               <span style={{ color: "var(--terracotta)", fontWeight: 600 }}>100 exclusive members</span>{" "}
-              {cohort === "unimelb" ? "at the University of Melbourne." : "at your uni."}
+              at the University of Melbourne.
             </p>
             <button className="neon-btn" onClick={onClose} style={{ fontSize: "0.8rem" }}>
               Done
@@ -245,6 +235,12 @@ export default function WaitlistModal() {
               </h2>
               <p style={{ fontSize: "0.95rem", color: "var(--terracotta)", letterSpacing: "0.04em", fontWeight: 600 }}>
                 First 100 users get one month of<br />premium FREE
+              </p>
+              <p style={{ fontSize: "0.8rem", color: "var(--ink)", letterSpacing: "0.02em", marginTop: "0.6rem" }}>
+                Launching at the University of Melbourne, winter 2026.
+              </p>
+              <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", letterSpacing: "0.02em", marginTop: "0.25rem" }}>
+                Coming soon to Monash, Deakin, RMIT, and La Trobe.
               </p>
             </div>
 
@@ -308,12 +304,12 @@ export default function WaitlistModal() {
             <div>
               <label htmlFor="waitlist-email" style={labelStyle}>University email</label>
               <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
-                {COHORT_CONFIG[cohort].acceptedText}
+                {EMAIL_ACCEPTED_TEXT}
               </p>
               <input
                 id="waitlist-email"
                 type="email"
-                placeholder={COHORT_CONFIG[cohort].placeholder}
+                placeholder={EMAIL_PLACEHOLDER}
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); if (emailError) validateEmail(e.target.value); }}
                 onBlur={(e) => validateEmail(e.target.value)}

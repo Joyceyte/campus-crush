@@ -13,6 +13,7 @@ const UNI_DOMAINS = [
   { suffix: "@student.monash.edu", university: "Monash University" },
   { suffix: "@deakin.edu.au", university: "Deakin University" },
   { suffix: "@student.rmit.edu.au", university: "RMIT University" },
+  { suffix: "@students.latrobe.edu.au", university: "La Trobe University" },
 ];
 
 export async function POST(req: NextRequest) {
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Must be a University of Melbourne, Monash, Deakin, or RMIT student email. We're working hard to expand to more unis — please be patient with us!",
+          "Must be a University of Melbourne, Monash, Deakin, RMIT, or La Trobe student email. We're working hard to expand to more unis — please be patient with us!",
       },
       { status: 400 }
     );
