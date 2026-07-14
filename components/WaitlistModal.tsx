@@ -171,6 +171,12 @@ export default function WaitlistModal() {
           borderRadius: "1.5rem",
           boxShadow: "0 25px 60px rgba(43,27,18,0.25)",
           width: "min(440px, calc(100vw - 2rem))",
+          // On short screens (phones with browser chrome) the form is taller
+          // than the viewport — cap the card and scroll inside it so the
+          // submit button is always reachable.
+          maxHeight: "calc(100dvh - 2rem)",
+          overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
           padding: "2rem",
           display: "flex",
           flexDirection: "column",

@@ -6,6 +6,11 @@ export const dynamic = "force-dynamic";
 
 const GENDERS = ["male", "female", "non-binary", "other"];
 
+// The first 80 real signups are founding members — with the +20 momentum
+// padding shown on the site, they fill the displayed 100-spot goal. Anyone
+// who joins after the countdown hits 0 doesn't get the tag.
+const FOUNDING_MEMBER_CAP = 80;
+
 // Accepted student email domains, mapped to the university they verify.
 // Checked longest-suffix-first isn't needed since none of these overlap.
 const UNI_DOMAINS = [
@@ -42,9 +47,19 @@ export async function POST(req: NextRequest) {
 
   const cleanName = name.trim();
 
-  const { error } = await supabase
-    .from("waitlist")
-    .insert({ name: cleanName, email: cleanEmail, gender, university: matchedUni.university });
+  // Never over-grant: if the count lookup fails, the signup goes through
+  // without the founding-member tag rather than blocking the join.
+  const { data: currentCount, error: countError } = await supabase.rpc("waitlist_count");
+  if (countError) console.error("waitlist_count RPC failed:", countError);
+  const foundingMember = typeof currentCount === "number" && currentCount < FOUNDING_MEMBER_CAP;
+
+  const { error } = await supabase.from("waitlist").insert({
+    name: cleanName,
+    email: cleanEmail,
+    gender,
+    university: matchedUni.university,
+    founding_member: foundingMember,
+  });
 
   if (error) {
     if (error.code === "23505") {

@@ -193,7 +193,7 @@ export default function Hero() {
               {/* Scarcity number — the focal point. Space is reserved so the
                   fade-in never shifts the content below it. */}
               <div style={{ minHeight: '1.7em', display: 'flex', alignItems: 'baseline', gap: '0.45rem' }}>
-                {spotsLeft !== null && spotsLeft > 0 && (
+                {spotsLeft !== null && (
                   <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.45rem', animation: 'fadeIn 0.4s ease' }}>
                     <span
                       className="font-jersey"
@@ -208,10 +208,10 @@ export default function Hero() {
                         animation: landed ? 'spotPulse 0.25s ease' : undefined,
                       }}
                     >
-                      {displayedSpots ?? spotsLeft}
+                      {spotsLeft > 0 ? displayedSpots ?? spotsLeft : signups}
                     </span>
                     <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(43,27,18,0.85)' }}>
-                      spots left
+                      {spotsLeft > 0 ? 'spots left' : 'campus singles already joined'}
                     </span>
                   </span>
                 )}
