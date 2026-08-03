@@ -30,7 +30,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Supabase browser/server/middleware client wrappers and a root `middleware.ts` are in place, refreshing the session cookie on every request
   4. All schema, RLS, and storage changes exist as runnable `.sql` files in `supabase/`, matching the existing manual-execution pattern (`founding-member.sql`, `venues.sql`)
   5. The `profiles` table includes payment/eligibility columns (`is_founding_member`, `payment_required`, `stripe_customer_id`, `stripe_payment_method_id`) so the Phase 3 payment step needs no follow-up migration
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 01-01-PLAN.md — SSR client factories (browser/server/middleware) + root middleware session refresh
+- [ ] 01-02-PLAN.md — profiles.sql (wide schema + DATA-05 payment columns, owner-only RLS) + photos-storage.sql (private bucket + storage RLS)
+- [ ] 01-03-PLAN.md — Apply SQL in Supabase + two-account RLS / private-bucket / DATA-05 verification (manual checkpoint)
 
 ### Phase 2: Google Sign-In, Domain Gate & Protected Routing
 **Goal**: A student can sign in with their university Google account, gets rejected server-side if they use a non-partner email, stays signed in across sessions, can sign out anytime, and lands on the correct onboarding/profile screen for their account state.
@@ -77,7 +80,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Supabase Auth Foundation | 0/TBD | Not started | - |
+| 1. Supabase Auth Foundation | 0/3 | Not started | - |
 | 2. Google Sign-In, Domain Gate & Protected Routing | 0/TBD | Not started | - |
 | 3. Onboarding Form, Photo & Payment | 0/TBD | Not started | - |
 | 4. Confirmation & Next Steps | 0/TBD | Not started | - |
