@@ -57,8 +57,20 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Session persists across page reloads and browser restarts, and the user can sign out from any authenticated page
   4. A new signed-in user without a saved profile is routed to onboarding; a user with a completed profile is routed to the confirmation/edit view
 
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
+
+**Wave 1**
+
+- [ ] 02-01-PLAN.md — `/login` screen + Google OAuth sign-in button + `lib/uni-domains.ts` single-source-of-truth domain list
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02-PLAN.md — `/auth/callback` PKCE exchange + server-side domain gate, `lib/auth/guard.ts`, protected `(authed)` shell, `/onboarding` + `/confirmation` placeholders, sign-out
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 02-03-PLAN.md — `profiles` domain-guard SQL + go-live checklist (AUTH-05) + manual Google OAuth config, SQL apply, and the carried-forward DATA-02 / DATA-03 proofs
 
 ### Phase 3: Onboarding Form, Photo & Payment
 
@@ -99,6 +111,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Supabase Auth Foundation | 0/3 | Not started | - |
-| 2. Google Sign-In, Domain Gate & Protected Routing | 0/TBD | Not started | - |
+| 2. Google Sign-In, Domain Gate & Protected Routing | 0/3 | Not started | - |
 | 3. Onboarding Form, Photo & Payment | 0/TBD | Not started | - |
 | 4. Confirmation & Next Steps | 0/TBD | Not started | - |
