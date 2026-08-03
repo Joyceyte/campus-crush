@@ -32,8 +32,9 @@ A student can sign in with Google and submit a complete, safety-reviewed dating 
 - [ ] Preferences section: interested in (women/men/other), age range, ethnicity (multi-select), height, "match with similar interests" checkbox (unticked = no preference)
 - [ ] Photo uploads go to a private Supabase Storage bucket for manual face review
 - [ ] Profile + preferences saved to a dedicated `profiles` table (separate from waitlist/venues tables), one row per authenticated user
-- [ ] After submitting, user lands on a confirmation page ("you're in — we'll match you soon") and can return to edit their profile
-- [ ] Returning user with a completed profile skips onboarding and sees the confirmation/edit view
+- [ ] Onboarding payment gate: founding members (matched by email against the existing `waitlist.founding_member` tag) are free; non-founding users save a card via Stripe (SetupIntent, no immediate charge) during onboarding
+- [ ] After submitting, user lands on a "details submitted" confirmation, gets a confirmation email, and sees a next-steps/matching-timeline screen
+- [ ] Returning user with a completed profile skips onboarding and lands on the confirmation/next-steps view
 
 ### Out of Scope
 
@@ -42,6 +43,8 @@ A student can sign in with Google and submit a complete, safety-reviewed dating 
 - In-app matching, browsing, or chat — matching is done manually by the team during the pilot
 - Admin review dashboard — team reviews photos/profiles directly in Supabase for now
 - Notifications about acceptance/rejection — handled manually via email during the pilot
+- Returning-user profile editing — v1 ends at confirmation + next-steps per the MVP design; edit deferred to v2
+- Charging the saved card — v1 saves a payment method via Stripe SetupIntent only; the actual per-date charge is done later/manually and deferred to v2
 
 ## Context
 
@@ -71,6 +74,9 @@ A student can sign in with Google and submit a complete, safety-reviewed dating 
 | Dedicated `profiles` table separate from waitlist | User's explicit requirement; clean separation of concerns | — Pending |
 | Next-14-days rolling availability dates | No admin work; always relevant during pilot | — Pending |
 | Free-text interest tags | User preference for expressiveness over computability | — Pending |
+| Conditional payment gated on `waitlist.founding_member` | Founding members promised free; reuse the existing waitlist tag rather than a new eligibility system | — Pending |
+| Stripe SetupIntent (save card, charge later) not immediate charge | Design says "nothing charged until you're set up on a date"; avoids webhooks for the pilot | — Pending |
+| v1 flow follows `specs/MVP design .png` | Client-provided mockup is the source of truth for the screen flow | — Pending |
 
 ## Evolution
 

@@ -12,7 +12,7 @@ The technical foundation for secure, per-user profile data exists — Supabase c
 Delivers:
 - `@supabase/ssr`-based client wrappers (browser, server, middleware) compatible with Next.js 16 async `cookies()`
 - Root `middleware.ts` that refreshes the session cookie on every request
-- `supabase/*.sql` migration file(s) creating the `profiles` table keyed to `auth.users.id` with owner-only RLS
+- `supabase/*.sql` migration file(s) creating the `profiles` table keyed to `auth.users.id` with owner-only RLS — the table includes all Phase 3 onboarding fields AND payment/eligibility columns (`is_founding_member`, `payment_required`, `stripe_customer_id`, `stripe_payment_method_id`) per DATA-05
 - `supabase/*.sql` creating a private photos storage bucket with per-user (`{userId}/`) owner-scoped storage RLS
 
 Does NOT deliver: sign-in UI, OAuth flow, domain gating (Phase 2), onboarding form (Phase 3).
@@ -29,6 +29,9 @@ All implementation choices are at Claude's discretion — pure infrastructure ph
 - `(select auth.uid())` wrapped pattern in RLS policies (planner-cached)
 - Private bucket + owner-scoped storage RLS + signed URLs; never public bucket for face photos
 - Profiles table schema must cover all Phase 3 form fields (photo path, age, sex, height, ethnicity, interests, dating intention, meal availability, 14-day dates, match preferences) so no follow-up migration is needed mid-milestone
+- **Payment/eligibility columns (DATA-05)** — the `profiles` table MUST also include, from the start: `is_founding_member boolean` (snapshot of eligibility at onboarding), `payment_required boolean`, `stripe_customer_id text` (nullable), and `stripe_payment_method_id text` (nullable). These support the Phase 3 conditional Stripe step (founding members from the `waitlist` table are free; everyone else saves a card via SetupIntent). No charge logic in Phase 1 — columns only.
+- **Founding-member eligibility source:** the existing `public.waitlist` table already has a `founding_member boolean` column (see `supabase/founding-member.sql`) and an `email` column (lowercased, unique). Phase 3 will read it; Phase 1 does not modify `waitlist`. Note this dependency in the profiles SQL header comment so the reviewer understands the cross-table relationship.
+- Stripe secret/publishable keys are configured manually by the user (env + dashboard), like Google OAuth — Phase 1 does not need them, but the profiles columns must exist for Phase 3.
 
 </decisions>
 
