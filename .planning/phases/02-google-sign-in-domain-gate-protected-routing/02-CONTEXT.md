@@ -22,10 +22,13 @@ Does NOT deliver: the onboarding form itself (Phase 3), the confirmation/next-st
 - **Profile-row existence is the routing/completion signal** — no `profile_status` column. Signed-in user with a `profiles` row → confirmation view; without → onboarding. (STATE.md decision.)
 - **Protected routing folded into this phase** (not standalone). (STATE.md decision.)
 - **Google-only auth via Supabase Auth** — no email/password or magic link.
+- **Sign-in REPLACES the waitlist as the landing page's call to action** (user decision, 2026-08-03). The waitlist as a public signup mechanism is **closed**. All three CTA sites — `components/Hero.tsx`, `components/Navbar.tsx` (the header), and `components/FinalCTA.tsx` — point at `/login` instead of dispatching `open-waitlist`, and `<WaitlistModal />` is unmounted from `app/page.tsx`. Existing waitlist members will be emailed separately, out-of-band, telling them to come create an account at `/login`.
+- **The waitlist table and `/api/waitlist` route are PRESERVED, not deleted.** They stay as the founding-member source of truth: Phase 3 gates free-vs-Stripe on whether a signing-in student's email matches an existing waitlist row tagged founding. Removing the entry point must not change the table, the route's validation behaviour, or any existing row. `components/WaitlistModal.tsx` stays on disk (unmounted, not deleted) so it can be revived if the waitlist reopens.
 - The five partner domains are the SAME list already used server-side in `app/api/waitlist/route.ts` (`@student.unimelb.edu.au`, `@student.monash.edu`, `@deakin.edu.au`, `@student.rmit.edu.au`, `@students.latrobe.edu.au`). Reuse/extract that list — single source of truth.
 
 ### Claude's Discretion (sensible defaults)
-- **Login route:** `/login` (dedicated screen matching the MVP design's second panel). The existing landing page's "Sign up" CTA can point here in a later pass; Phase 2 just needs the route to exist and be reachable.
+- **Login route:** `/login` (dedicated screen matching the MVP design's second panel). Per the locked decision above, every landing-page CTA now points here in this phase — it is no longer a later pass.
+- **CTA copy:** header/navbar → `Sign in`; Hero and FinalCTA → `Sign in with your uni email →`. Keep the existing button styling at each site; only the label, the accessible name, and the click target change. FinalCTA's surrounding paragraph copy needs a rewrite away from "Join the waitlist and be the first to know when Campus Crush launches" toward sign-in framing.
 - **Callback route:** `/auth/callback` — exchanges `code` for a session via `exchangeCodeForSession`, reads the verified user's email via `getUser()`, checks it against the allowlist. On non-partner email: sign the user out and redirect to `/login?error=domain` (or a small `/auth/auth-code-error` page) with the friendly "use your uni account" copy. On success: redirect based on profile-row existence.
 - **Domain check uses the verified email from `getUser()`** (JWT-validated), never a client-supplied value.
 - **Sign-out:** a server action / route handler (`/auth/signout`) callable from any authenticated page (a small SignOut button component).
@@ -52,7 +55,7 @@ Does NOT deliver: the onboarding form itself (Phase 3), the confirmation/next-st
 ### Integration Points
 - Login button calls `supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: <origin>/auth/callback } })`.
 - Callback route → domain gate → redirect to `/onboarding` or `/confirmation`.
-- Landing page CTA (`components/Hero.tsx` / `Navbar.tsx`) can later link to `/login` — out of strict scope but low-risk.
+- Landing page CTAs (`components/Hero.tsx:189`, `components/Navbar.tsx:74`, `components/FinalCTA.tsx:61`) all currently call `window.dispatchEvent(new CustomEvent("open-waitlist"))`, listened for by `<WaitlistModal />` mounted at `app/page.tsx:25`. All three become `/login` links and the modal is unmounted — see the locked decision above.
 </code_context>
 
 <specifics>
@@ -65,6 +68,7 @@ Does NOT deliver: the onboarding form itself (Phase 3), the confirmation/next-st
 <deferred>
 ## Deferred Ideas
 
-- Wiring the landing-page hero/nav CTAs to `/login` app-wide — can be a small follow-up; not required to prove Phase 2.
+- ~~Wiring the landing-page hero/nav CTAs to `/login` app-wide~~ — **promoted into this phase** by the 2026-08-03 user decision; it is now a locked requirement, not a follow-up.
+- Reviving a public waitlist signup path (e.g. a "not at a partner uni? tell us" capture for students outside the five universities) — the domain gate gives them no way in right now. Revisit if inbound demand appears.
 - Rich onboarding/confirmation page content — Phases 3 and 4.
 </deferred>

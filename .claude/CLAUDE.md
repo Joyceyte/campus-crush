@@ -14,7 +14,8 @@ Campus Crush is a food-date matching pilot for Melbourne university students (Un
 - **Database access**: SQL migrations delivered as files in `supabase/` for manual execution — no direct DB access from this environment
 - **Security**: Photos bucket must be private; profiles table must have RLS so users can only read/write their own row
 - **Safety**: Face-photo requirement and warning copy are mandatory in the onboarding form
-- **Compatibility**: Must not disturb the existing landing page, waitlist, or partnerships features
+- **Compatibility**: Must not disturb the existing blog, contact, privacy, or partnerships features
+- **Waitlist is closed (decided 2026-08-03)**: sign-in replaces the waitlist as the landing page's CTA — Hero, Navbar (header), and FinalCTA all point at `/login`, and `<WaitlistModal />` is unmounted from `app/page.tsx`. The `waitlist` **table and `/api/waitlist` route must be preserved** — they are the founding-member source of truth that Phase 3 uses to decide free-vs-Stripe. Existing waitlist members are emailed out-of-band to come create an account.
 
 <!-- GSD:project-end -->
 
