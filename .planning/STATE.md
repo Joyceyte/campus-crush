@@ -31,7 +31,7 @@ See: .planning/PROJECT.md (updated 2026-08-03)
 Phase: 2 of 4 (Google Sign-In, Domain Gate & Protected Routing)
 Plan: 0 of 3 in current phase
 Status: Ready to execute
-Last activity: 2026-08-03 — Phase 2 planned (3 plans, 3 waves; AUTH-01…05 + FORM-01 all covered)
+Last activity: 2026-08-13 — Completed quick task 260813-gqu: campus-crush-broadcast project skill
 
 Progress: [███░░░░░░░] 33%
 
@@ -78,6 +78,12 @@ None yet.
 - **Phase 1 SQL not yet applied** (carried from deferred plan 01-03): the user must run `supabase/profiles.sql` then `supabase/photos-storage.sql` in the Supabase SQL editor. Plan 02-03 blocks on this, and carries the DATA-02 (two-account owner-only RLS proof) and DATA-03 (photos bucket unreachable via public URL) verifications.
 - Google OAuth must be configured in Google Cloud Console + Supabase dashboard (Authentication → Providers) by the user before Phase 2 can be verified end-to-end; code can only assume it exists. Plan 02-03 is the `autonomous: false` checkpoint for this.
 - Phase 3's 14-day rolling availability picker has no direct competitor precedent (closer to Calendly than a dating app) — flagged by research for possible UI-SPEC treatment.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260813-gqu | campus-crush-broadcast project skill (Resend broadcast emails) | 2026-08-13 | uncommitted | [260813-gqu-create-campus-crush-broadcast-project-sk](./quick/260813-gqu-create-campus-crush-broadcast-project-sk/) |
 
 **Resolved during Phase 2 planning:** the callback-route-vs-Postgres-hook domain gate question. Locked CONTEXT decision (callback route, not a "Before User Created" hook) stands; defense-in-depth is instead three layers — the `/auth/callback` gate on the `getUser()`-verified email, `requireStudent()` re-check on every protected render, and `supabase/profiles-domain-guard.sql` making the database refuse rows for an ineligible email. Residual risk (an orphaned `auth.users` identity holding no application data) is explicitly accepted and documented in `docs/auth-go-live-checklist.md` with a manual purge procedure.
 
