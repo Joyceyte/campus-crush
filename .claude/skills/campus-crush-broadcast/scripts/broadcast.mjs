@@ -15,7 +15,12 @@ import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { Resend } from "resend";
-import { renderBroadcast, renderBroadcastText, UNSUBSCRIBE_TOKEN } from "./template.mjs";
+import {
+  renderBroadcast,
+  renderBroadcastText,
+  checkBrandFormatting,
+  UNSUBSCRIBE_TOKEN,
+} from "./template.mjs";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const DEFAULT_FROM = "Campus Crush <hello@campus-crush.org>";
@@ -27,22 +32,41 @@ function die(message) {
   process.exit(1);
 }
 
-/** Minimal .env parser — avoids adding a dotenv dependency for one file. */
+/**
+ * Minimal .env parser — avoids adding a dotenv dependency for one file.
+ *
+ * Always parses the whole file. An earlier version bailed out as soon as
+ * RESEND_API_KEY was present in the ambient environment, which silently hid
+ * every other key in .env.local (notably SUPABASE_SERVICE_ROLE_KEY).
+ * Ambient environment still wins per-key.
+ */
+const ENV_KEYS_SEEN = new Set();
+
 function loadEnvLocal() {
-  if (process.env.RESEND_API_KEY) return;
-  let raw;
+  let raw = "";
   try {
     raw = readFileSync(join(REPO_ROOT, ".env.local"), "utf8");
   } catch {
-    die("No RESEND_API_KEY in the environment and .env.local could not be read.");
+    if (!process.env.RESEND_API_KEY) {
+      die("No RESEND_API_KEY in the environment and .env.local could not be read.");
+    }
   }
   for (const line of raw.split("\n")) {
-    const match = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line);
+    if (/^\s*(#|$)/.test(line)) continue;
+    const match = /^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/.exec(line);
     if (!match) continue;
     const [, key, value] = match;
-    if (!process.env[key]) process.env[key] = value.replace(/^["']|["']$/g, "");
+    ENV_KEYS_SEEN.add(key);
+    if (process.env[key] === undefined) {
+      process.env[key] = value.replace(/^["']|["']$/g, "");
+    }
   }
   if (!process.env.RESEND_API_KEY) die("RESEND_API_KEY not found in .env.local.");
+}
+
+/** Key names only — never values. For diagnosing a misnamed variable. */
+function knownEnvKeys(filter) {
+  return [...ENV_KEYS_SEEN].filter((k) => filter.test(k)).join(", ") || "(none)";
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -147,12 +171,19 @@ async function cmdSegments(resend) {
   }
 }
 
-/** Page through every contact in a segment (the API caps a page at 100). */
+/**
+ * Page through contacts (the API caps a page at 100).
+ * Omit segmentId to list every contact in the account.
+ */
 async function listAllContacts(resend, segmentId) {
   const all = [];
   let after;
   for (;;) {
-    const page = await resend.contacts.list({ segmentId, limit: 100, ...(after ? { after } : {}) });
+    const page = await resend.contacts.list({
+      ...(segmentId ? { segmentId } : {}),
+      limit: 100,
+      ...(after ? { after } : {}),
+    });
     const data = unwrap(page, "contacts.list");
     all.push(...data.data);
     if (!data.has_more || data.data.length === 0) break;
@@ -160,6 +191,13 @@ async function listAllContacts(resend, segmentId) {
     await sleep(RATE_LIMIT_DELAY_MS);
   }
   return all;
+}
+
+async function cmdSegmentCreate(resend, name) {
+  if (!name) die("Missing <name>. Usage: segment-create \"UniMelb waitlist\"");
+  const segment = unwrap(await resend.segments.create({ name }), "segments.create");
+  console.log(`✓ Segment created: ${segment.id}  ${segment.name}`);
+  console.log(`\n  Populate it with:  sync --segment ${segment.id} [--domain @example.edu] --apply`);
 }
 
 /**
@@ -189,10 +227,11 @@ async function readWaitlist(flags) {
   if (!key) {
     die(
       "SUPABASE_SERVICE_ROLE_KEY is not set.\n" +
+        `  Supabase-ish keys found in .env.local: ${knownEnvKeys(/SUPABASE|SERVICE|ROLE/i)}\n` +
         "  The anon key cannot read the waitlist (RLS is insert-only).\n" +
-        "  Either add the service-role key to .env.local (Supabase dashboard →\n" +
-        "  Project Settings → API Keys → service_role), or export the waitlist as\n" +
-        "  CSV and re-run with:  sync --from-csv <path>"
+        "  Either add the service-role key to .env.local as SUPABASE_SERVICE_ROLE_KEY\n" +
+        "  (Supabase dashboard → Project Settings → API Keys → service_role), or\n" +
+        "  export the waitlist as CSV and re-run with:  sync --from-csv <path>"
     );
   }
 
@@ -218,23 +257,40 @@ async function readWaitlist(flags) {
  */
 async function cmdSync(resend, flags) {
   const segmentId = flags.segment ?? "191cb508-6f66-4153-b078-7be7d17d0abb";
+  const domain = flags.domain?.trim().toLowerCase();
 
-  const waitlist = await readWaitlist(flags);
-  const contacts = await listAllContacts(resend, segmentId);
+  const allRows = await readWaitlist(flags);
+  const waitlist = domain
+    ? allRows.filter((r) => r.email?.trim().toLowerCase().endsWith(domain))
+    : allRows;
 
-  const existing = new Set(contacts.map((c) => c.email.trim().toLowerCase()));
+  // Account-wide contacts, so someone already in another segment is reused
+  // rather than re-created (which would fail as a duplicate).
+  const accountContacts = await listAllContacts(resend);
+  const byEmail = new Map(accountContacts.map((c) => [c.email.trim().toLowerCase(), c.id]));
+  const inSegment = new Set(
+    (await listAllContacts(resend, segmentId)).map((c) => c.email.trim().toLowerCase())
+  );
+
   const seen = new Set();
   const missing = [];
   for (const row of waitlist) {
     const email = row.email?.trim().toLowerCase();
-    if (!email || seen.has(email) || existing.has(email)) continue;
+    if (!email || seen.has(email) || inSegment.has(email)) continue;
     seen.add(email);
-    missing.push({ email, firstName: (row.name ?? "").trim().split(/\s+/)[0] || undefined });
+    missing.push({
+      email,
+      firstName: (row.name ?? "").trim().split(/\s+/)[0] || undefined,
+      existingId: byEmail.get(email),
+    });
   }
 
   console.log(`Segment ${segmentId}`);
-  console.log(`  Supabase waitlist: ${waitlist.length}`);
-  console.log(`  Already in Resend: ${contacts.length}`);
+  if (domain) {
+    console.log(`  Filter:            ${domain}  (${waitlist.length} of ${allRows.length} waitlist rows)`);
+  }
+  console.log(`  Eligible:          ${waitlist.length}`);
+  console.log(`  Already in segment:${String(inSegment.size).padStart(4)}`);
   console.log(`  Missing:           ${missing.length}\n`);
 
   if (missing.length === 0) {
@@ -242,7 +298,9 @@ async function cmdSync(resend, flags) {
     return;
   }
 
-  for (const m of missing.slice(0, 10)) console.log(`    + ${m.email}${m.firstName ? ` (${m.firstName})` : ""}`);
+  for (const m of missing.slice(0, 10)) {
+    console.log(`    + ${m.email}${m.firstName ? ` (${m.firstName})` : ""}${m.existingId ? " [existing contact]" : ""}`);
+  }
   if (missing.length > 10) console.log(`    … and ${missing.length - 10} more`);
 
   if (!flags.apply) {
@@ -253,11 +311,13 @@ async function cmdSync(resend, flags) {
   let added = 0;
   const failed = [];
   for (const m of missing) {
-    const res = await resend.contacts.create({
-      email: m.email,
-      firstName: m.firstName,
-      segments: [{ id: segmentId }],
-    });
+    const res = m.existingId
+      ? await resend.contacts.segments.add({ contactId: m.existingId, segmentId })
+      : await resend.contacts.create({
+          email: m.email,
+          firstName: m.firstName,
+          segments: [{ id: segmentId }],
+        });
     if (res.error) failed.push(`${m.email}: ${res.error.message}`);
     else added++;
     await sleep(RATE_LIMIT_DELAY_MS);
@@ -285,8 +345,15 @@ async function cmdDraft(resend, configPath, flags) {
   if (!config.segmentId) die("Config is missing `segmentId`. Run `segments` to find it.");
 
   const { html, text } = render(config);
-  if (!html.includes(UNSUBSCRIBE_TOKEN)) {
-    die("Rendered HTML has no unsubscribe link — refusing to create the draft.");
+
+  // Brand formatting is not optional. If the rendered HTML is not on-brand,
+  // stop here rather than let an unstyled email reach a segment.
+  const problems = checkBrandFormatting(html);
+  if (problems.length) {
+    die(
+      "Rendered HTML failed the brand formatting check — refusing to create the draft:\n" +
+        problems.map((p) => `    - ${p}`).join("\n")
+    );
   }
 
   const previewPath = writePreview(html, slugify(config.name ?? config.subject), flags.out);
@@ -352,6 +419,17 @@ async function cmdSend(resend, id, flags) {
     die(`Broadcast ${id} is already "${broadcast.status}" — nothing to send.`);
   }
 
+  // Last line of defence: a broadcast created outside this tool (dashboard,
+  // raw API) would never have passed the draft-time check.
+  const brandProblems = checkBrandFormatting(broadcast.html ?? "");
+  if (brandProblems.length && !flags.allowUnbranded) {
+    die(
+      `Refusing to send — broadcast ${id} is not on-brand:\n` +
+        brandProblems.map((p) => `    - ${p}`).join("\n") +
+        `\n  Re-create it with \`draft\`, or pass --allow-unbranded to override.`
+    );
+  }
+
   // A broken hero image cannot be fixed after the send. Block on it.
   const missing = await reportUndeployedAssets(broadcast.html ?? "");
   if (missing.length && !flags.allowMissingAssets) {
@@ -372,10 +450,19 @@ async function cmdTest(resend, configPath, flags) {
   const config = loadConfig(configPath);
   const { html, text } = render(config);
 
-  // A one-off send is not a broadcast, so Resend will not substitute the
-  // unsubscribe token — swap in the real site link so the test mail is valid.
-  const testHtml = html.replaceAll(UNSUBSCRIBE_TOKEN, "https://campus-crush.org");
-  const testText = text.replaceAll(UNSUBSCRIBE_TOKEN, "https://campus-crush.org");
+  // A one-off send is not a broadcast, so Resend performs no substitution:
+  // neither the unsubscribe token nor {{{VAR|fallback}}} merge tags resolve.
+  // Do it here, otherwise the test mail shows raw mustache to the reviewer and
+  // the test stops representing what recipients actually get.
+  const localize = (s) =>
+    s
+      .replaceAll(UNSUBSCRIBE_TOKEN, "https://campus-crush.org")
+      // {{{NAME|fallback}}} -> fallback   |   {{{NAME}}} -> ""
+      .replace(/\{\{\{\s*[A-Z0-9_]+\s*\|([^}]*)\}\}\}/gi, (_, fallback) => fallback.trim())
+      .replace(/\{\{\{\s*[A-Z0-9_]+\s*\}\}\}/gi, "");
+
+  const testHtml = localize(html);
+  const testText = localize(text);
 
   const sent = unwrap(
     await resend.emails.send({
@@ -395,7 +482,9 @@ function usage() {
   console.log(`campus-crush broadcast CLI
 
   segments                        List segments with subscriber counts
-  sync [--segment ID] [--apply]   Add Supabase waitlist members missing from a
+  segment-create <name>           Create a new (empty) segment
+  sync [--segment ID] [--domain @x.edu] [--apply]
+                                  Add Supabase waitlist members missing from a
                                   segment. Dry run unless --apply. Additive only.
                                   Needs SUPABASE_SERVICE_ROLE_KEY, or use
                                   --from-csv <path> with a Supabase CSV export.
@@ -425,11 +514,13 @@ async function main() {
     const arg = argv[i];
     if (arg === "--yes") flags.yes = true;
     else if (arg === "--allow-missing-assets") flags.allowMissingAssets = true;
+    else if (arg === "--allow-unbranded") flags.allowUnbranded = true;
     else if (arg === "--apply") flags.apply = true;
     else if (arg === "--at") flags.at = argv[++i];
     else if (arg === "--to") flags.to = argv[++i];
     else if (arg === "--out") flags.out = argv[++i];
     else if (arg === "--segment") flags.segment = argv[++i];
+    else if (arg === "--domain") flags.domain = argv[++i];
     else if (arg === "--from-csv") flags.fromCsv = argv[++i];
     else if (arg.startsWith("--")) die(`Unknown flag: ${arg}`);
     else positional.push(arg);
@@ -443,6 +534,8 @@ async function main() {
       return cmdSegments(resend);
     case "sync":
       return cmdSync(resend, flags);
+    case "segment-create":
+      return cmdSegmentCreate(resend, positional[0]);
     case "list":
       return cmdList(resend);
     case "draft":

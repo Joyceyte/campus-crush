@@ -142,13 +142,11 @@ function renderImage(image) {
     throw new Error(`image.url must be an absolute https URL, got: ${image.url}`);
   }
   const width = image.width ?? CONTENT_WIDTH;
-  const height = image.height
-    ? ` height="${image.height}"`
-    : "";
+  const height = image.height ? ` height="${image.height}"` : "";
   return `
             <tr>
               <td style="padding:0;font-size:0;line-height:0;">
-                <img src="${image.url}" alt="${image.alt}" width="${width}"${height} border="0" style="display:block;width:100%;max-width:${CONTENT_WIDTH}px;height:auto;border:0;outline:none;text-decoration:none;" />
+                <img src="${image.url}" alt="${image.alt}" width="${width}"${height} border="0" style="display:block;width:100%;height:auto;border:0;outline:none;text-decoration:none;" />
               </td>
             </tr>
 `;
@@ -201,12 +199,12 @@ export function renderBroadcast({
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet" />
   </head>
-  <body style="margin:0;padding:0;background:${PALETTE.page};">
+  <body style="margin:0;padding:0;background:${PALETTE.surface};">
     ${preheader}
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PALETTE.page};">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:${PALETTE.surface};">
       <tr>
-        <td align="center" style="padding:0;">
-          <table role="presentation" width="${CONTENT_WIDTH}" cellpadding="0" cellspacing="0" style="width:100%;max-width:${CONTENT_WIDTH}px;background:${PALETTE.surface};">
+        <td style="padding:0;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:${PALETTE.surface};">
 
             <!-- masthead -->
             <tr>
@@ -289,4 +287,46 @@ export function renderBroadcastText({
   return lines.join("\n");
 }
 
-export { PALETTE, CONTENT_WIDTH };
+/**
+ * Assert that rendered HTML actually carries the Campus Crush brand formatting.
+ *
+ * This exists because the failure it guards against is silent and unrecallable:
+ * a broadcast built by hand, pasted from a doc, or assembled by some future
+ * caller that skips renderBroadcast() would send as unstyled HTML to the whole
+ * list, and nobody notices until it is in 190 inboxes. `draft` runs this before
+ * anything reaches Resend.
+ *
+ * @param {string} html
+ * @returns {string[]} Human-readable problems. Empty means the email is on-brand.
+ */
+export function checkBrandFormatting(html) {
+  const problems = [];
+  const require = (condition, message) => {
+    if (!condition) problems.push(message);
+  };
+
+  require(html.includes("<!DOCTYPE html>"), "no DOCTYPE — clients will quirks-mode this");
+  require(
+    html.includes(`background:${PALETTE.accent};padding:20px 40px`),
+    "missing the terracotta masthead band"
+  );
+  require(html.includes(HEADING_FONT), "missing the Jersey 25 display font stack");
+  require(html.includes(BODY_FONT), "missing the body font stack");
+  require(html.includes(PALETTE.surface), "missing the brand surface colour");
+  require(
+    html.includes(`background:${PALETTE.card};padding:22px 40px`),
+    "missing the cream footer band"
+  );
+  require(html.includes(UNSUBSCRIBE_TOKEN), "missing the unsubscribe link");
+  require(
+    /<table[^>]+role="presentation"/.test(html),
+    "not table-based — will collapse in Outlook"
+  );
+  require(!/<div[^>]+display:\s*flex/i.test(html), "uses flexbox, which email clients strip");
+  require(!/<link[^>]+stylesheet[^>]*>[\s\S]*<body/.test(html) || html.includes("style=\""),
+    "relies on an external stylesheet instead of inline styles");
+
+  return problems;
+}
+
+export { PALETTE, CONTENT_WIDTH, HEADING_FONT, BODY_FONT };

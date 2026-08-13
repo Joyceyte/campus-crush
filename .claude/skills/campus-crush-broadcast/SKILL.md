@@ -10,14 +10,39 @@ real Melbourne students on their university addresses — a bad send cannot be
 recalled and damages the domain's sending reputation. The workflow below is
 built around that.
 
+## Brand formatting is mandatory
+
+**Never hand-write email HTML, and never paste HTML from a doc, the Resend
+dashboard, or an AI draft into a broadcast.** All copy goes through
+`renderBroadcast()` in `scripts/template.mjs`, which applies the Campus Crush
+formatting: terracotta masthead, optional hero image, terracotta uppercase
+subheadings, callout panel, brand button, cream footer with the unsubscribe
+link, plus a plain-text alternative for deliverability.
+
+This is enforced, not just requested. `checkBrandFormatting()` runs at two
+points and **blocks** on failure:
+
+- `draft` refuses to create the broadcast if the rendered HTML is not on-brand
+- `send` re-checks the stored HTML, which catches anything created outside this
+  tool (dashboard, raw API) — override only with `--allow-unbranded`
+
+It verifies the DOCTYPE, masthead band, both font stacks, surface and footer
+colours, the unsubscribe token, table-based layout, and the absence of flexbox.
+If you are tempted to override it, re-create the email with `draft` instead.
+
+You write **content** (subject, heading, blocks, CTA); the template owns
+**presentation**. Do not put layout HTML in a block — only inline emphasis like
+`<strong>`, `<em>`, `<a>`.
+
 ## Account facts
 
 | Thing | Value |
 |-------|-------|
 | Verified sending domain | `campus-crush.org` (us-east-1, sending only) |
 | Default `from` | `Campus Crush <hello@campus-crush.org>` |
-| Segment: waitlist | `191cb508-6f66-4153-b078-7be7d17d0abb` — "Waitlist as of 5 Aug" |
-| Segment: general | `f311c7a1-f715-47f3-8f37-d6b61422a085` — "General" |
+| Segment: all unis | `191cb508-6f66-4153-b078-7be7d17d0abb` — "Waitlist as of 5 Aug" (name is historical; kept in sync with Supabase) |
+| Segment: UniMelb only | `c37556d9-eb70-4f87-8f1b-f1376899edfb` — "University of Melbourne waitlist" |
+| Segment: general | `f311c7a1-f715-47f3-8f37-d6b61422a085` — "General" (empty) |
 | API key | `RESEND_API_KEY` in `.env.local` (the CLI loads it; never print it) |
 
 Run `segments` rather than trusting these IDs if a send matters — segments get
@@ -29,7 +54,7 @@ Copy this checklist and work through it:
 
 ```text
 Broadcast progress:
-- [ ] Step 1: Confirm audience and goal with the user
+- [ ] Step 1: Confirm audience and goal with the user, then `sync` the segment
 - [ ] Step 2: Write the config file
 - [ ] Step 3: Create the draft and open the preview
 - [ ] Step 4: Send a test to one real inbox
@@ -47,7 +72,20 @@ node .claude/skills/campus-crush-broadcast/scripts/broadcast.mjs <command>
 ### Step 1 — Confirm audience and goal
 
 Run `segments` to get live names and subscriber counts. Ask the user which
-segment and what the email needs to achieve. Do not guess the segment.
+segment and what the email needs to achieve. Do not guess the segment — the
+waitlist spans five universities, so "everyone" and "UniMelb students" are
+different sends.
+
+Then reconcile the segment against Supabase, which is the source of truth:
+
+```bash
+node .../broadcast.mjs sync                      # dry run against the all-unis segment
+node .../broadcast.mjs sync --apply              # add the missing contacts
+node .../broadcast.mjs sync --segment <id> --domain @student.unimelb.edu.au --apply
+```
+
+Skipping this silently drops everyone who signed up since the segment was last
+touched. Scan the dry-run output for obvious test rows before applying.
 
 ### Step 2 — Write the config file
 
@@ -127,6 +165,8 @@ Give the user the broadcast ID and tell them `list` shows delivery status.
 | Command | Does |
 |---------|------|
 | `segments` | Lists segments with subscribed/total counts |
+| `segment-create <name>` | Creates a new empty segment |
+| `sync [--segment ID] [--domain @x.edu] [--apply]` | Adds Supabase waitlist members missing from a segment. Dry run unless `--apply`. Additive only — never unsubscribes or deletes |
 | `list` | Lists broadcasts and their status |
 | `draft <config.json> [--out path]` | Renders, creates a **draft**, writes an HTML preview |
 | `preview <id> [--out path]` | Status of a broadcast + dumps its HTML |
@@ -146,7 +186,12 @@ Give the user the broadcast ID and tell them `list` shows delivery status.
 | Rate limit is 2 req/s | `segments` already paces itself. Don't hammer the API in a loop. |
 | `from` domain must match exactly | Only `@campus-crush.org` is verified. A different domain returns 403. |
 | Never test with fake addresses | `test@gmail.com` and friends bounce and hurt the domain's reputation. Use `delivered@resend.dev`. |
-| Contact list may be stale | "Waitlist as of 5 Aug" is a snapshot. Newer Supabase `waitlist` rows are not in it — check with the user whether the segment needs re-importing before a launch email. |
+| Segment drifts from Supabase | Run `sync` before every send. Supabase `waitlist` is the source of truth; the segment is a copy. |
+| The waitlist is multi-university | It is not all UniMelb. Confirm scope before sending, and use `sync --domain @student.unimelb.edu.au` into a dedicated segment for a single-uni send. |
+| `sync` needs a service-role key | The anon key cannot `SELECT` from `waitlist` (RLS is insert-only). Needs `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`, or `--from-csv` with a dashboard export. |
+| Merge tags do not resolve in `test` | `emails.send` performs no substitution, so `test` resolves `{{{VAR|fallback}}}` locally to keep the preview honest. Only a real broadcast does per-recipient substitution. |
+| Images must be deployed first | Email clients cannot load local files or data URIs. `draft` warns and `send` blocks when a `campus-crush.org` asset 404s. |
+| Test/junk rows reach real sends | Fake addresses hard-bounce and hurt deliverability. Scan the list for obvious test entries and remove them from the segment (not the account) before sending. |
 
 ## References
 
