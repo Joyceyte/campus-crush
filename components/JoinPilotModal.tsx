@@ -165,6 +165,26 @@ export default function JoinPilotModal() {
             </p>
           )}
 
+          {/* Not an alert: nothing is wrong, so it neither shouts in red nor
+              interrupts a screen reader the way role="alert" would. */}
+          {state.notice && (
+            <p
+              role="status"
+              style={{
+                margin: 0,
+                fontSize: "0.8rem",
+                lineHeight: 1.5,
+                color: "var(--ink, #2B1B12)",
+                background: "rgba(239,227,205,0.75)",
+                borderLeft: "3px solid var(--terracotta, #C1512F)",
+                borderRadius: "6px",
+                padding: "0.7rem 0.85rem",
+              }}
+            >
+              {state.notice}
+            </p>
+          )}
+
           <button type="submit" className="neon-btn" disabled={pending}>
             {pending ? "Taking you to checkout…" : "Continue to payment →"}
           </button>

@@ -16,7 +16,12 @@ import {
   PILOT_UNIVERSITY,
 } from "@/lib/pilot";
 
-export type JoinPilotState = { error?: string };
+/**
+ * `error` is something the student must fix. `notice` is information — it
+ * renders calmly rather than in red, because "you already joined" is good news
+ * dressed as a rejection if you style it like a failure.
+ */
+export type JoinPilotState = { error?: string; notice?: string };
 
 function siteUrl() {
   return (
@@ -97,8 +102,8 @@ export async function joinPilot(
   // only with the row's UUID, which is unguessable.
   if (existing?.payment_status === "paid") {
     return {
-      error:
-        "This email has already joined the pilot. Check your inbox for your confirmation email.",
+      notice:
+        "You're already signed up! This email has joined the semester 2 pilot — check your inbox for your confirmation email.",
     };
   }
   if (existing?.square_payment_link_url) {
