@@ -90,8 +90,16 @@ export async function joinPilot(
     .eq("email", email)
     .maybeSingle();
 
+  // Deliberately NOT a redirect to /pilot/success. That page greets the student
+  // by name, so redirecting on an email match let anyone type someone else's
+  // address and be shown "You're in, <their name>!" — leaking both that the
+  // address is enrolled and who it belongs to. The success page is reachable
+  // only with the row's UUID, which is unguessable.
   if (existing?.payment_status === "paid") {
-    redirect(`/pilot/success?ref=${existing.id}`);
+    return {
+      error:
+        "This email has already joined the pilot. Check your inbox for your confirmation email.",
+    };
   }
   if (existing?.square_payment_link_url) {
     redirect(existing.square_payment_link_url);
