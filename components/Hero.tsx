@@ -63,6 +63,10 @@ function openWaitlist() {
   window.dispatchEvent(new CustomEvent("open-waitlist"));
 }
 
+function openJoinPilot() {
+  window.dispatchEvent(new CustomEvent("open-join-pilot"));
+}
+
 export default function Hero() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [fading, setFading] = useState(false);
@@ -183,39 +187,49 @@ export default function Hero() {
               </svg>
               <button
                 className="neon-btn"
-                onClick={openWaitlist}
-                aria-label="Join the Campus Crush waitlist"
+                onClick={openJoinPilot}
+                aria-label="Join the Campus Crush semester 2 pilot"
               >
-                Join the Waitlist →
+                Join the pilot →
               </button>
             </div>
             <div style={{ marginTop: '1.1rem' }}>
-              {/* Scarcity number — the focal point. Space is reserved so the
-                  fade-in never shifts the content below it. */}
-              <div style={{ minHeight: '1.7em', display: 'flex', alignItems: 'baseline', gap: '0.45rem' }}>
-                {spotsLeft !== null && (
-                  <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.45rem', animation: 'fadeIn 0.4s ease' }}>
-                    <span
-                      className="font-jersey"
-                      style={{
-                        display: 'inline-block',
-                        fontSize: '1.5rem',
-                        lineHeight: 1,
-                        letterSpacing: '0.02em',
-                        color: 'var(--terracotta)',
-                        fontVariantNumeric: 'tabular-nums',
-                        textShadow: '0 0 12px rgba(193,81,47,0.5)',
-                        animation: landed ? 'spotPulse 0.25s ease' : undefined,
-                      }}
-                    >
-                      {spotsLeft > 0 ? displayedSpots ?? spotsLeft : signups}
-                    </span>
-                    <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(43,27,18,0.85)' }}>
-                      {spotsLeft > 0 ? 'spots left' : 'campus singles already joined'}
-                    </span>
-                  </span>
-                )}
+              {/* The deadline takes the slot the countdown used to occupy. A
+                  live number here would read as "spots left in the pilot",
+                  which is not what it counted — the pilot closes on a date. */}
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem' }}>
+                <span
+                  className="font-jersey"
+                  style={{
+                    fontSize: '1.5rem',
+                    lineHeight: 1,
+                    letterSpacing: '0.02em',
+                    color: 'var(--terracotta)',
+                    textShadow: '0 0 12px rgba(193,81,47,0.5)',
+                  }}
+                >
+                  ✦
+                </span>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(43,27,18,0.85)' }}>
+                  closes 20 august
+                </span>
               </div>
+              <button
+                type="button"
+                onClick={openWaitlist}
+                style={{
+                  marginTop: '0.7rem',
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  fontSize: '0.75rem',
+                  color: 'rgba(43,27,18,0.6)',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+              >
+                Not at UniMelb? Get updates →
+              </button>
             </div>
           </div>
         </div>
