@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 import LaunchBanner from "@/components/LaunchBanner";
+import PilotCountdown from "@/components/PilotCountdown";
 
 // Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
 // in `.bento` (app/globals.css). gay-date / lesbian-date are deliberately
@@ -197,7 +198,9 @@ export default function Hero() {
               {/* The deadline takes the slot the countdown used to occupy. A
                   live number here would read as "spots left in the pilot",
                   which is not what it counted — the pilot closes on a date. */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem' }}>
+              {/* minHeight reserves the row so the countdown appearing after
+                  hydration doesn't shift the link below it. */}
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap', minHeight: '1.6em' }}>
                 <span
                   className="font-jersey"
                   style={{
@@ -211,8 +214,10 @@ export default function Hero() {
                   ✦
                 </span>
                 <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(43,27,18,0.85)' }}>
-                  closes 20 august
+                  closes 20 august 2026
                 </span>
+                <span aria-hidden="true" style={{ fontSize: '0.72rem', color: 'rgba(43,27,18,0.35)' }}>·</span>
+                <PilotCountdown />
               </div>
               <button
                 type="button"
