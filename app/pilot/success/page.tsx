@@ -17,14 +17,33 @@ export default async function PilotSuccessPage({
   const { ref } = await searchParams;
   if (!ref) return <Shell><NotFound /></Shell>;
 
+  // This page renders immediately after a student has been charged. Anything
+  // that throws here — missing env var, Supabase down, Square unreachable —
+  // must degrade to "we're confirming your payment", never to a crash page.
+  // Their money is safe either way; the row can be reconciled by hand.
+  try {
+    return <Shell>{await Confirmed(ref)}</Shell>;
+  } catch (err) {
+    console.error("pilot/success render failed:", err);
+    return <Shell><Confirming /></Shell>;
+  }
+}
+
+async function Confirmed(ref: string) {
   const db = supabaseAdmin();
-  const { data: signup } = await db
+  const { data: signup, error } = await db
     .from("pilot_signups")
     .select("id, full_name, email, payment_status, square_order_id")
     .eq("id", ref)
     .maybeSingle();
 
-  if (!signup) return <Shell><NotFound /></Shell>;
+  // A query error is not the same as "no such signup" — don't tell someone who
+  // just paid that we can't find them because the database blipped.
+  if (error) {
+    console.error("pilot/success lookup failed:", error);
+    return <Confirming />;
+  }
+  if (!signup) return <NotFound />;
 
   let paid = signup.payment_status === "paid";
 
@@ -57,7 +76,7 @@ export default async function PilotSuccessPage({
     }
   }
 
-  return <Shell>{paid ? <YoureIn name={signup.full_name} /> : <Confirming />}</Shell>;
+  return paid ? <YoureIn name={signup.full_name} /> : <Confirming />;
 }
 
 function YoureIn({ name }: { name: string }) {

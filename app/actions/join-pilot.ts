@@ -58,7 +58,16 @@ export async function joinPilot(
   }
   if (!over18) return { error: "You need to confirm you're over 18 to join." };
 
-  const db = supabaseAdmin();
+  // supabaseAdmin() throws when the service-role key is absent. Catch it here
+  // so a misconfigured deploy shows a human message instead of an unhandled
+  // Server Action error.
+  let db: ReturnType<typeof supabaseAdmin>;
+  try {
+    db = supabaseAdmin();
+  } catch (err) {
+    console.error("joinPilot: Supabase admin client unavailable:", err);
+    return { error: "We couldn't save your details. Please try again soon." };
+  }
 
   // Cap check. A couple of in-flight payments can still slip past this; the
   // refund promise in the confirmation email covers that case, which is much
