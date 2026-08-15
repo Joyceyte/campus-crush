@@ -13,8 +13,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  function openWaitlist() {
-    window.dispatchEvent(new CustomEvent("open-waitlist"));
+  function openJoinPilot() {
+    window.dispatchEvent(new CustomEvent("open-join-pilot"));
   }
 
   return (
@@ -48,6 +48,13 @@ export default function Navbar() {
 
       <div className="nav-actions" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
         <a
+          href="/#how-it-works"
+          className="glass-btn nav-cta hidden sm:inline-flex"
+          style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
+        >
+          How it works
+        </a>
+        <a
           href="/blog"
           className="glass-btn nav-cta hidden sm:inline-flex"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
@@ -67,11 +74,11 @@ export default function Navbar() {
         <button
           className="neon-btn nav-cta"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
-          onClick={openWaitlist}
-          aria-label="Join the Campus Crush waitlist"
+          onClick={openJoinPilot}
+          aria-label="Join the Campus Crush semester 2 pilot"
         >
           <span className="sm:hidden">Join</span>
-          <span className="hidden sm:inline">Join Waitlist</span>
+          <span className="hidden sm:inline">Join the pilot</span>
         </button>
       </div>
     </nav>

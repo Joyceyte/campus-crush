@@ -147,7 +147,7 @@ export default function Hero() {
             </span>
             {/* Static label — does NOT wobble */}
             <p className="font-jersey text-[clamp(0.75rem,2vw,1rem)] tracking-[0.3em] uppercase text-[#2B1B12]/45 mt-3">
-              this winter
+              semester 2, 2026
             </p>
           </div>
 
@@ -159,7 +159,7 @@ export default function Hero() {
               fontWeight: 700,
               color: 'var(--ink)',
             }}>
-              Launching at the University of Melbourne, winter 2026.
+              Piloting semester 2, 2026 &middot; UniMelb &middot; 100 users.
             </p>
             <p style={{
               fontSize: '0.7rem',
@@ -250,9 +250,11 @@ export default function Hero() {
 
       {/* ── Fold 2: User journey — scrapbook spread ── */}
       <section
+        id="how-it-works"
         aria-labelledby="how-it-works-heading"
         className="grain"
         style={{
+          scrollMarginTop: "5rem",
           position: "relative",
           overflow: "hidden",
           background: "var(--parchment)",

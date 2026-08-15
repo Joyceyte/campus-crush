@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const MESSAGE = "pilot with our first 100 users and 5 partnered venues coming this winter";
+const MESSAGE = "semester 2 pilot is open — 100 spots, partnered venues, closes 20 august";
 const TYPE_MS = 80; // deliberately slow, one keystroke at a time
 const HOLD_MS = 6000; // linger on the full sentence before retyping
 const RESTART_MS = 900;

@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "What does a Campus Crush date look like?",
-    a: "We plan the whole thing. It might be a cafe, a gallery, a market, live music, or a walk in the park — chosen around what you'd both enjoy and both your schedules — with a time and an icebreaker to get you started.",
+    a: "We plan the whole thing at a venue near campus where you can both enjoy discounts and freebies by showing up.",
   },
 ];
 
@@ -43,7 +43,7 @@ export default function FAQ() {
     <section
       aria-labelledby="faq-heading"
       className="grain-heavy"
-      style={{ position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: "3rem", paddingBottom: "3rem" }}
+      style={{ position: "relative", overflow: "hidden", minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: "5rem", paddingBottom: "5rem" }}
     >
       {/* Full-bleed blurred photo backdrop */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

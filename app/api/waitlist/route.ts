@@ -138,12 +138,17 @@ function welcomeHtml(name: string, email: string) {
                     I'm the friend that texts you ready-to-go dates.
                   </p>
                   <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
-                    Congrats on being one of the <strong style="color:#2B1B12;">first 100 users</strong> to sign up! You'll automatically get
-                    <strong style="color:#C1512F;">one month of free premium membership</strong> on our invite-only app.
+                    You're on the list — we'll let you know the moment Campus Crush opens up at your uni.
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
-                    We won't spam you with details. You'll only hear from us when the app launches
-                    <strong style="color:#2B1B12;">this winter</strong>, just in time for your perfect winter break date ;).
+                    Right now we're running a <strong style="color:#2B1B12;">semester 2, 2026 pilot at UniMelb</strong> with
+                    100 students and our partnered venues. If you're at UniMelb, you can
+                    <a href="https://campus-crush.org" style="color:#C1512F;">join the pilot</a> before
+                    <strong style="color:#2B1B12;">20 August</strong>. If you're not, sit tight — you'll be first
+                    to hear when we expand.
+                  </p>
+                  <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
+                    We won't spam you. You'll only hear from us when there's something real to share.
                   </p>
                   <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.55);">
                     See you soon,<br />— Campus Crush

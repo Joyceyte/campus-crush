@@ -237,13 +237,13 @@ export default function WaitlistModal() {
                 className="font-jersey"
                 style={{ fontSize: "1.7rem", color: "var(--ink)", letterSpacing: "0.06em", marginBottom: "0.3rem" }}
               >
-                Join the Waitlist
+                Get updates
               </h2>
               <p style={{ fontSize: "0.95rem", color: "var(--terracotta)", letterSpacing: "0.04em", fontWeight: 600 }}>
-                First 100 users get one month of<br />premium FREE
+                Be first to know when we<br />open up at your uni
               </p>
               <p style={{ fontSize: "0.8rem", color: "var(--ink)", letterSpacing: "0.02em", marginTop: "0.6rem" }}>
-                Launching at the University of Melbourne, winter 2026.
+                Piloting at the University of Melbourne, semester 2, 2026.
               </p>
               <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", letterSpacing: "0.02em", marginTop: "0.25rem" }}>
                 Coming soon to Monash, Deakin, RMIT, and La Trobe.

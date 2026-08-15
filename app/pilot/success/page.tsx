@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { readPilotPaymentState } from "@/lib/square";
+import { sendPilotConfirmationEmail } from "@/lib/emails/pilot-confirmation";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,7 @@ export default async function PilotSuccessPage({
   const db = supabaseAdmin();
   const { data: signup } = await db
     .from("pilot_signups")
-    .select("id, full_name, payment_status, square_order_id")
+    .select("id, full_name, email, payment_status, square_order_id")
     .eq("id", ref)
     .maybeSingle();
 
@@ -30,11 +31,11 @@ export default async function PilotSuccessPage({
   if (!paid && signup.square_order_id) {
     const result = await readPilotPaymentState(signup.square_order_id);
     if (result.state === "paid") {
-      // Conditional update: two near-simultaneous loads must not both claim
-      // the row. Only the request that flips confirmation_email_sent_at from
-      // null wins — which is also the hook the confirmation email will use
-      // when it's built.
-      await db
+      // Conditional update guarding a double render: `.eq("payment_status",
+      // "pending")` means only one of two near-simultaneous loads matches a
+      // row. `.select()` tells us which one won, and only the winner sends the
+      // confirmation email — so a refresh can't email the student twice.
+      const { data: claimed } = await db
         .from("pilot_signups")
         .update({
           payment_status: "paid",
@@ -42,10 +43,16 @@ export default async function PilotSuccessPage({
           square_payment_id: result.paymentId,
           amount_cents: result.amountCents,
           currency: result.currency,
+          confirmation_email_sent_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         })
         .eq("id", signup.id)
-        .eq("payment_status", "pending");
+        .eq("payment_status", "pending")
+        .select("id");
+
+      if (claimed && claimed.length > 0) {
+        await sendPilotConfirmationEmail(signup.full_name, signup.email);
+      }
       paid = true;
     }
   }
