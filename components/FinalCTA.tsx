@@ -49,16 +49,17 @@ export default function FinalCTA() {
             Date Without Swiping.
           </h2>
           <p style={{ fontSize: '0.875rem', maxWidth: '34ch', margin: '0 auto', color: 'rgba(43,27,18,0.66)', lineHeight: 1.7 }}>
-            Join the waitlist and be the first to know when Campus Crush launches at{' '}
-            <span style={{ color: 'var(--ink)', fontWeight: 600 }}>the University of Melbourne</span>.
+            Not at UniMelb, or not ready for the pilot? Get updates and be the first to know
+            when Campus Crush opens up at{' '}
+            <span style={{ color: 'var(--ink)', fontWeight: 600 }}>your university</span>.
           </p>
         </div>
         <button
           className="neon-btn"
           onClick={handleWaitlist}
-          aria-label="Join the Campus Crush waitlist"
+          aria-label="Get Campus Crush updates by email"
         >
-          Join the Waitlist →
+          Get updates →
         </button>
       </div>
     </section>
