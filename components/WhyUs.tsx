@@ -18,8 +18,8 @@ const features = [
     icon: (
       <img src="/twemoji/1f393.png" width="40" height="40" alt="" aria-hidden="true" style={{ imageRendering: 'auto' }} />
     ),
-    title: "Same university",
-    desc: "You are only matched with people in your university.",
+    title: "Uni students",
+    desc: "You are only matched with other university students.",
   },
   {
     icon: (
