@@ -161,7 +161,7 @@ export default function FoundersNote() {
               color: "rgba(43,27,18,0.6)",
             }}
           >
-            100 spots &middot; UniMelb &middot; closes 20 August
+            UniMelb &middot; closes 1 September
           </p>
 
           <button type="button" className="neon-btn" onClick={signUp}>

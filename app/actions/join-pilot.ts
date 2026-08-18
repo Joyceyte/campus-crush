@@ -12,7 +12,6 @@ import {
   isEligibleEmail,
   normalisePhone,
   pilotIsOpen,
-  PILOT_SPOTS,
   PILOT_UNIVERSITY,
 } from "@/lib/pilot";
 
@@ -49,6 +48,8 @@ export async function joinPilot(
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phoneRaw = String(formData.get("phone") ?? "").trim();
   const over18 = formData.get("over_18") === "on";
+  const wantsFriend = formData.get("signup_with_friend") === "on";
+  const friendEmailRaw = String(formData.get("friend_email") ?? "").trim().toLowerCase();
 
   if (!fullName) return { error: "Please enter your name." };
   if (!isEligibleEmail(email)) {
@@ -63,6 +64,23 @@ export async function joinPilot(
   }
   if (!over18) return { error: "You need to confirm you're over 18 to join." };
 
+  // Honor system — not verified against the friend's own signup, just stored
+  // so the team can manually pair the two of you for a group date. Still
+  // re-checked server-side since a client toggle isn't enforcement.
+  let friendEmail: string | null = null;
+  if (wantsFriend) {
+    if (!isEligibleEmail(friendEmailRaw)) {
+      return {
+        error:
+          "Please enter your friend's UniMelb email (@student.unimelb.edu.au) so we can try to pair you up.",
+      };
+    }
+    if (friendEmailRaw === email) {
+      return { error: "That's your own email — enter your friend's instead." };
+    }
+    friendEmail = friendEmailRaw;
+  }
+
   // supabaseAdmin() throws when the service-role key is absent. Catch it here
   // so a misconfigured deploy shows a human message instead of an unhandled
   // Server Action error.
@@ -72,19 +90,6 @@ export async function joinPilot(
   } catch (err) {
     console.error("joinPilot: Supabase admin client unavailable:", err);
     return { error: "We couldn't save your details. Please try again soon." };
-  }
-
-  // Cap check. A couple of in-flight payments can still slip past this; the
-  // refund promise in the confirmation email covers that case, which is much
-  // cheaper than real reservation logic for 100 spots.
-  const { count, error: countError } = await db
-    .from("pilot_signups")
-    .select("id", { count: "exact", head: true })
-    .eq("payment_status", "paid");
-  if (countError) {
-    console.error("joinPilot: cap count failed:", countError);
-  } else if ((count ?? 0) >= PILOT_SPOTS) {
-    return { error: "All 100 pilot spots have been taken." };
   }
 
   // Someone who already started: don't trip the unique constraint, just pick
@@ -120,6 +125,7 @@ export async function joinPilot(
         email,
         phone,
         university: PILOT_UNIVERSITY,
+        friend_email: friendEmail,
         over_18_confirmed_at: new Date().toISOString(),
         amount_cents: PILOT_PRICE_CENTS,
         currency: PILOT_CURRENCY,

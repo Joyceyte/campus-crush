@@ -259,11 +259,12 @@ body {
    the terracotta "Join Waitlist" primary CTA. Scoped so .glass-btn itself is
    untouched elsewhere. */
 .nav-cta.glass-btn {
-  background: rgba(193,81,47,0.10);
-  border: 1.5px solid rgba(43,27,18,0.5);
+  background: rgba(247,239,225,0.92);
+  border: 1.5px solid rgba(43,27,18,0.35);
+  backdrop-filter: blur(8px);
 }
 .nav-cta.glass-btn:hover {
-  background: rgba(193,81,47,0.18);
+  background: rgba(247,239,225,1);
 }
 
 /* Section label pill */

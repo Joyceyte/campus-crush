@@ -160,7 +160,7 @@ export default function Hero() {
               fontWeight: 700,
               color: 'var(--ink)',
             }}>
-              Piloting semester 2, 2026 &middot; UniMelb &middot; 100 users.
+              Piloting semester 2, 2026 &middot; UniMelb.
             </p>
             <p style={{
               fontSize: '0.7rem',
@@ -214,7 +214,7 @@ export default function Hero() {
                   ✦
                 </span>
                 <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(43,27,18,0.85)' }}>
-                  closes 20 august 2026
+                  closes 1 september 2026
                 </span>
                 <span aria-hidden="true" style={{ fontSize: '0.72rem', color: 'rgba(43,27,18,0.35)' }}>·</span>
                 <PilotCountdown />

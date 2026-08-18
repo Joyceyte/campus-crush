@@ -7,6 +7,7 @@ import { joinPilot, type JoinPilotState } from "@/app/actions/join-pilot";
 // drilling through the page.
 export default function JoinPilotModal() {
   const [open, setOpen] = useState(false);
+  const [wantsFriend, setWantsFriend] = useState(false);
   const [state, formAction, pending] = useActionState<JoinPilotState, FormData>(
     joinPilot,
     {}
@@ -89,8 +90,8 @@ export default function JoinPilotModal() {
             margin: "0 0 1.5rem",
           }}
         >
-          Semester 2, 2026 · UniMelb · $5 to secure your spot. Signups close 20
-          August.
+          Semester 2, 2026 · UniMelb · $5 to secure your spot. Signups close 1
+          September.
         </p>
 
         <form action={formAction} style={{ display: "grid", gap: "1rem" }}>
@@ -116,7 +117,7 @@ export default function JoinPilotModal() {
             />
           </Field>
 
-          <Field label="Phone number" hint="We'll text you once, when we launch.">
+          <Field label="Phone number" hint="We'll notify you once, when we launch.">
             <input
               name="phone"
               type="tel"
@@ -126,6 +127,55 @@ export default function JoinPilotModal() {
               style={inputStyle}
             />
           </Field>
+
+          <div>
+            <label
+              style={{
+                display: "flex",
+                gap: "0.6rem",
+                alignItems: "flex-start",
+                fontSize: "0.8rem",
+                lineHeight: 1.5,
+                color: "rgba(43,27,18,0.8)",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                name="signup_with_friend"
+                type="checkbox"
+                checked={wantsFriend}
+                onChange={(e) => setWantsFriend(e.target.checked)}
+                style={{ marginTop: "0.2rem" }}
+              />
+              <span>Sign up with a friend?</span>
+            </label>
+
+            {wantsFriend && (
+              <div style={{ marginTop: "0.75rem" }}>
+                <Field label="Friend's university email">
+                  <input
+                    name="friend_email"
+                    type="email"
+                    required={wantsFriend}
+                    placeholder="you@student.unimelb.edu.au"
+                    autoComplete="off"
+                    style={inputStyle}
+                  />
+                </Field>
+                <p
+                  style={{
+                    margin: "0.5rem 0 0",
+                    fontSize: "0.72rem",
+                    lineHeight: 1.5,
+                    color: "rgba(43,27,18,0.6)",
+                  }}
+                >
+                  We&rsquo;ll try to match you both for a group date, but
+                  depending on signups you might still be matched for a solo date.
+                </p>
+              </div>
+            )}
+          </div>
 
           <label
             style={{

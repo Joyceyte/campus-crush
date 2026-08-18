@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "Who can join Campus Crush?",
-    a: "Right now we're launching at the University of Melbourne, with Monash, Deakin, and RMIT joining soon. Every profile is verified with a student email, and you're only ever matched with other students at your university.",
+    a: "Right now we're launching at the University of Melbourne, with Monash, Deakin, and RMIT joining soon. Every profile is verified with a student email, and you're only ever matched with other university students.",
   },
   {
     q: "What if I'm not feeling the match?",

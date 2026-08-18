@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
+import { normalisePhone } from "@/lib/pilot";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ const UNI_DOMAINS = [
 ];
 
 export async function POST(req: NextRequest) {
-  const { name, email, gender } = await req.json();
+  const { name, email, gender, phone: phoneRaw } = await req.json();
 
   if (!name?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
@@ -30,6 +31,14 @@ export async function POST(req: NextRequest) {
 
   if (!GENDERS.includes(gender)) {
     return NextResponse.json({ error: "Please select a gender." }, { status: 400 });
+  }
+
+  const phone = normalisePhone(String(phoneRaw ?? ""));
+  if (!phone) {
+    return NextResponse.json(
+      { error: "Please enter a valid Australian mobile number, e.g. 0412 345 678." },
+      { status: 400 }
+    );
   }
 
   const cleanEmail = email.trim().toLowerCase();
@@ -56,6 +65,7 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase.from("waitlist").insert({
     name: cleanName,
     email: cleanEmail,
+    phone,
     gender,
     university: matchedUni.university,
     founding_member: foundingMember,
@@ -142,9 +152,9 @@ function welcomeHtml(name: string, email: string) {
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
                     Right now we're running a <strong style="color:#2B1B12;">semester 2, 2026 pilot at UniMelb</strong> with
-                    100 students and our partnered venues. If you're at UniMelb, you can
+                    our partnered venues. If you're at UniMelb, you can
                     <a href="https://campus-crush.org" style="color:#C1512F;">join the pilot</a> before
-                    <strong style="color:#2B1B12;">20 August</strong>. If you're not, sit tight — you'll be first
+                    <strong style="color:#2B1B12;">1 September</strong>. If you're not, sit tight — you'll be first
                     to hear when we expand.
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">

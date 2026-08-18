@@ -4,7 +4,7 @@ const pillars = [
       <img src="/twemoji/1f393.png" width="40" height="40" alt="" aria-hidden="true" />
     ),
     title: "Verified students only",
-    desc: "Melbourne uni students only. Every profile is verified with your student email.",
+    desc: "University students only. Every profile is verified with your student email.",
   },
   {
     icon: (

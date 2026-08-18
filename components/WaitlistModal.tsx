@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSignupCount } from "@/lib/useSignupCount";
+import { normalisePhone } from "@/lib/pilot";
 
 // Mirrors the accepted domains in app/api/waitlist/route.ts — kept here too
 // so the modal can give instant feedback before hitting the API.
@@ -20,9 +21,11 @@ export default function WaitlistModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [genderError, setGenderError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [consentChecked, setConsentChecked] = useState(false);
   const [ageChecked, setAgeChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,9 +47,11 @@ export default function WaitlistModal() {
       setSuccess(false);
       setName("");
       setEmail("");
+      setPhone("");
       setGender("");
       setGenderError("");
       setEmailError("");
+      setPhoneError("");
       setApiError("");
       setConsentChecked(false);
       setAgeChecked(false);
@@ -62,6 +67,15 @@ export default function WaitlistModal() {
     return true;
   }
 
+  function validatePhone(val: string) {
+    if (!normalisePhone(val)) {
+      setPhoneError("Please enter a valid Australian mobile number, e.g. 0412 345 678.");
+      return false;
+    }
+    setPhoneError("");
+    return true;
+  }
+
   async function handleSubmit() {
     setApiError("");
     if (!name.trim()) return;
@@ -70,13 +84,14 @@ export default function WaitlistModal() {
       return;
     }
     if (!validateEmail(email)) return;
+    if (!validatePhone(phone)) return;
     if (!consentChecked || !ageChecked) return;
     setLoading(true);
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, gender }),
+        body: JSON.stringify({ name, email, phone, gender }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -331,6 +346,31 @@ export default function WaitlistModal() {
               )}
             </div>
 
+            {/* Phone */}
+            <div>
+              <label htmlFor="waitlist-phone" style={labelStyle}>Phone number</label>
+              <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+                We&apos;ll notify you once we launch at your uni.
+              </p>
+              <input
+                id="waitlist-phone"
+                type="tel"
+                placeholder="0412 345 678"
+                value={phone}
+                onChange={(e) => { setPhone(e.target.value); if (phoneError) validatePhone(e.target.value); }}
+                onBlur={(e) => validatePhone(e.target.value)}
+                style={{
+                  ...inputStyle,
+                  borderColor: phoneError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
+                }}
+              />
+              {phoneError && (
+                <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                  {phoneError}
+                </p>
+              )}
+            </div>
+
             {/* Consent checkboxes */}
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               <label style={consentLabelStyle}>
@@ -342,7 +382,7 @@ export default function WaitlistModal() {
                 />
                 <span>
                   I consent to Campus Crush collecting and storing my personal information — including my{" "}
-                  <strong>name</strong> and <strong>email address</strong> — to contact me about my match, and
+                  <strong>name</strong>, <strong>email address</strong>, and <strong>phone number</strong> — to contact me about my match, and
                   understand anonymised data may be used for marketing purposes. This information is held in
                   accordance with the Privacy Act 1988 (Cth) and our{" "}
                   <a href="/privacy" target="_blank" rel="noopener noreferrer" style={consentLinkStyle}>

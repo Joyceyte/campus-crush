@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Jersey_25 } from "next/font/google";
+import WaitlistModal from "@/components/WaitlistModal";
+import JoinPilotModal from "@/components/JoinPilotModal";
 import "./globals.css";
 
 const jersey25 = Jersey_25({
@@ -23,6 +25,8 @@ export default function RootLayout({
       <body className="antialiased">
         <a href="#main-content" className="skip-nav">Skip to main content</a>
         {children}
+        <WaitlistModal />
+        <JoinPilotModal />
       </body>
     </html>
   );

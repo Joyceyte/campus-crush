@@ -7,8 +7,6 @@ import RestaurantPartners from "@/components/RestaurantPartners";
 import FAQ from "@/components/FAQ";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
-import WaitlistModal from "@/components/WaitlistModal";
-import JoinPilotModal from "@/components/JoinPilotModal";
 import FoundersNote from "@/components/FoundersNote";
 
 export default function Home() {
@@ -24,8 +22,6 @@ export default function Home() {
         <FinalCTA />
       </main>
       <Footer />
-      <WaitlistModal />
-      <JoinPilotModal />
       <FoundersNote />
     </>
   );
