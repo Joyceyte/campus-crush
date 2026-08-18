@@ -228,6 +228,7 @@ export default function Hero() {
                   border: 'none',
                   padding: 0,
                   fontSize: '0.75rem',
+                  fontWeight: 700,
                   color: 'rgba(43,27,18,0.6)',
                   textDecoration: 'underline',
                   cursor: 'pointer',
