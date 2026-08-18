@@ -44,6 +44,11 @@ export default function FoundersNote() {
     window.dispatchEvent(new CustomEvent("open-join-pilot"));
   }
 
+  function joinWaitlist() {
+    dismiss();
+    window.dispatchEvent(new CustomEvent("open-waitlist"));
+  }
+
   useEffect(() => {
     if (!open) return;
     previouslyFocused.current = document.activeElement;
@@ -131,7 +136,21 @@ export default function FoundersNote() {
           >
             This is <strong style={{ color: "var(--ink)" }}>Alex and Joyce</strong> and
             we are so excited to announce that signups for the semester 2 pilot
-            trial is officially open!
+            trial is officially open! 
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.95rem",
+              lineHeight: 1.75,
+              color: "rgba(43,27,18,0.82)",
+              textAlign: "left",
+              alignSelf: "stretch",
+            }}
+          >
+            Campus Crush is open to all sexualities and gender identities, and
+            to any uni student, whether you&rsquo;re doing undergrad, masters,
+            or PhD.
           </p>
 
           <p
@@ -164,6 +183,26 @@ export default function FoundersNote() {
             }}
           >
             Read the site first
+          </button>
+
+          <button
+            type="button"
+            onClick={joinWaitlist}
+            style={{
+              marginTop: "0.1rem",
+              background: "none",
+              border: "none",
+              padding: 0,
+              textAlign: "left",
+              fontSize: "0.72rem",
+              lineHeight: 1.6,
+              color: "rgba(43,27,18,0.55)",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Not a UniMelb student? Join our waitlist, we&rsquo;ll let you know
+            when we launch at your uni after the UniMelb pilot.
           </button>
         </div>
       </div>
