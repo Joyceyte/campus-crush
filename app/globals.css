@@ -403,6 +403,19 @@ body {
   }
 }
 
+/* "closing soon" row + the "Not at UniMelb" link beneath it: centered on
+   mobile to match the rest of .hero-panel's centered content there, left
+   on desktop to match .hero-panel's own left-aligned content there. Needs
+   an explicit rule since flexbox justify-content and a <button>'s own text
+   don't automatically follow an ancestor's text-align the way plain text
+   does. */
+.hero-closing-row { justify-content: center; }
+.hero-closing-link { text-align: center; }
+@media (min-width: 900px) {
+  .hero-closing-row { justify-content: flex-start; }
+  .hero-closing-link { text-align: left; }
+}
+
 /* Photo bento grid — 2 cols on mobile, asymmetric 4×3 on desktop */
 .bento {
   display: grid;

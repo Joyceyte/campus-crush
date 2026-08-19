@@ -194,8 +194,8 @@ export default function Hero() {
                 Join the pilot →
               </button>
             </div>
-            <div style={{ marginTop: '1.1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap' }}>
+            <div className="hero-closing-link" style={{ marginTop: '1.1rem' }}>
+              <div className="hero-closing-row" style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap' }}>
                 <span
                   className="font-jersey"
                   style={{
