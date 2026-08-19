@@ -62,14 +62,11 @@ export default function Navbar() {
           Blog
         </a>
         <a
-          href="https://www.instagram.com/campuscrush_uni/"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/contact"
           className="glass-btn nav-cta"
           style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem", minHeight: "36px" }}
-          aria-label="Campus Crush (@campuscrush_uni) on Instagram"
         >
-          Instagram
+          Contact us
         </a>
         <button
           className="neon-btn nav-cta"

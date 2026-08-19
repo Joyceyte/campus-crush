@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 import LaunchBanner from "@/components/LaunchBanner";
 import PilotCountdown from "@/components/PilotCountdown";
+import InstagramShowcase from "@/components/InstagramShowcase";
 
 // Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
 // in `.bento` (app/globals.css). gay-date / lesbian-date are deliberately
@@ -253,6 +254,8 @@ export default function Hero() {
         {/* Typing banner — a grid row of the hero, so it stays in the first fold */}
         <LaunchBanner />
       </section>
+
+      <InstagramShowcase />
 
       {/* ── Fold 2: User journey — scrapbook spread ── */}
       <section

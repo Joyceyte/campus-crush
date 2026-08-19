@@ -33,6 +33,19 @@ export default function ContactPage() {
           >
             support@campus-crush.org
           </a>
+
+          <p style={{ margin: "2rem 0 1rem", color: "rgba(43,27,18,0.75)", fontSize: "0.95rem" }}>
+            Or DM us on Instagram!
+          </p>
+          <a
+            href="https://www.instagram.com/campuscrush_uni/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-btn"
+            aria-label="Campus Crush (@campuscrush_uni) on Instagram"
+          >
+            Follow @campuscrush_uni
+          </a>
         </div>
       </main>
       <Footer />

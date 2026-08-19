@@ -245,7 +245,7 @@ export default function WaitlistModal() {
               We&apos;ll let you know when our general launch opens! Stay tuned!
             </p>
             <p style={{ fontSize: "0.85rem", color: "rgba(43,27,18,0.7)", lineHeight: 1.7, maxWidth: "28ch", margin: "0 auto 1.5rem" }}>
-              While you wait, follow us on Instagram for behind-the-scenes and date inspo.
+              While you wait, follow us on Instagram for behind-the-scenes and more info.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.6rem" }}>
               <a
