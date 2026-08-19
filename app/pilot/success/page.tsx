@@ -110,9 +110,23 @@ function YoureIn({ name }: { name: string }) {
           Give us feedback on your experience and how we can improve
         </a>
       </p>
-      <Link href="/" className="neon-btn" style={{ marginTop: "0.5rem", display: "inline-block" }}>
-        Back to home
-      </Link>
+      <p style={body}>
+        Follow us on Instagram for behind-the-scenes and date inspo while you
+        wait.
+      </p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
+        <a
+          href="https://www.instagram.com/campuscrush_uni/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="glass-btn"
+        >
+          Follow @campuscrush_uni →
+        </a>
+        <Link href="/" className="neon-btn" style={{ display: "inline-flex" }}>
+          Back to home
+        </Link>
+      </div>
     </>
   );
 }

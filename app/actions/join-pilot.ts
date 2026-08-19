@@ -22,6 +22,34 @@ import {
  */
 export type JoinPilotState = { error?: string; notice?: string };
 
+// Pilot signups are the most engaged students we have (they paid), so they
+// belong on the general mailing list too — otherwise they'd miss every
+// broadcast (deadline reminders, launch announcements) sent through the
+// waitlist segment. Best-effort: a hiccup here must never block a paid
+// signup. `ignoreDuplicates` means an existing waitlist row — with its own
+// gender/heard_from answers — is left untouched rather than overwritten
+// with nulls.
+async function addToWaitlist(
+  db: ReturnType<typeof supabaseAdmin>,
+  opts: { fullName: string; email: string; phone: string }
+) {
+  try {
+    const { error } = await db.from("waitlist").upsert(
+      {
+        name: opts.fullName,
+        email: opts.email,
+        phone: opts.phone,
+        university: PILOT_UNIVERSITY,
+        founding_member: false,
+      },
+      { onConflict: "email", ignoreDuplicates: true }
+    );
+    if (error) console.error("joinPilot: waitlist upsert failed:", error);
+  } catch (err) {
+    console.error("joinPilot: waitlist upsert threw:", err);
+  }
+}
+
 function siteUrl() {
   return (
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -138,6 +166,7 @@ export async function joinPilot(
       return { error: "Something went wrong saving your details. Try again." };
     }
     signupId = inserted.id;
+    await addToWaitlist(db, { fullName, email, phone });
   }
 
   const link = await createPilotPaymentLink({

@@ -23,9 +23,11 @@ export default function WaitlistModal() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
+  const [heardFrom, setHeardFrom] = useState("");
   const [genderError, setGenderError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [heardFromError, setHeardFromError] = useState("");
   const [consentChecked, setConsentChecked] = useState(false);
   const [ageChecked, setAgeChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,9 +51,11 @@ export default function WaitlistModal() {
       setEmail("");
       setPhone("");
       setGender("");
+      setHeardFrom("");
       setGenderError("");
       setEmailError("");
       setPhoneError("");
+      setHeardFromError("");
       setApiError("");
       setConsentChecked(false);
       setAgeChecked(false);
@@ -83,6 +87,10 @@ export default function WaitlistModal() {
       setGenderError("Please select an option");
       return;
     }
+    if (!heardFrom) {
+      setHeardFromError("Please select an option");
+      return;
+    }
     if (!validateEmail(email)) return;
     if (!validatePhone(phone)) return;
     if (!consentChecked || !ageChecked) return;
@@ -91,7 +99,7 @@ export default function WaitlistModal() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, gender }),
+        body: JSON.stringify({ name, email, phone, gender, heardFrom }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -238,9 +246,23 @@ export default function WaitlistModal() {
               <span style={{ color: "var(--terracotta)", fontWeight: 600 }}>100 exclusive members</span>{" "}
               at the University of Melbourne.
             </p>
-            <button className="neon-btn" onClick={onClose} style={{ fontSize: "0.8rem" }}>
-              Done
-            </button>
+            <p style={{ fontSize: "0.78rem", color: "rgba(43,27,18,0.6)", lineHeight: 1.6, maxWidth: "28ch", margin: "0 auto 1rem" }}>
+              While you wait, follow us on Instagram for behind-the-scenes and date inspo.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.6rem" }}>
+              <a
+                href="https://www.instagram.com/campuscrush_uni/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-btn"
+                style={{ fontSize: "0.8rem" }}
+              >
+                Follow @campuscrush_uni →
+              </a>
+              <button className="neon-btn" onClick={onClose} style={{ fontSize: "0.8rem" }}>
+                Done
+              </button>
+            </div>
           </div>
         ) : (
           /* ── Form state ── */
@@ -317,6 +339,41 @@ export default function WaitlistModal() {
               {genderError && (
                 <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
                   {genderError}
+                </p>
+              )}
+            </div>
+
+            {/* How did you hear about us */}
+            <div>
+              <label htmlFor="waitlist-heard-from" style={labelStyle}>How did you hear about us?</label>
+              <select
+                id="waitlist-heard-from"
+                value={heardFrom}
+                onChange={(e) => { setHeardFrom(e.target.value); if (heardFromError) setHeardFromError(""); }}
+                style={{
+                  ...inputStyle,
+                  colorScheme: "light",
+                  appearance: "none",
+                  cursor: "pointer",
+                  color: heardFrom ? "var(--ink)" : "rgba(43,27,18,0.45)",
+                  borderColor: heardFromError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232B1B12' fill-opacity='0.5' d='M6 8L0 0h12z'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 1rem center",
+                }}
+              >
+                <option value="" disabled style={{ color: "rgba(43,27,18,0.45)", background: "var(--parchment)" }}>Select…</option>
+                <option value="instagram" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Instagram</option>
+                <option value="tiktok" style={{ color: "var(--ink)", background: "var(--parchment)" }}>TikTok</option>
+                <option value="friend" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Friend or word of mouth</option>
+                <option value="poster" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Poster or flyer on campus</option>
+                <option value="campus-event" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Campus event or stall</option>
+                <option value="other" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Other</option>
+              </select>
+              {heardFromError && (
+                <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                  {heardFromError}
                 </p>
               )}
             </div>

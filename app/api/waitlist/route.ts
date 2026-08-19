@@ -7,6 +7,15 @@ export const dynamic = "force-dynamic";
 
 const GENDERS = ["male", "female", "non-binary", "other"];
 
+const HEARD_FROM_OPTIONS = [
+  "instagram",
+  "tiktok",
+  "friend",
+  "poster",
+  "campus-event",
+  "other",
+];
+
 // The first 80 real signups are founding members — with the +20 momentum
 // padding shown on the site, they fill the displayed 100-spot goal. Anyone
 // who joins after the countdown hits 0 doesn't get the tag.
@@ -23,7 +32,7 @@ const UNI_DOMAINS = [
 ];
 
 export async function POST(req: NextRequest) {
-  const { name, email, gender, phone: phoneRaw } = await req.json();
+  const { name, email, gender, phone: phoneRaw, heardFrom } = await req.json();
 
   if (!name?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
@@ -31,6 +40,13 @@ export async function POST(req: NextRequest) {
 
   if (!GENDERS.includes(gender)) {
     return NextResponse.json({ error: "Please select a gender." }, { status: 400 });
+  }
+
+  if (!HEARD_FROM_OPTIONS.includes(heardFrom)) {
+    return NextResponse.json(
+      { error: "Please let us know how you heard about us." },
+      { status: 400 }
+    );
   }
 
   const phone = normalisePhone(String(phoneRaw ?? ""));
@@ -67,6 +83,7 @@ export async function POST(req: NextRequest) {
     email: cleanEmail,
     phone,
     gender,
+    heard_from: heardFrom,
     university: matchedUni.university,
     founding_member: foundingMember,
   });
