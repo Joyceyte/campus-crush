@@ -18,7 +18,7 @@ const pillars = [
       <img src="/twemoji/2615.png" width="40" height="40" alt="" aria-hidden="true" />
     ),
     title: "Public, low-key dates",
-    desc: "Every first date is somewhere public and relaxed: a cafe, a gallery, or a walk, planned for you. Familiar, safe, zero pressure.",
+    desc: "Every first date is somewhere public and relaxed: a cafe, restaurant or even a darts session planned for you. Familiar, safe, zero pressure.",
   },
 ];
 

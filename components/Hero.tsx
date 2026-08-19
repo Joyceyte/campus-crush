@@ -37,7 +37,7 @@ const steps = [
   {
     number: "01",
     title: "Tell us who you are",
-    desc: "A short conversation with our AI. Not a quiz. We pick up on things you wouldn't think to write in a bio.",
+    desc: "A short conversation with our AI. We pick up on things you wouldn't think to write in a bio.",
     paper: "scrap-card--ruled",
     tilt: -1.6,
     tapeTilt: -5,

@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Do I write a profile or bio?",
-    a: "No. Your profile is built from your conversation with the AI, not a bio you craft. You can fix factual details like your faculty or year and set your dealbreakers, but you can't rewrite it — that honesty is the whole point.",
+    a: "No. Your profile is built from your conversation with the AI, not a bio you craft. You can fix factual details and set your dealbreakers, but you can't rewrite it (gotta be authentic!).",
   },
   {
     q: "Who can join Campus Crush?",

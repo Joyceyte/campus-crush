@@ -241,12 +241,10 @@ export default function WaitlistModal() {
             >
               You&apos;re in!
             </h2>
-            <p style={{ fontSize: "0.85rem", color: "rgba(43,27,18,0.7)", lineHeight: 1.7, maxWidth: "28ch", margin: "0 auto 1.5rem" }}>
-              This is your in on Campus Crush. We&apos;re launching once we hit our first{" "}
-              <span style={{ color: "var(--terracotta)", fontWeight: 600 }}>100 exclusive members</span>{" "}
-              at the University of Melbourne.
+            <p style={{ fontSize: "0.85rem", color: "rgba(43,27,18,0.7)", lineHeight: 1.7, maxWidth: "28ch", margin: "0 auto 1rem" }}>
+              We&apos;ll let you know when our general launch opens! Stay tuned!
             </p>
-            <p style={{ fontSize: "0.78rem", color: "rgba(43,27,18,0.6)", lineHeight: 1.6, maxWidth: "28ch", margin: "0 auto 1rem" }}>
+            <p style={{ fontSize: "0.85rem", color: "rgba(43,27,18,0.7)", lineHeight: 1.7, maxWidth: "28ch", margin: "0 auto 1.5rem" }}>
               While you wait, follow us on Instagram for behind-the-scenes and date inspo.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.6rem" }}>
