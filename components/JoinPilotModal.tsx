@@ -152,6 +152,20 @@ export default function JoinPilotModal() {
             </select>
           </Field>
 
+          <Field label="How did you hear about us?">
+            <select name="heard_from" required defaultValue="" style={inputStyle}>
+              <option value="" disabled>
+                Select…
+              </option>
+              <option value="instagram">Instagram</option>
+              <option value="tiktok">TikTok</option>
+              <option value="friend">Friend or word of mouth</option>
+              <option value="poster">Poster or flyer on campus</option>
+              <option value="campus-event">Campus event or stall</option>
+              <option value="other">Other</option>
+            </select>
+          </Field>
+
           <div>
             <label
               style={{

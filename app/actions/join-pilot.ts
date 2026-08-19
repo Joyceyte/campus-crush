@@ -14,6 +14,7 @@ import {
   pilotIsOpen,
   PILOT_UNIVERSITY,
   GENDERS,
+  HEARD_FROM_OPTIONS,
 } from "@/lib/pilot";
 
 /**
@@ -32,7 +33,7 @@ export type JoinPilotState = { error?: string; notice?: string };
 // with nulls.
 async function addToWaitlist(
   db: ReturnType<typeof supabaseAdmin>,
-  opts: { fullName: string; email: string; phone: string; gender: string }
+  opts: { fullName: string; email: string; phone: string; gender: string; heardFrom: string }
 ) {
   try {
     const { error } = await db.from("waitlist").upsert(
@@ -41,6 +42,7 @@ async function addToWaitlist(
         email: opts.email,
         phone: opts.phone,
         gender: opts.gender,
+        heard_from: opts.heardFrom,
         university: PILOT_UNIVERSITY,
         founding_member: false,
       },
@@ -78,6 +80,7 @@ export async function joinPilot(
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phoneRaw = String(formData.get("phone") ?? "").trim();
   const gender = String(formData.get("gender") ?? "").trim();
+  const heardFrom = String(formData.get("heard_from") ?? "").trim();
   const over18 = formData.get("over_18") === "on";
   const wantsFriend = formData.get("signup_with_friend") === "on";
   const friendEmailRaw = String(formData.get("friend_email") ?? "").trim().toLowerCase();
@@ -95,6 +98,9 @@ export async function joinPilot(
   }
   if (!GENDERS.includes(gender)) {
     return { error: "Please select a gender." };
+  }
+  if (!HEARD_FROM_OPTIONS.includes(heardFrom)) {
+    return { error: "Please let us know how you heard about us." };
   }
   if (!over18) return { error: "You need to confirm you're over 18 to join." };
 
@@ -159,6 +165,7 @@ export async function joinPilot(
         email,
         phone,
         gender,
+        heard_from: heardFrom,
         university: PILOT_UNIVERSITY,
         friend_email: friendEmail,
         over_18_confirmed_at: new Date().toISOString(),
@@ -193,7 +200,7 @@ export async function joinPilot(
       return { error: "Something went wrong saving your details. Try again." };
     } else {
       signupId = inserted.id;
-      await addToWaitlist(db, { fullName, email, phone, gender });
+      await addToWaitlist(db, { fullName, email, phone, gender, heardFrom });
     }
 
     if (!signupId) {

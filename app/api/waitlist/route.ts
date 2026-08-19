@@ -1,18 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
-import { normalisePhone, GENDERS } from "@/lib/pilot";
+import { normalisePhone, GENDERS, HEARD_FROM_OPTIONS } from "@/lib/pilot";
 
 export const dynamic = "force-dynamic";
-
-const HEARD_FROM_OPTIONS = [
-  "instagram",
-  "tiktok",
-  "friend",
-  "poster",
-  "campus-event",
-  "other",
-];
 
 // The first 80 real signups are founding members — with the +20 momentum
 // padding shown on the site, they fill the displayed 100-spot goal. Anyone
