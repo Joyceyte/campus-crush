@@ -9,7 +9,7 @@ export default function InstagramShowcase() {
       aria-labelledby="instagram-showcase-heading"
       style={{
         background: "var(--parchment)",
-        padding: "3.5rem 1.25rem",
+        padding: "2.5rem 1.25rem",
         textAlign: "center",
       }}
     >
@@ -23,8 +23,7 @@ export default function InstagramShowcase() {
           color: "var(--terracotta)",
           marginBottom: "2rem",
         }}
-      >
-        Follow us to see more!
+      > Follow us to see more!
       </h2>
       <InstagramEmbed url="https://www.instagram.com/reel/DcNrrIlhsH_/" />
     </section>

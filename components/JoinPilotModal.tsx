@@ -21,6 +21,18 @@ export default function JoinPilotModal() {
     return () => window.removeEventListener("open-join-pilot", onOpen);
   }, []);
 
+  // Lets a link (e.g. an email CTA) open the popup directly via
+  // ?open=join-pilot, instead of only ever being reachable by clicking a
+  // button on the page. Strips the param afterward so a refresh or back-nav
+  // doesn't reopen it and the URL stays clean if someone shares it.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("open") !== "join-pilot") return;
+    setOpen(true);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("open");
+    window.history.replaceState(null, "", url);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
