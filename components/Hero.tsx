@@ -258,7 +258,7 @@ export default function Hero() {
 
       {/* ── Fold 2: User journey — scrapbook spread ── */}
       <section
-        id="how-it-works"
+        id="user-journey"
         aria-labelledby="how-it-works-heading"
         className="grain"
         style={{

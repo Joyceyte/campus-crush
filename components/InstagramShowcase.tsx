@@ -6,8 +6,10 @@ import InstagramEmbed from "@/components/InstagramEmbed";
 export default function InstagramShowcase() {
   return (
     <section
+      id="how-it-works"
       aria-labelledby="instagram-showcase-heading"
       style={{
+        scrollMarginTop: "5rem",
         background: "var(--parchment)",
         padding: "2.5rem 1.25rem",
         textAlign: "center",
