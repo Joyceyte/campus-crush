@@ -103,6 +103,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  /* Sticky footer: on short pages (contact, a lightly-populated blog index,
+     a short post) main grows to fill the viewport instead of leaving the
+     footer stranded partway down. Navbar and the modals are all
+     position:fixed, so they're out of flow and unaffected by this. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Jersey 25 — display/heading font only */

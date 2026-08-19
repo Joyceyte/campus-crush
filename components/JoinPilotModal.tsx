@@ -128,6 +128,18 @@ export default function JoinPilotModal() {
             />
           </Field>
 
+          <Field label="Gender">
+            <select name="gender" required defaultValue="" style={inputStyle}>
+              <option value="" disabled>
+                Select…
+              </option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
+              <option value="other">Other</option>
+            </select>
+          </Field>
+
           <div>
             <label
               style={{

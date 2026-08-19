@@ -65,7 +65,7 @@ export default async function BlogPostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Navbar />
-      <main id="main-content" style={{ background: "var(--parchment)", paddingTop: "8rem", paddingBottom: "5rem" }}>
+      <main id="main-content" style={{ background: "var(--parchment)", paddingTop: "8rem", paddingBottom: "5rem", flex: "1 0 auto" }}>
         <article style={{ maxWidth: "42rem", margin: "0 auto", padding: "0 1.5rem", lineHeight: 1.65, fontSize: "0.95rem" }}>
           <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem", color: "var(--ink)" }}>{post.title}</h1>
           <p style={{ marginBottom: "2rem", color: "rgba(43,27,18,0.55)", fontSize: "0.85rem" }}>

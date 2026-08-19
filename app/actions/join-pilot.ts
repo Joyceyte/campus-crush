@@ -13,6 +13,7 @@ import {
   normalisePhone,
   pilotIsOpen,
   PILOT_UNIVERSITY,
+  GENDERS,
 } from "@/lib/pilot";
 
 /**
@@ -31,7 +32,7 @@ export type JoinPilotState = { error?: string; notice?: string };
 // with nulls.
 async function addToWaitlist(
   db: ReturnType<typeof supabaseAdmin>,
-  opts: { fullName: string; email: string; phone: string }
+  opts: { fullName: string; email: string; phone: string; gender: string }
 ) {
   try {
     const { error } = await db.from("waitlist").upsert(
@@ -39,6 +40,7 @@ async function addToWaitlist(
         name: opts.fullName,
         email: opts.email,
         phone: opts.phone,
+        gender: opts.gender,
         university: PILOT_UNIVERSITY,
         founding_member: false,
       },
@@ -75,6 +77,7 @@ export async function joinPilot(
   const fullName = String(formData.get("full_name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phoneRaw = String(formData.get("phone") ?? "").trim();
+  const gender = String(formData.get("gender") ?? "").trim();
   const over18 = formData.get("over_18") === "on";
   const wantsFriend = formData.get("signup_with_friend") === "on";
   const friendEmailRaw = String(formData.get("friend_email") ?? "").trim().toLowerCase();
@@ -89,6 +92,9 @@ export async function joinPilot(
   const phone = normalisePhone(phoneRaw);
   if (!phone) {
     return { error: "Please enter a valid Australian mobile number, e.g. 0412 345 678." };
+  }
+  if (!GENDERS.includes(gender)) {
+    return { error: "Please select a gender." };
   }
   if (!over18) return { error: "You need to confirm you're over 18 to join." };
 
@@ -152,6 +158,7 @@ export async function joinPilot(
         full_name: fullName,
         email,
         phone,
+        gender,
         university: PILOT_UNIVERSITY,
         friend_email: friendEmail,
         over_18_confirmed_at: new Date().toISOString(),
@@ -161,12 +168,38 @@ export async function joinPilot(
       .select("id")
       .single();
 
-    if (insertError || !inserted) {
+    if (insertError?.code === "23505") {
+      // A concurrent request for the same email (a double-click, or a retry
+      // that raced the first attempt) won the insert a moment ago. Recover
+      // by picking up that row instead of showing an error for something
+      // that actually succeeded.
+      const { data: raced } = await db
+        .from("pilot_signups")
+        .select("id, payment_status, square_payment_link_url")
+        .eq("email", email)
+        .maybeSingle();
+      if (raced?.payment_status === "paid") {
+        return {
+          notice:
+            "You're already signed up! This email has joined the semester 2 pilot — check your inbox for your confirmation email.",
+        };
+      }
+      if (raced?.square_payment_link_url) {
+        redirect(raced.square_payment_link_url);
+      }
+      signupId = raced?.id;
+    } else if (insertError || !inserted) {
       console.error("joinPilot: insert failed:", insertError);
       return { error: "Something went wrong saving your details. Try again." };
+    } else {
+      signupId = inserted.id;
+      await addToWaitlist(db, { fullName, email, phone, gender });
     }
-    signupId = inserted.id;
-    await addToWaitlist(db, { fullName, email, phone });
+
+    if (!signupId) {
+      console.error("joinPilot: insert race unresolved for", email);
+      return { error: "Something went wrong saving your details. Try again." };
+    }
   }
 
   const link = await createPilotPaymentLink({

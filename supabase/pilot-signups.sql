@@ -19,6 +19,7 @@ create table if not exists public.pilot_signups (
   email                      text not null unique,   -- lowercased UniMelb address
   phone                      text not null,          -- E.164, e.g. +61412345678
   university                 text,
+  gender                     text,   -- male / female / non-binary / other
   -- Opt-in "sign up with a friend" for a group date. Honor system: not
   -- verified against a matching row on the friend's own signup — the team
   -- manually cross-checks both people signed up when pairing weekly matches.
@@ -59,7 +60,9 @@ create index if not exists pilot_signups_square_order_id_idx
 -- server using the service-role key, which bypasses RLS by design.
 alter table public.pilot_signups enable row level security;
 
--- Migration for a pilot_signups table created before friend_email existed.
--- Safe to re-run: no-op if the column is already there.
+-- Migrations for a pilot_signups table created before these columns
+-- existed. Safe to re-run: no-op if a column is already there.
 alter table public.pilot_signups
   add column if not exists friend_email text;
+alter table public.pilot_signups
+  add column if not exists gender text;

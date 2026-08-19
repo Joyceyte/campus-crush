@@ -17,7 +17,9 @@ export default function ContactPage() {
           background: "var(--parchment)",
           paddingTop: "8rem",
           paddingBottom: "5rem",
-          minHeight: "60vh",
+          flex: "1 0 auto",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <div style={{ maxWidth: "42rem", margin: "0 auto", padding: "0 1.5rem", textAlign: "center" }}>

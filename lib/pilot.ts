@@ -3,6 +3,7 @@
 
 export const PILOT_EMAIL_SUFFIX = "@student.unimelb.edu.au";
 export const PILOT_UNIVERSITY = "University of Melbourne";
+export const GENDERS = ["male", "female", "non-binary", "other"];
 
 // Signups close at end of day 1 September 2026, Melbourne time (UTC+10).
 export const PILOT_CLOSES_AT = new Date("2026-09-01T23:59:59+10:00");

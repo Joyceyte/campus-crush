@@ -303,7 +303,7 @@ export default function WaitlistModal() {
               <input
                 id="waitlist-name"
                 type="text"
-                placeholder="First name"
+                placeholder="Full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={inputStyle}

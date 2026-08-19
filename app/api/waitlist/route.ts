@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
-import { normalisePhone } from "@/lib/pilot";
+import { normalisePhone, GENDERS } from "@/lib/pilot";
 
 export const dynamic = "force-dynamic";
-
-const GENDERS = ["male", "female", "non-binary", "other"];
 
 const HEARD_FROM_OPTIONS = [
   "instagram",
