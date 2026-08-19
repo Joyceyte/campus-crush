@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 import LaunchBanner from "@/components/LaunchBanner";
-import PilotCountdown from "@/components/PilotCountdown";
 import InstagramShowcase from "@/components/InstagramShowcase";
 
 // Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
@@ -196,12 +195,7 @@ export default function Hero() {
               </button>
             </div>
             <div style={{ marginTop: '1.1rem' }}>
-              {/* The deadline takes the slot the countdown used to occupy. A
-                  live number here would read as "spots left in the pilot",
-                  which is not what it counted — the pilot closes on a date. */}
-              {/* minHeight reserves the row so the countdown appearing after
-                  hydration doesn't shift the link below it. */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap', minHeight: '1.6em' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap' }}>
                 <span
                   className="font-jersey"
                   style={{
@@ -215,10 +209,8 @@ export default function Hero() {
                   ✦
                 </span>
                 <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(43,27,18,0.85)' }}>
-                  closes 1 september 2026
+                  closing soon
                 </span>
-                <span aria-hidden="true" style={{ fontSize: '0.72rem', color: 'rgba(43,27,18,0.35)' }}>·</span>
-                <PilotCountdown />
               </div>
               <button
                 type="button"
@@ -254,6 +246,13 @@ export default function Hero() {
         {/* Typing banner — a grid row of the hero, so it stays in the first fold */}
         <LaunchBanner />
       </section>
+
+      {/* Bouncing hint that there's more below the fold */}
+      <div className="scroll-hint" aria-hidden="true">
+        <span className="font-jersey" style={{ fontSize: '1.5rem', color: 'var(--terracotta)' }}>
+          ↓
+        </span>
+      </div>
 
       <InstagramShowcase />
 

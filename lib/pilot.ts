@@ -8,7 +8,14 @@ export const GENDERS = ["male", "female", "non-binary", "other"];
 // Signups close at end of day 1 September 2026, Melbourne time (UTC+10).
 export const PILOT_CLOSES_AT = new Date("2026-09-01T23:59:59+10:00");
 
+// Paused 19 Aug 2026: the actual pilot launch date is unconfirmed, so
+// signups stay open past PILOT_CLOSES_AT until this is flipped back to
+// false. Kept as an explicit toggle rather than deleting the cutoff logic,
+// so re-enabling it later is a one-line change.
+const CUTOFF_PAUSED = true;
+
 export function pilotIsOpen(now: Date = new Date()) {
+  if (CUTOFF_PAUSED) return true;
   return now <= PILOT_CLOSES_AT;
 }
 

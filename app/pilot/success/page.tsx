@@ -111,8 +111,8 @@ function YoureIn({ name }: { name: string }) {
         </a>
       </p>
       <p style={body}>
-        Follow us on Instagram for behind-the-scenes and date inspo while you
-        wait.
+        Follow us on Instagram and TikTok for behind-the-scenes and date
+        inspo while you wait.
       </p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
         <a
@@ -121,7 +121,15 @@ function YoureIn({ name }: { name: string }) {
           rel="noopener noreferrer"
           className="glass-btn"
         >
-          Follow @campuscrush_uni →
+          Instagram →
+        </a>
+        <a
+          href="https://www.tiktok.com/@campus_crush.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="glass-btn"
+        >
+          TikTok →
         </a>
         <Link href="/" className="neon-btn" style={{ display: "inline-flex" }}>
           Back to home

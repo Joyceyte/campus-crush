@@ -35,17 +35,28 @@ export default function ContactPage() {
           </a>
 
           <p style={{ margin: "2rem 0 1rem", color: "rgba(43,27,18,0.75)", fontSize: "0.95rem" }}>
-            Or DM us on Instagram!
+            Or DM us on Instagram or TikTok!
           </p>
-          <a
-            href="https://www.instagram.com/campuscrush_uni/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-btn"
-            aria-label="Campus Crush (@campuscrush_uni) on Instagram"
-          >
-            Follow @campuscrush_uni
-          </a>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.75rem" }}>
+            <a
+              href="https://www.instagram.com/campuscrush_uni/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-btn"
+              aria-label="Campus Crush (@campuscrush_uni) on Instagram"
+            >
+              Follow @campuscrush_uni on Instagram
+            </a>
+            <a
+              href="https://www.tiktok.com/@campus_crush.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-btn"
+              aria-label="Campus Crush (@campus_crush.org) on TikTok"
+            >
+              Follow @campus_crush.org on TikTok
+            </a>
+          </div>
         </div>
       </main>
       <Footer />

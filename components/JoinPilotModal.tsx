@@ -102,8 +102,8 @@ export default function JoinPilotModal() {
             margin: "0 0 1.5rem",
           }}
         >
-          Semester 2, 2026 · UniMelb · $5 to secure your spot. Signups close 1
-          September.
+          Semester 2, 2026 · UniMelb · $5 to secure your spot. Signups
+          closing soon.
         </p>
 
         <form action={formAction} style={{ display: "grid", gap: "1rem" }}>

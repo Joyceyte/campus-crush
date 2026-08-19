@@ -625,6 +625,18 @@ body {
   .type-cursor { animation: none; }
 }
 
+/* ── Scroll-down hint below the hero's typing banner ── */
+.scroll-hint {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0;
+  animation: bounce-down 1.8s ease-in-out infinite;
+}
+@keyframes bounce-down {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
 /* ── Spots-left row: centered under the CTA on mobile (hero text is
    centered there), left-aligned on the desktop navy panel ── */
 .spots-row { justify-content: center; }
