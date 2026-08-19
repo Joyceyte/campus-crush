@@ -112,8 +112,11 @@ Read `references/brand-and-copy.md` before writing any copy.
 Block types: bare string (paragraph), `{type:"h2"}` (terracotta uppercase
 subheading with an accent rule), `{type:"list", items:[]}`, `{type:"callout"}`
 (cream panel with a terracotta left edge — for the one line that must be read),
-`{type:"divider"}`. Block content is emitted as raw HTML so `<strong>` and `<a>`
-work — wrap any value from the database in `esc()` from `template.mjs`.
+`{type:"divider"}`, `{type:"cta", label, url}` (the same Outlook-safe button
+as the trailing `cta` config field, but placeable anywhere in the body — use
+this instead of `cta` when the button needs to sit mid-email). Block content
+is emitted as raw HTML so `<strong>` and `<a>` work — wrap any value from the
+database in `esc()` from `template.mjs`.
 
 Anything longer than three paragraphs needs at least one `h2`. Flat paragraph
 walls are what make an email look amateur.

@@ -56,10 +56,26 @@ function normalizeBlock(block) {
   if (typeof block === "string") return { type: "p", text: block };
   if (!block || typeof block !== "object" || !block.type) {
     throw new Error(
-      `Invalid block: expected a string or { type: 'p' | 'h2' | 'list' | 'callout' | 'divider' }, got ${JSON.stringify(block)}`
+      `Invalid block: expected a string or { type: 'p' | 'h2' | 'list' | 'callout' | 'divider' | 'cta' }, got ${JSON.stringify(block)}`
     );
   }
   return block;
+}
+
+/**
+ * Outlook-safe button markup, shared by the trailing `cta` field and the
+ * inline `{type:"cta"}` block — a table cell with a background colour
+ * rather than a styled <a>, because Outlook drops padding/background on
+ * anchors.
+ */
+function renderButtonTable(label, url, marginBottom) {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 ${marginBottom}px;">
+                  <tr>
+                    <td style="background:${PALETTE.accent};border-radius:4px;">
+                      <a href="${url}" style="display:inline-block;padding:15px 34px;${BODY_FONT}font-size:16px;font-weight:600;letter-spacing:0.01em;line-height:1;color:${PALETTE.onAccent};text-decoration:none;">${label}</a>
+                    </td>
+                  </tr>
+                </table>`;
 }
 
 function renderBlock(block) {
@@ -100,6 +116,15 @@ function renderBlock(block) {
     case "divider":
       return `<div style="height:1px;line-height:1px;font-size:1px;background:${PALETTE.hairline};margin:30px 0;">&nbsp;</div>`;
 
+    // Same button as the trailing `cta` field, but placeable anywhere in
+    // the body — use this instead of `cta` when the button needs to sit
+    // mid-email rather than at the very end.
+    case "cta":
+      if (!b.label || !b.url) {
+        throw new Error("cta block requires both `label` and `url`");
+      }
+      return renderButtonTable(b.label, b.url, 24);
+
     default:
       throw new Error(`Unknown block type: ${b.type}`);
   }
@@ -116,13 +141,7 @@ function renderCta(cta) {
     throw new Error("cta requires both `label` and `url`");
   }
   return `
-                <table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 30px;">
-                  <tr>
-                    <td style="background:${PALETTE.accent};border-radius:4px;">
-                      <a href="${cta.url}" style="display:inline-block;padding:15px 34px;${BODY_FONT}font-size:16px;font-weight:600;letter-spacing:0.01em;line-height:1;color:${PALETTE.onAccent};text-decoration:none;">${cta.label}</a>
-                    </td>
-                  </tr>
-                </table>`;
+                ${renderButtonTable(cta.label, cta.url, 30)}`;
 }
 
 /**
@@ -278,6 +297,7 @@ export function renderBroadcastText({
       for (const item of b.items ?? []) lines.push(`- ${strip(item)}`);
       lines.push("");
     } else if (b.type === "divider") lines.push("---", "");
+    else if (b.type === "cta") lines.push(`${strip(b.label)}: ${b.url}`, "");
   }
 
   if (cta) lines.push(`${strip(cta.label)}: ${cta.url}`, "");
