@@ -1,8 +1,33 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useSignupCount } from "@/lib/useSignupCount";
 import { normalisePhone } from "@/lib/pilot";
 import { markSignedUp } from "@/lib/founders-note";
+
+// Lets a link (e.g. a blog post) open the popup directly via ?open=waitlist,
+// mirroring the same pattern JoinPilotModal uses. Split into its own
+// component, wrapped in Suspense below, because useSearchParams() requires
+// that; it's what makes this fire on an in-app client-side navigation too,
+// not just a fresh page load — WaitlistModal lives in the root layout and
+// never unmounts between pages, so a plain "read window.location.search
+// once on mount" effect would only ever catch the very first page load of a
+// session.
+function OpenFromQueryParam({ onOpen }: { onOpen: () => void }) {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("open") !== "waitlist") return;
+    onOpen();
+    // Strips the param afterward so a refresh or back-nav doesn't reopen it.
+    const url = new URL(window.location.href);
+    url.searchParams.delete("open");
+    window.history.replaceState(null, "", url);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  return null;
+}
 
 // Mirrors the accepted domains in app/api/waitlist/route.ts — kept here too
 // so the modal can give instant feedback before hitting the API.
@@ -42,17 +67,6 @@ export default function WaitlistModal() {
     }
     window.addEventListener("open-waitlist", handleOpen);
     return () => window.removeEventListener("open-waitlist", handleOpen);
-  }, []);
-
-  // Lets a link (e.g. a blog post) open the popup directly via
-  // ?open=waitlist, mirroring the same pattern JoinPilotModal uses. Strips
-  // the param afterward so a refresh or back-nav doesn't reopen it.
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("open") !== "waitlist") return;
-    setIsOpen(true);
-    const url = new URL(window.location.href);
-    url.searchParams.delete("open");
-    window.history.replaceState(null, "", url);
   }, []);
 
   function onClose() {
@@ -127,7 +141,13 @@ export default function WaitlistModal() {
     }
   }
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return (
+      <Suspense fallback={null}>
+        <OpenFromQueryParam onOpen={() => setIsOpen(true)} />
+      </Suspense>
+    );
+  }
 
   const inputStyle: React.CSSProperties = {
     background: "var(--parchment)",

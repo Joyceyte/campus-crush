@@ -1,7 +1,33 @@
 "use client";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { Suspense, useActionState, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { joinPilot, type JoinPilotState } from "@/app/actions/join-pilot";
+
+// Lets a link (e.g. an email CTA, or a link on another page) open the popup
+// directly via ?open=join-pilot, instead of only ever being reachable by
+// clicking a button. Split into its own component, wrapped in Suspense
+// below, because useSearchParams() requires that; it's what makes this fire
+// on an in-app client-side navigation too, not just a fresh page load —
+// JoinPilotModal lives in the root layout and never unmounts between pages,
+// so a plain "read window.location.search once on mount" effect would only
+// ever catch the very first page load of a session.
+function OpenFromQueryParam({ onOpen }: { onOpen: () => void }) {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("open") !== "join-pilot") return;
+    onOpen();
+    // Strips the param afterward so a refresh or back-nav doesn't reopen it
+    // and the URL stays clean if someone shares it.
+    const url = new URL(window.location.href);
+    url.searchParams.delete("open");
+    window.history.replaceState(null, "", url);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  return null;
+}
 
 // Opened by dispatching `open-join-pilot` on window, mirroring the existing
 // `open-waitlist` pattern so any CTA anywhere can trigger it without prop
@@ -22,18 +48,6 @@ export default function JoinPilotModal() {
     return () => window.removeEventListener("open-join-pilot", onOpen);
   }, []);
 
-  // Lets a link (e.g. an email CTA) open the popup directly via
-  // ?open=join-pilot, instead of only ever being reachable by clicking a
-  // button on the page. Strips the param afterward so a refresh or back-nav
-  // doesn't reopen it and the URL stays clean if someone shares it.
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("open") !== "join-pilot") return;
-    setOpen(true);
-    const url = new URL(window.location.href);
-    url.searchParams.delete("open");
-    window.history.replaceState(null, "", url);
-  }, []);
-
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -48,7 +62,13 @@ export default function JoinPilotModal() {
     };
   }, [open]);
 
-  if (!open) return null;
+  if (!open) {
+    return (
+      <Suspense fallback={null}>
+        <OpenFromQueryParam onOpen={() => setOpen(true)} />
+      </Suspense>
+    );
+  }
 
   return (
     <div

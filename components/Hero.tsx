@@ -176,6 +176,19 @@ export default function Hero() {
           </div>
 
           <div>
+            <Link
+              href="/blog/what-is-the-pilot"
+              style={{
+                display: 'block',
+                marginBottom: '0.7rem',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                color: 'rgba(43,27,18,0.6)',
+                textDecoration: 'underline',
+              }}
+            >
+              What is the pilot? →
+            </Link>
             <div style={{ position: "relative", display: "inline-block" }}>
               <svg
                 width="16"
@@ -195,20 +208,7 @@ export default function Hero() {
                 Join the pilot →
               </button>
             </div>
-            <Link
-              href="/blog/what-is-the-pilot"
-              style={{
-                display: 'block',
-                marginTop: '0.7rem',
-                fontSize: '0.9rem',
-                fontWeight: 700,
-                color: 'rgba(43,27,18,0.6)',
-                textDecoration: 'underline',
-              }}
-            >
-              What is the pilot? →
-            </Link>
-            <div className="hero-closing-link" style={{ marginTop: '1.1rem' }}>
+            <div className="hero-closing-link" style={{ marginTop: '0.5rem' }}>
               <div className="hero-closing-row" style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap' }}>
                 <span
                   className="font-jersey"
@@ -230,7 +230,7 @@ export default function Hero() {
                 type="button"
                 onClick={openWaitlist}
                 style={{
-                  marginTop: '0.7rem',
+                  marginTop: '1.1rem',
                   background: 'none',
                   border: 'none',
                   padding: 0,

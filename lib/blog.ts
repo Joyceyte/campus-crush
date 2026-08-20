@@ -12,6 +12,27 @@ export interface BlogPost {
   content: string;
 }
 
+/** Turns a "## " heading's text into a URL-safe anchor id. */
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
+/** Pulls out a post's "## " headings, for building an in-page jump-to nav. */
+export function getHeadings(content: string): { id: string; text: string }[] {
+  return content
+    .trim()
+    .split(/\n\n+/)
+    .filter((block) => block.startsWith("## "))
+    .map((block) => {
+      const text = block.replace(/^##\s*/, "").trim();
+      return { id: slugify(text), text };
+    });
+}
+
 const SAFETY_CONTENT = `
 We built Campus Crush so you'd meet great people, and we want every date to feel safe. Here's the stuff we'd tell our own friends before a first date, plus every UniMelb safety resource worth having in your phone.
 
@@ -78,7 +99,7 @@ Have fun out there. Text your friend when you're home.
 `;
 
 const PILOT_CONTENT = `
-Campus Crush is launching its first real-world test this semester, our pilot. Here's exactly what it is, who it's for, and what joining actually involves.
+**Every week for the duration of the pilot, you'll get matched with another student, and go on a date at one of our partnered venues with discounts or freebies included.**
 
 This is your chance to be one of our first users and shape campus crush into something you genuinely want.
 
@@ -92,7 +113,7 @@ Once you join, you're matched with another student based on dating intentions, v
 
 ## The date itself
 
-If you both accept the match, we plan the date for you: time, place, even an icebreaker. It'll be at one of our partnered venues, with **discounts and freebies** included:
+If you both accept the match, we plan the date for you: time, place, even an icebreaker. It'll be at one of our partnered venues, with **discounts or freebies** included:
 
 - Flovie Florist Cafe
 - Prince Alfred Carlton
@@ -104,7 +125,7 @@ After the date, you'll get a short form asking how it went and what we can impro
 
 ## Cost and refunds
 
-Joining the pilot costs **$5** to secure your spot. Because it's a limited pilot, we can't guarantee everyone gets a perfect match, so come in with an open mind. If you don't get a match, you'll get a **full refund**.
+Joining the pilot costs just **$5** to secure your spot. Because it's a limited pilot, we can't guarantee everyone gets a perfect match, so come in with an open mind. If you don't get a match, you'll get a **full refund**.
 
 ## What happens after you join
 

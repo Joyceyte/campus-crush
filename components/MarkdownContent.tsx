@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { slugify } from "@/lib/blog";
 
 // Matches, in priority order: [text](url) links, <email@address> autolinks,
 // and **bold** spans. Link text is recursed into so bold can nest inside it.
@@ -71,12 +72,20 @@ export default function MarkdownContent({ content }: { content: string }) {
     <>
       {blocks.map((block, i) => {
         if (block.startsWith("## ")) {
+          const headingText = block.replace(/^##\s*/, "");
           return (
             <h2
               key={i}
-              style={{ fontSize: "1.15rem", marginTop: "2.25rem", marginBottom: "0.75rem", color: "var(--ink)" }}
+              id={slugify(headingText)}
+              style={{
+                fontSize: "1.15rem",
+                marginTop: "2.25rem",
+                marginBottom: "0.75rem",
+                color: "var(--ink)",
+                scrollMarginTop: "5rem",
+              }}
             >
-              {renderInline(block.replace(/^##\s*/, ""), `h-${i}`)}
+              {renderInline(headingText, `h-${i}`)}
             </h2>
           );
         }
