@@ -89,7 +89,8 @@ export async function createPilotPaymentLink(opts: {
         ask_for_shipping_address: false,
       },
       pre_populated_data: { buyer_email: opts.email },
-      description: "Secures your spot in the semester 2, 2026 Campus Crush pilot.",
+      description:
+        "Secures your spot in the semester 2, 2026 Campus Crush pilot as one of the first users who will be matched for dates at one of our venue partners. If you do not receive a match during the pilot, you will get a full refund.",
     }
   );
 
