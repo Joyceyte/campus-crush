@@ -144,6 +144,14 @@ export default function FoundersNote() {
             to any uni student, whether you&rsquo;re doing undergrad, masters,
             or PhD.
           </p>
+          <Link
+            href="/blog/what-is-the-pilot"
+            onClick={dismiss}
+            style={{ fontSize: "0.95rem", color: "var(--terracotta)", textDecoration: "underline" }}
+          >
+            What is the pilot? →
+          </Link>
+
           <button type="button" className="neon-btn" onClick={signUp}>
             Join UniMelb pilot →
           </button>
@@ -158,14 +166,6 @@ export default function FoundersNote() {
           >
             Closing soon
           </p>
-
-          <Link
-            href="/blog/what-is-the-pilot"
-            onClick={dismiss}
-            style={{ fontSize: "0.95rem", color: "var(--terracotta)", textDecoration: "underline" }}
-          >
-            What is the pilot? →
-          </Link>
 
           <p
             style={{
