@@ -119,7 +119,7 @@ If you both accept the match, we plan the date for you: time, place, even an ice
 - Prince Alfred Carlton
 - Another mystery venue
 
-**Note:** the date itself is still self-funded.
+**Note: the date itself is still self-funded.**
 
 After the date, you'll get a short form asking how it went and what we can improve. Since this is a pilot, **your feedback genuinely shapes what Campus Crush will be** for our general launch.
 
