@@ -8,6 +8,7 @@
 // student's data table would be actively wrong, so this always talks to
 // Square's production API regardless of SQUARE_ENVIRONMENT.
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { addToWaitlistSegment } from "@/lib/resend-segment";
 
 const SQUARE_ACCESS_TOKEN = process.env.SQUARE_ACCESS_TOKEN ?? "";
 const SQUARE_LOCATION_ID = process.env.SQUARE_LOCATION_ID ?? "";
@@ -168,6 +169,8 @@ export async function reconcilePilotOrder(
   } catch (err) {
     console.error("reconcilePilotOrder: waitlist upsert threw:", orderId, err);
   }
+
+  await addToWaitlistSegment(email, name.trim().split(/\s+/)[0]);
 
   return { status: "reconciled", email };
 }

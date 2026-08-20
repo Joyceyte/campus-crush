@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
 import { normalisePhone, GENDERS, HEARD_FROM_OPTIONS } from "@/lib/pilot";
+import { addToWaitlistSegment } from "@/lib/resend-segment";
 
 export const dynamic = "force-dynamic";
 
@@ -85,6 +86,7 @@ export async function POST(req: NextRequest) {
   }
 
   await sendWelcomeEmail(cleanName, cleanEmail);
+  await addToWaitlistSegment(cleanEmail, cleanName.split(/\s+/)[0]);
 
   return NextResponse.json({ ok: true });
 }

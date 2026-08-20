@@ -16,6 +16,7 @@ import {
   GENDERS,
   HEARD_FROM_OPTIONS,
 } from "@/lib/pilot";
+import { addToWaitlistSegment } from "@/lib/resend-segment";
 
 /**
  * `error` is something the student must fix. `notice` is information — it
@@ -31,6 +32,10 @@ export type JoinPilotState = { error?: string; notice?: string };
 // signup. `ignoreDuplicates` means an existing waitlist row — with its own
 // gender/heard_from answers — is left untouched rather than overwritten
 // with nulls.
+//
+// Also pushes straight to the Resend segment used for sends, not just the
+// Supabase table — otherwise this row only reaches campaigns whenever
+// someone next remembers to run the broadcast skill's manual sync.
 async function addToWaitlist(
   db: ReturnType<typeof supabaseAdmin>,
   opts: { fullName: string; email: string; phone: string; gender: string; heardFrom: string }
@@ -52,6 +57,8 @@ async function addToWaitlist(
   } catch (err) {
     console.error("joinPilot: waitlist upsert threw:", err);
   }
+
+  await addToWaitlistSegment(opts.email, opts.fullName.trim().split(/\s+/)[0]);
 }
 
 function siteUrl() {
