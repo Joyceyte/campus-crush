@@ -166,6 +166,9 @@ function welcomeHtml(name: string, email: string) {
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
                     We won't spam you. You'll only hear from us when there's something real to share.
                   </p>
+                  <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
+                    While you wait, follow us on <a href="https://www.instagram.com/campuscrush_uni/" style="color:#C1512F;">Instagram</a> and <a href="https://www.tiktok.com/@campus_crush.org" style="color:#C1512F;">TikTok</a> for behind-the-scenes and more info.
+                  </p>
                   <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.55);">
                     See you soon,<br />— Campus Crush
                   </p>

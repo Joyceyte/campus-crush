@@ -1,5 +1,5 @@
 import { resend, WELCOME_FROM } from "@/lib/resend";
-import { renderEmail, renderEmailText, esc, type Block } from "@/lib/emails/template";
+import { renderEmail, renderEmailText, esc, PALETTE, type Block } from "@/lib/emails/template";
 
 // Confirmation email for a paid pilot signup.
 //
@@ -18,7 +18,7 @@ function blocks(): Block[] {
     "You&rsquo;ve successfully joined the <strong>semester 2, 2026 pilot program</strong> — thanks for being one of the first!",
 
     { type: "h2", text: "What is the pilot?" },
-    "During the pilot, 100 students will receive a campus crush match. Students will be matched based on dating intentions, values and hobbies as well as preferences such as age, height and ethnicity. All sexualities and gender identities are welcome!",
+    "During the pilot, students will receive a campus crush match. Students will be matched based on dating intentions, values and hobbies as well as preferences such as age, height and ethnicity. All sexualities and gender identities are welcome!",
     "If you both accept the date, you will be matched at one of our partnered venues where you&rsquo;ll receive discounts and freebies:",
     {
       type: "list",
@@ -28,7 +28,7 @@ function blocks(): Block[] {
 
     {
       type: "callout",
-      text: "Please note that due to the small number, we cannot guarantee that everyone will receive a perfect match — please approach this with an open mind to meet new people! However, if no successful matching happens, you will receive a <strong>full refund</strong>.",
+      text: "Please note that due to limited pilot numbers, we cannot guarantee that everyone will receive a perfect match — please approach this with an open mind to meet new people! If you are not matched for a date, you will receive a <strong>full refund</strong>.",
     },
 
     { type: "h2", text: "What&rsquo;s next" },
@@ -39,6 +39,7 @@ function blocks(): Block[] {
         "Enjoy your date!",
       ],
     },
+    `While you wait, follow us on <a href="https://www.instagram.com/campuscrush_uni/" style="color:${PALETTE.accent};">Instagram</a> and <a href="https://www.tiktok.com/@campus_crush.org" style="color:${PALETTE.accent};">TikTok</a> for behind-the-scenes and more info.`,
   ];
 }
 
