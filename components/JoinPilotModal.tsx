@@ -188,6 +188,33 @@ export default function JoinPilotModal() {
             </select>
           </Field>
 
+          <Field label="Age">
+            <input
+              name="age"
+              type="number"
+              required
+              min={18}
+              max={100}
+              placeholder="21"
+              style={inputStyle}
+            />
+          </Field>
+
+          <Field label="Sexuality">
+            <select name="sexuality" required defaultValue="" style={inputStyle}>
+              <option value="" disabled>
+                Select…
+              </option>
+              <option value="straight">Straight</option>
+              <option value="gay">Gay</option>
+              <option value="lesbian">Lesbian</option>
+              <option value="bisexual">Bisexual</option>
+              <option value="pansexual">Pansexual</option>
+              <option value="asexual">Asexual</option>
+              <option value="other">Other</option>
+            </select>
+          </Field>
+
           <Field label="How did you hear about us?">
             <select name="heard_from" required defaultValue="" style={inputStyle}>
               <option value="" disabled>

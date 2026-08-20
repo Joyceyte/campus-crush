@@ -14,7 +14,9 @@ import {
   pilotIsOpen,
   PILOT_UNIVERSITY,
   GENDERS,
+  SEXUALITIES,
   HEARD_FROM_OPTIONS,
+  isValidAge,
 } from "@/lib/pilot";
 import { addToWaitlistSegment } from "@/lib/resend-segment";
 
@@ -38,7 +40,15 @@ export type JoinPilotState = { error?: string; notice?: string };
 // someone next remembers to run the broadcast skill's manual sync.
 async function addToWaitlist(
   db: ReturnType<typeof supabaseAdmin>,
-  opts: { fullName: string; email: string; phone: string; gender: string; heardFrom: string }
+  opts: {
+    fullName: string;
+    email: string;
+    phone: string;
+    gender: string;
+    age: number;
+    sexuality: string;
+    heardFrom: string;
+  }
 ) {
   try {
     const { error } = await db.from("waitlist").upsert(
@@ -47,6 +57,8 @@ async function addToWaitlist(
         email: opts.email,
         phone: opts.phone,
         gender: opts.gender,
+        age: opts.age,
+        sexuality: opts.sexuality,
         heard_from: opts.heardFrom,
         university: PILOT_UNIVERSITY,
         founding_member: false,
@@ -87,6 +99,8 @@ export async function joinPilot(
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phoneRaw = String(formData.get("phone") ?? "").trim();
   const gender = String(formData.get("gender") ?? "").trim();
+  const ageRaw = String(formData.get("age") ?? "").trim();
+  const sexuality = String(formData.get("sexuality") ?? "").trim();
   const heardFrom = String(formData.get("heard_from") ?? "").trim();
   const over18 = formData.get("over_18") === "on";
   const wantsFriend = formData.get("signup_with_friend") === "on";
@@ -105,6 +119,13 @@ export async function joinPilot(
   }
   if (!GENDERS.includes(gender)) {
     return { error: "Please select a gender." };
+  }
+  const age = Number(ageRaw);
+  if (!isValidAge(age)) {
+    return { error: "Please enter a valid age (18 or over)." };
+  }
+  if (!SEXUALITIES.includes(sexuality)) {
+    return { error: "Please select an option for sexuality." };
   }
   if (!HEARD_FROM_OPTIONS.includes(heardFrom)) {
     return { error: "Please let us know how you heard about us." };
@@ -172,6 +193,8 @@ export async function joinPilot(
         email,
         phone,
         gender,
+        age,
+        sexuality,
         heard_from: heardFrom,
         university: PILOT_UNIVERSITY,
         friend_email: friendEmail,
@@ -207,7 +230,7 @@ export async function joinPilot(
       return { error: "Something went wrong saving your details. Try again." };
     } else {
       signupId = inserted.id;
-      await addToWaitlist(db, { fullName, email, phone, gender, heardFrom });
+      await addToWaitlist(db, { fullName, email, phone, gender, age, sexuality, heardFrom });
     }
 
     if (!signupId) {

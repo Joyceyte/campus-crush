@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
-import { normalisePhone, GENDERS, HEARD_FROM_OPTIONS } from "@/lib/pilot";
+import { normalisePhone, GENDERS, SEXUALITIES, HEARD_FROM_OPTIONS, isValidAge } from "@/lib/pilot";
 import { addToWaitlistSegment } from "@/lib/resend-segment";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,7 @@ const UNI_DOMAINS = [
 ];
 
 export async function POST(req: NextRequest) {
-  const { name, email, gender, phone: phoneRaw, heardFrom } = await req.json();
+  const { name, email, gender, age, sexuality, phone: phoneRaw, heardFrom } = await req.json();
 
   if (!name?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
@@ -30,6 +30,15 @@ export async function POST(req: NextRequest) {
 
   if (!GENDERS.includes(gender)) {
     return NextResponse.json({ error: "Please select a gender." }, { status: 400 });
+  }
+
+  const ageNum = Number(age);
+  if (!isValidAge(ageNum)) {
+    return NextResponse.json({ error: "Please enter a valid age (18 or over)." }, { status: 400 });
+  }
+
+  if (!SEXUALITIES.includes(sexuality)) {
+    return NextResponse.json({ error: "Please select an option for sexuality." }, { status: 400 });
   }
 
   if (!HEARD_FROM_OPTIONS.includes(heardFrom)) {
@@ -73,6 +82,8 @@ export async function POST(req: NextRequest) {
     email: cleanEmail,
     phone,
     gender,
+    age: ageNum,
+    sexuality,
     heard_from: heardFrom,
     university: matchedUni.university,
     founding_member: foundingMember,

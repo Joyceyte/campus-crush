@@ -4,6 +4,15 @@
 export const PILOT_EMAIL_SUFFIX = "@student.unimelb.edu.au";
 export const PILOT_UNIVERSITY = "University of Melbourne";
 export const GENDERS = ["male", "female", "non-binary", "other"];
+export const SEXUALITIES = [
+  "straight",
+  "gay",
+  "lesbian",
+  "bisexual",
+  "pansexual",
+  "asexual",
+  "other",
+];
 export const HEARD_FROM_OPTIONS = [
   "instagram",
   "tiktok",
@@ -12,6 +21,14 @@ export const HEARD_FROM_OPTIONS = [
   "campus-event",
   "other",
 ];
+
+// Matches the existing "I confirm I am over 18" checkbox on both forms.
+export const MIN_AGE = 18;
+export const MAX_AGE = 100;
+
+export function isValidAge(age: number): boolean {
+  return Number.isInteger(age) && age >= MIN_AGE && age <= MAX_AGE;
+}
 
 // Signups close at end of day 1 September 2026, Melbourne time (UTC+10).
 export const PILOT_CLOSES_AT = new Date("2026-09-01T23:59:59+10:00");

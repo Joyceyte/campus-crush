@@ -20,6 +20,8 @@ create table if not exists public.pilot_signups (
   phone                      text not null,          -- E.164, e.g. +61412345678
   university                 text,
   gender                     text,   -- male / female / non-binary / other
+  age                        int,
+  sexuality                  text,   -- straight / gay / lesbian / bisexual / pansexual / asexual / other
   heard_from                 text,   -- instagram / tiktok / friend / poster / campus-event / other
   -- Opt-in "sign up with a friend" for a group date. Honor system: not
   -- verified against a matching row on the friend's own signup — the team
@@ -69,3 +71,7 @@ alter table public.pilot_signups
   add column if not exists gender text;
 alter table public.pilot_signups
   add column if not exists heard_from text;
+alter table public.pilot_signups
+  add column if not exists age int;
+alter table public.pilot_signups
+  add column if not exists sexuality text;

@@ -2,7 +2,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSignupCount } from "@/lib/useSignupCount";
-import { normalisePhone } from "@/lib/pilot";
+import { normalisePhone, isValidAge } from "@/lib/pilot";
 import { markSignedUp } from "@/lib/founders-note";
 
 // Lets a link (e.g. a blog post) open the popup directly via ?open=waitlist,
@@ -49,8 +49,12 @@ export default function WaitlistModal() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+  const [sexuality, setSexuality] = useState("");
   const [heardFrom, setHeardFrom] = useState("");
   const [genderError, setGenderError] = useState("");
+  const [ageError, setAgeError] = useState("");
+  const [sexualityError, setSexualityError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [heardFromError, setHeardFromError] = useState("");
@@ -77,8 +81,12 @@ export default function WaitlistModal() {
       setEmail("");
       setPhone("");
       setGender("");
+      setAge("");
+      setSexuality("");
       setHeardFrom("");
       setGenderError("");
+      setAgeError("");
+      setSexualityError("");
       setEmailError("");
       setPhoneError("");
       setHeardFromError("");
@@ -113,6 +121,14 @@ export default function WaitlistModal() {
       setGenderError("Please select an option");
       return;
     }
+    if (!isValidAge(Number(age))) {
+      setAgeError("Please enter a valid age (18 or over)");
+      return;
+    }
+    if (!sexuality) {
+      setSexualityError("Please select an option");
+      return;
+    }
     if (!heardFrom) {
       setHeardFromError("Please select an option");
       return;
@@ -125,7 +141,7 @@ export default function WaitlistModal() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, gender, heardFrom }),
+        body: JSON.stringify({ name, email, phone, gender, age: Number(age), sexuality, heardFrom }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -379,6 +395,65 @@ export default function WaitlistModal() {
               {genderError && (
                 <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
                   {genderError}
+                </p>
+              )}
+            </div>
+
+            {/* Age */}
+            <div>
+              <label htmlFor="waitlist-age" style={labelStyle}>Age</label>
+              <input
+                id="waitlist-age"
+                type="number"
+                min={18}
+                max={100}
+                placeholder="21"
+                value={age}
+                onChange={(e) => { setAge(e.target.value); if (ageError) setAgeError(""); }}
+                style={{
+                  ...inputStyle,
+                  borderColor: ageError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
+                }}
+              />
+              {ageError && (
+                <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                  {ageError}
+                </p>
+              )}
+            </div>
+
+            {/* Sexuality */}
+            <div>
+              <label htmlFor="waitlist-sexuality" style={labelStyle}>Sexuality</label>
+              <select
+                id="waitlist-sexuality"
+                value={sexuality}
+                onChange={(e) => { setSexuality(e.target.value); if (sexualityError) setSexualityError(""); }}
+                style={{
+                  ...inputStyle,
+                  colorScheme: "light",
+                  appearance: "none",
+                  cursor: "pointer",
+                  color: sexuality ? "var(--ink)" : "rgba(43,27,18,0.45)",
+                  borderColor: sexualityError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232B1B12' fill-opacity='0.5' d='M6 8L0 0h12z'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 1rem center",
+                }}
+              >
+                <option value="" disabled style={{ color: "rgba(43,27,18,0.45)", background: "var(--parchment)" }}>Select…</option>
+                <option value="straight" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Straight</option>
+                <option value="gay" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Gay</option>
+                <option value="lesbian" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Lesbian</option>
+                <option value="bisexual" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Bisexual</option>
+                <option value="pansexual" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Pansexual</option>
+                <option value="asexual" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Asexual</option>
+                <option value="other" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Other</option>
+              </select>
+              {sexualityError && (
+                <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                  {sexualityError}
                 </p>
               )}
             </div>
