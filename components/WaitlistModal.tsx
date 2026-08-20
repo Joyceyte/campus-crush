@@ -2,7 +2,15 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSignupCount } from "@/lib/useSignupCount";
-import { normalisePhone, isValidAge } from "@/lib/pilot";
+import {
+  normalisePhone,
+  isValidAge,
+  resolveOtherField,
+  GENDERS,
+  SEXUALITIES,
+  STUDY_LEVELS,
+  HEARD_FROM_OPTIONS,
+} from "@/lib/pilot";
 import { markSignedUp } from "@/lib/founders-note";
 
 // Lets a link (e.g. a blog post) open the popup directly via ?open=waitlist,
@@ -49,12 +57,18 @@ export default function WaitlistModal() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
+  const [genderOther, setGenderOther] = useState("");
   const [age, setAge] = useState("");
   const [sexuality, setSexuality] = useState("");
+  const [sexualityOther, setSexualityOther] = useState("");
+  const [studyLevel, setStudyLevel] = useState("");
+  const [studyLevelOther, setStudyLevelOther] = useState("");
   const [heardFrom, setHeardFrom] = useState("");
+  const [heardFromOther, setHeardFromOther] = useState("");
   const [genderError, setGenderError] = useState("");
   const [ageError, setAgeError] = useState("");
   const [sexualityError, setSexualityError] = useState("");
+  const [studyLevelError, setStudyLevelError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [heardFromError, setHeardFromError] = useState("");
@@ -81,12 +95,18 @@ export default function WaitlistModal() {
       setEmail("");
       setPhone("");
       setGender("");
+      setGenderOther("");
       setAge("");
       setSexuality("");
+      setSexualityOther("");
+      setStudyLevel("");
+      setStudyLevelOther("");
       setHeardFrom("");
+      setHeardFromOther("");
       setGenderError("");
       setAgeError("");
       setSexualityError("");
+      setStudyLevelError("");
       setEmailError("");
       setPhoneError("");
       setHeardFromError("");
@@ -117,20 +137,29 @@ export default function WaitlistModal() {
   async function handleSubmit() {
     setApiError("");
     if (!name.trim()) return;
-    if (!gender) {
-      setGenderError("Please select an option");
+
+    const genderResult = resolveOtherField(gender, genderOther, GENDERS);
+    if (genderResult.error) {
+      setGenderError(gender === "other" ? "Please tell us your gender" : "Please select an option");
       return;
     }
     if (!isValidAge(Number(age))) {
       setAgeError("Please enter a valid age (18 or over)");
       return;
     }
-    if (!sexuality) {
-      setSexualityError("Please select an option");
+    const sexualityResult = resolveOtherField(sexuality, sexualityOther, SEXUALITIES);
+    if (sexualityResult.error) {
+      setSexualityError(sexuality === "other" ? "Please tell us your sexuality" : "Please select an option");
       return;
     }
-    if (!heardFrom) {
-      setHeardFromError("Please select an option");
+    const studyLevelResult = resolveOtherField(studyLevel, studyLevelOther, STUDY_LEVELS);
+    if (studyLevelResult.error) {
+      setStudyLevelError(studyLevel === "other" ? "Please tell us your year of study" : "Please select an option");
+      return;
+    }
+    const heardFromResult = resolveOtherField(heardFrom, heardFromOther, HEARD_FROM_OPTIONS);
+    if (heardFromResult.error) {
+      setHeardFromError(heardFrom === "other" ? "Please tell us how you heard about us" : "Please select an option");
       return;
     }
     if (!validateEmail(email)) return;
@@ -141,7 +170,20 @@ export default function WaitlistModal() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, gender, age: Number(age), sexuality, heardFrom }),
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          gender,
+          genderOther,
+          age: Number(age),
+          sexuality,
+          sexualityOther,
+          studyLevel,
+          studyLevelOther,
+          heardFrom,
+          heardFromOther,
+        }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -392,6 +434,15 @@ export default function WaitlistModal() {
                 <option value="non-binary" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Non-binary</option>
                 <option value="other" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Other</option>
               </select>
+              {gender === "other" && (
+                <input
+                  type="text"
+                  placeholder="Please specify"
+                  value={genderOther}
+                  onChange={(e) => { setGenderOther(e.target.value); if (genderError) setGenderError(""); }}
+                  style={{ ...inputStyle, marginTop: "0.5rem" }}
+                />
+              )}
               {genderError && (
                 <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
                   {genderError}
@@ -399,27 +450,71 @@ export default function WaitlistModal() {
               )}
             </div>
 
-            {/* Age */}
-            <div>
-              <label htmlFor="waitlist-age" style={labelStyle}>Age</label>
-              <input
-                id="waitlist-age"
-                type="number"
-                min={18}
-                max={100}
-                placeholder="21"
-                value={age}
-                onChange={(e) => { setAge(e.target.value); if (ageError) setAgeError(""); }}
-                style={{
-                  ...inputStyle,
-                  borderColor: ageError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
-                }}
-              />
-              {ageError && (
-                <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
-                  {ageError}
-                </p>
-              )}
+            {/* Age + Year of study, side by side to save vertical space */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <div>
+                <label htmlFor="waitlist-age" style={labelStyle}>Age</label>
+                <input
+                  id="waitlist-age"
+                  type="number"
+                  min={18}
+                  max={100}
+                  placeholder="21"
+                  value={age}
+                  onChange={(e) => { setAge(e.target.value); if (ageError) setAgeError(""); }}
+                  style={{
+                    ...inputStyle,
+                    borderColor: ageError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
+                  }}
+                />
+                {ageError && (
+                  <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                    {ageError}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="waitlist-study-level" style={labelStyle}>Year of study</label>
+                <select
+                  id="waitlist-study-level"
+                  value={studyLevel}
+                  onChange={(e) => { setStudyLevel(e.target.value); if (studyLevelError) setStudyLevelError(""); }}
+                  style={{
+                    ...inputStyle,
+                    colorScheme: "light",
+                    appearance: "none",
+                    cursor: "pointer",
+                    color: studyLevel ? "var(--ink)" : "rgba(43,27,18,0.45)",
+                    borderColor: studyLevelError ? "rgba(193,81,47,0.7)" : "rgba(43,27,18,0.22)",
+                    backgroundImage:
+                      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232B1B12' fill-opacity='0.5' d='M6 8L0 0h12z'/%3E%3C/svg%3E\")",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 0.75rem center",
+                  }}
+                >
+                  <option value="" disabled style={{ color: "rgba(43,27,18,0.45)", background: "var(--parchment)" }}>Select…</option>
+                  <option value="undergrad" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Undergrad</option>
+                  <option value="honours" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Honours</option>
+                  <option value="masters" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Masters</option>
+                  <option value="phd" style={{ color: "var(--ink)", background: "var(--parchment)" }}>PhD</option>
+                  <option value="other" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Other</option>
+                </select>
+                {studyLevel === "other" && (
+                  <input
+                    type="text"
+                    placeholder="Please specify"
+                    value={studyLevelOther}
+                    onChange={(e) => { setStudyLevelOther(e.target.value); if (studyLevelError) setStudyLevelError(""); }}
+                    style={{ ...inputStyle, marginTop: "0.5rem" }}
+                  />
+                )}
+                {studyLevelError && (
+                  <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
+                    {studyLevelError}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Sexuality */}
@@ -451,6 +546,15 @@ export default function WaitlistModal() {
                 <option value="asexual" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Asexual</option>
                 <option value="other" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Other</option>
               </select>
+              {sexuality === "other" && (
+                <input
+                  type="text"
+                  placeholder="Please specify"
+                  value={sexualityOther}
+                  onChange={(e) => { setSexualityOther(e.target.value); if (sexualityError) setSexualityError(""); }}
+                  style={{ ...inputStyle, marginTop: "0.5rem" }}
+                />
+              )}
               {sexualityError && (
                 <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
                   {sexualityError}
@@ -486,6 +590,15 @@ export default function WaitlistModal() {
                 <option value="campus-event" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Campus event or stall</option>
                 <option value="other" style={{ color: "var(--ink)", background: "var(--parchment)" }}>Other</option>
               </select>
+              {heardFrom === "other" && (
+                <input
+                  type="text"
+                  placeholder="Please specify"
+                  value={heardFromOther}
+                  onChange={(e) => { setHeardFromOther(e.target.value); if (heardFromError) setHeardFromError(""); }}
+                  style={{ ...inputStyle, marginTop: "0.5rem" }}
+                />
+              )}
               {heardFromError && (
                 <p style={{ fontSize: "0.7rem", color: "var(--terracotta)", marginTop: "0.35rem", letterSpacing: "0.02em" }}>
                   {heardFromError}

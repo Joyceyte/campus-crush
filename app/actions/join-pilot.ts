@@ -16,7 +16,9 @@ import {
   GENDERS,
   SEXUALITIES,
   HEARD_FROM_OPTIONS,
+  STUDY_LEVELS,
   isValidAge,
+  resolveOtherField,
 } from "@/lib/pilot";
 import { addToWaitlistSegment } from "@/lib/resend-segment";
 
@@ -47,6 +49,7 @@ async function addToWaitlist(
     gender: string;
     age: number;
     sexuality: string;
+    studyLevel: string;
     heardFrom: string;
   }
 ) {
@@ -59,6 +62,7 @@ async function addToWaitlist(
         gender: opts.gender,
         age: opts.age,
         sexuality: opts.sexuality,
+        study_level: opts.studyLevel,
         heard_from: opts.heardFrom,
         university: PILOT_UNIVERSITY,
         founding_member: false,
@@ -98,13 +102,23 @@ export async function joinPilot(
   const fullName = String(formData.get("full_name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phoneRaw = String(formData.get("phone") ?? "").trim();
-  const gender = String(formData.get("gender") ?? "").trim();
+  const genderRaw = String(formData.get("gender") ?? "").trim();
+  const genderOtherRaw = String(formData.get("gender_other") ?? "").trim();
   const ageRaw = String(formData.get("age") ?? "").trim();
-  const sexuality = String(formData.get("sexuality") ?? "").trim();
-  const heardFrom = String(formData.get("heard_from") ?? "").trim();
+  const sexualityRaw = String(formData.get("sexuality") ?? "").trim();
+  const sexualityOtherRaw = String(formData.get("sexuality_other") ?? "").trim();
+  const studyLevelRaw = String(formData.get("study_level") ?? "").trim();
+  const studyLevelOtherRaw = String(formData.get("study_level_other") ?? "").trim();
+  const heardFromRaw = String(formData.get("heard_from") ?? "").trim();
+  const heardFromOtherRaw = String(formData.get("heard_from_other") ?? "").trim();
   const over18 = formData.get("over_18") === "on";
   const wantsFriend = formData.get("signup_with_friend") === "on";
   const friendEmailRaw = String(formData.get("friend_email") ?? "").trim().toLowerCase();
+  const friendGenderRaw = String(formData.get("friend_gender") ?? "").trim();
+  const friendGenderOtherRaw = String(formData.get("friend_gender_other") ?? "").trim();
+  const friendAgeRaw = String(formData.get("friend_age") ?? "").trim();
+  const friendSexualityRaw = String(formData.get("friend_sexuality") ?? "").trim();
+  const friendSexualityOtherRaw = String(formData.get("friend_sexuality_other") ?? "").trim();
 
   if (!fullName) return { error: "Please enter your name." };
   if (!isEligibleEmail(email)) {
@@ -117,25 +131,46 @@ export async function joinPilot(
   if (!phone) {
     return { error: "Please enter a valid Australian mobile number, e.g. 0412 345 678." };
   }
-  if (!GENDERS.includes(gender)) {
-    return { error: "Please select a gender." };
+  const genderResult = resolveOtherField(genderRaw, genderOtherRaw, GENDERS);
+  if (genderResult.error) {
+    return { error: "Please select (or tell us) your gender." };
   }
+  const gender = genderResult.value;
+
   const age = Number(ageRaw);
   if (!isValidAge(age)) {
     return { error: "Please enter a valid age (18 or over)." };
   }
-  if (!SEXUALITIES.includes(sexuality)) {
-    return { error: "Please select an option for sexuality." };
+
+  const sexualityResult = resolveOtherField(sexualityRaw, sexualityOtherRaw, SEXUALITIES);
+  if (sexualityResult.error) {
+    return { error: "Please select (or tell us) your sexuality." };
   }
-  if (!HEARD_FROM_OPTIONS.includes(heardFrom)) {
+  const sexuality = sexualityResult.value;
+
+  const studyLevelResult = resolveOtherField(studyLevelRaw, studyLevelOtherRaw, STUDY_LEVELS);
+  if (studyLevelResult.error) {
+    return { error: "Please select (or tell us) your year of study." };
+  }
+  const studyLevel = studyLevelResult.value;
+
+  const heardFromResult = resolveOtherField(heardFromRaw, heardFromOtherRaw, HEARD_FROM_OPTIONS);
+  if (heardFromResult.error) {
     return { error: "Please let us know how you heard about us." };
   }
+  const heardFrom = heardFromResult.value;
+
   if (!over18) return { error: "You need to confirm you're over 18 to join." };
 
   // Honor system — not verified against the friend's own signup, just stored
   // so the team can manually pair the two of you for a group date. Still
-  // re-checked server-side since a client toggle isn't enforcement.
+  // re-checked server-side since a client toggle isn't enforcement. Same
+  // demographic fields as the signer's own so matching has enough to go on
+  // without a human having to separately track the friend down.
   let friendEmail: string | null = null;
+  let friendGenderValue: string | null = null;
+  let friendAge: number | null = null;
+  let friendSexualityValue: string | null = null;
   if (wantsFriend) {
     if (!isEligibleEmail(friendEmailRaw)) {
       return {
@@ -146,7 +181,22 @@ export async function joinPilot(
     if (friendEmailRaw === email) {
       return { error: "That's your own email — enter your friend's instead." };
     }
+    const friendGenderResult = resolveOtherField(friendGenderRaw, friendGenderOtherRaw, GENDERS);
+    if (friendGenderResult.error) {
+      return { error: "Please select (or tell us) your friend's gender." };
+    }
+    const parsedFriendAge = Number(friendAgeRaw);
+    if (!isValidAge(parsedFriendAge)) {
+      return { error: "Please enter a valid age for your friend (18 or over)." };
+    }
+    const friendSexualityResult = resolveOtherField(friendSexualityRaw, friendSexualityOtherRaw, SEXUALITIES);
+    if (friendSexualityResult.error) {
+      return { error: "Please select (or tell us) your friend's sexuality." };
+    }
     friendEmail = friendEmailRaw;
+    friendGenderValue = friendGenderResult.value;
+    friendAge = parsedFriendAge;
+    friendSexualityValue = friendSexualityResult.value;
   }
 
   // supabaseAdmin() throws when the service-role key is absent. Catch it here
@@ -195,9 +245,13 @@ export async function joinPilot(
         gender,
         age,
         sexuality,
+        study_level: studyLevel,
         heard_from: heardFrom,
         university: PILOT_UNIVERSITY,
         friend_email: friendEmail,
+        friend_gender: friendGenderValue,
+        friend_age: friendAge,
+        friend_sexuality: friendSexualityValue,
         over_18_confirmed_at: new Date().toISOString(),
         amount_cents: PILOT_PRICE_CENTS,
         currency: PILOT_CURRENCY,
@@ -230,7 +284,7 @@ export async function joinPilot(
       return { error: "Something went wrong saving your details. Try again." };
     } else {
       signupId = inserted.id;
-      await addToWaitlist(db, { fullName, email, phone, gender, age, sexuality, heardFrom });
+      await addToWaitlist(db, { fullName, email, phone, gender, age, sexuality, studyLevel, heardFrom });
     }
 
     if (!signupId) {

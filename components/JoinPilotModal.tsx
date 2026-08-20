@@ -176,58 +176,73 @@ export default function JoinPilotModal() {
             />
           </Field>
 
-          <Field label="Gender">
-            <select name="gender" required defaultValue="" style={inputStyle}>
-              <option value="" disabled>
-                Select…
-              </option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="non-binary">Non-binary</option>
-              <option value="other">Other</option>
-            </select>
-          </Field>
+          <SelectWithOther
+            name="gender"
+            label="Gender"
+            options={[
+              { value: "male", label: "Male" },
+              { value: "female", label: "Female" },
+              { value: "non-binary", label: "Non-binary" },
+              { value: "other", label: "Other" },
+            ]}
+            required
+          />
 
-          <Field label="Age">
-            <input
-              name="age"
-              type="number"
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+            <Field label="Age">
+              <input
+                name="age"
+                type="number"
+                required
+                min={18}
+                max={100}
+                placeholder="21"
+                style={inputStyle}
+              />
+            </Field>
+
+            <SelectWithOther
+              name="study_level"
+              label="Year of study"
+              options={[
+                { value: "undergrad", label: "Undergrad" },
+                { value: "honours", label: "Honours" },
+                { value: "masters", label: "Masters" },
+                { value: "phd", label: "PhD" },
+                { value: "other", label: "Other" },
+              ]}
               required
-              min={18}
-              max={100}
-              placeholder="21"
-              style={inputStyle}
             />
-          </Field>
+          </div>
 
-          <Field label="Sexuality">
-            <select name="sexuality" required defaultValue="" style={inputStyle}>
-              <option value="" disabled>
-                Select…
-              </option>
-              <option value="straight">Straight</option>
-              <option value="gay">Gay</option>
-              <option value="lesbian">Lesbian</option>
-              <option value="bisexual">Bisexual</option>
-              <option value="pansexual">Pansexual</option>
-              <option value="asexual">Asexual</option>
-              <option value="other">Other</option>
-            </select>
-          </Field>
+          <SelectWithOther
+            name="sexuality"
+            label="Sexuality"
+            options={[
+              { value: "straight", label: "Straight" },
+              { value: "gay", label: "Gay" },
+              { value: "lesbian", label: "Lesbian" },
+              { value: "bisexual", label: "Bisexual" },
+              { value: "pansexual", label: "Pansexual" },
+              { value: "asexual", label: "Asexual" },
+              { value: "other", label: "Other" },
+            ]}
+            required
+          />
 
-          <Field label="How did you hear about us?">
-            <select name="heard_from" required defaultValue="" style={inputStyle}>
-              <option value="" disabled>
-                Select…
-              </option>
-              <option value="instagram">Instagram</option>
-              <option value="tiktok">TikTok</option>
-              <option value="friend">Friend or word of mouth</option>
-              <option value="poster">Poster or flyer on campus</option>
-              <option value="campus-event">Campus event or stall</option>
-              <option value="other">Other</option>
-            </select>
-          </Field>
+          <SelectWithOther
+            name="heard_from"
+            label="How did you hear about us?"
+            options={[
+              { value: "instagram", label: "Instagram" },
+              { value: "tiktok", label: "TikTok" },
+              { value: "friend", label: "Friend or word of mouth" },
+              { value: "poster", label: "Poster or flyer on campus" },
+              { value: "campus-event", label: "Campus event or stall" },
+              { value: "other", label: "Other" },
+            ]}
+            required
+          />
 
           <div>
             <label
@@ -252,7 +267,7 @@ export default function JoinPilotModal() {
             </label>
 
             {wantsFriend && (
-              <div style={{ marginTop: "0.75rem" }}>
+              <div style={{ marginTop: "0.75rem", display: "grid", gap: "0.75rem" }}>
                 <Field label="Friend's university email">
                   <input
                     name="friend_email"
@@ -263,6 +278,47 @@ export default function JoinPilotModal() {
                     style={inputStyle}
                   />
                 </Field>
+
+                <SelectWithOther
+                  name="friend_gender"
+                  label="Friend's gender"
+                  options={[
+                    { value: "male", label: "Male" },
+                    { value: "female", label: "Female" },
+                    { value: "non-binary", label: "Non-binary" },
+                    { value: "other", label: "Other" },
+                  ]}
+                  required={wantsFriend}
+                />
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                  <Field label="Friend's age">
+                    <input
+                      name="friend_age"
+                      type="number"
+                      required={wantsFriend}
+                      min={18}
+                      max={100}
+                      placeholder="21"
+                      style={inputStyle}
+                    />
+                  </Field>
+
+                  <SelectWithOther
+                    name="friend_sexuality"
+                    label="Friend's sexuality"
+                    options={[
+                      { value: "straight", label: "Straight" },
+                      { value: "gay", label: "Gay" },
+                      { value: "lesbian", label: "Lesbian" },
+                      { value: "bisexual", label: "Bisexual" },
+                      { value: "pansexual", label: "Pansexual" },
+                      { value: "asexual", label: "Asexual" },
+                      { value: "other", label: "Other" },
+                    ]}
+                    required={wantsFriend}
+                  />
+                </div>
                 <p
                   style={{
                     margin: "0.5rem 0 0",
@@ -422,5 +478,54 @@ function Field({
         </span>
       )}
     </label>
+  );
+}
+
+// A select where picking "Other" reveals a text input right underneath it.
+// Uncontrolled (matches the rest of this form) — only tracks whether "Other"
+// is currently picked, not the field's own value, so the browser still owns
+// that. The typed answer posts as "<name>_other"; the server action swaps it
+// in for the literal word "other" via lib/pilot.ts's resolveOtherField.
+function SelectWithOther({
+  name,
+  label,
+  options,
+  required,
+}: {
+  name: string;
+  label: string;
+  options: { value: string; label: string }[];
+  required?: boolean;
+}) {
+  const [isOther, setIsOther] = useState(false);
+  return (
+    <Field label={label}>
+      <select
+        name={name}
+        required={required}
+        defaultValue=""
+        onChange={(e) => setIsOther(e.target.value === "other")}
+        style={inputStyle}
+      >
+        <option value="" disabled>
+          Select…
+        </option>
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+      {isOther && (
+        <input
+          name={`${name}_other`}
+          type="text"
+          required={required}
+          placeholder="Please specify"
+          autoComplete="off"
+          style={{ ...inputStyle, marginTop: "0.5rem" }}
+        />
+      )}
+    </Field>
   );
 }

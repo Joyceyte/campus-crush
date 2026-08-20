@@ -21,6 +21,7 @@ export const HEARD_FROM_OPTIONS = [
   "campus-event",
   "other",
 ];
+export const STUDY_LEVELS = ["undergrad", "honours", "masters", "phd", "other"];
 
 // Matches the existing "I confirm I am over 18" checkbox on both forms.
 export const MIN_AGE = 18;
@@ -28,6 +29,25 @@ export const MAX_AGE = 100;
 
 export function isValidAge(age: number): boolean {
   return Number.isInteger(age) && age >= MIN_AGE && age <= MAX_AGE;
+}
+
+/**
+ * Resolves a "pick one, or type your own" select. When the raw value is
+ * "other", the typed-in text becomes the actual stored value instead of the
+ * literal word "other" — so no separate "_other" column is ever needed, the
+ * field just holds whatever the student actually said. `error` is true when
+ * the raw value isn't a valid option at all, or is "other" with nothing
+ * typed in to replace it.
+ */
+export function resolveOtherField(
+  rawValue: string,
+  otherText: string,
+  validOptions: readonly string[]
+): { value: string; error: boolean } {
+  if (!validOptions.includes(rawValue)) return { value: "", error: true };
+  if (rawValue !== "other") return { value: rawValue, error: false };
+  const trimmed = otherText.trim();
+  return trimmed ? { value: trimmed, error: false } : { value: "", error: true };
 }
 
 // Signups close at end of day 1 September 2026, Melbourne time (UTC+10).

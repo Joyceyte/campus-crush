@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { resend, WELCOME_FROM } from "@/lib/resend";
-import { normalisePhone, GENDERS, SEXUALITIES, HEARD_FROM_OPTIONS, isValidAge } from "@/lib/pilot";
+import {
+  normalisePhone,
+  GENDERS,
+  SEXUALITIES,
+  STUDY_LEVELS,
+  HEARD_FROM_OPTIONS,
+  isValidAge,
+  resolveOtherField,
+} from "@/lib/pilot";
 import { addToWaitlistSegment } from "@/lib/resend-segment";
 
 export const dynamic = "force-dynamic";
@@ -22,31 +30,56 @@ const UNI_DOMAINS = [
 ];
 
 export async function POST(req: NextRequest) {
-  const { name, email, gender, age, sexuality, phone: phoneRaw, heardFrom } = await req.json();
+  const {
+    name,
+    email,
+    gender: genderRaw,
+    genderOther,
+    age,
+    sexuality: sexualityRaw,
+    sexualityOther,
+    studyLevel: studyLevelRaw,
+    studyLevelOther,
+    phone: phoneRaw,
+    heardFrom: heardFromRaw,
+    heardFromOther,
+  } = await req.json();
 
   if (!name?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
   }
 
-  if (!GENDERS.includes(gender)) {
-    return NextResponse.json({ error: "Please select a gender." }, { status: 400 });
+  const genderResult = resolveOtherField(genderRaw, genderOther ?? "", GENDERS);
+  if (genderResult.error) {
+    return NextResponse.json({ error: "Please select (or tell us) your gender." }, { status: 400 });
   }
+  const gender = genderResult.value;
 
   const ageNum = Number(age);
   if (!isValidAge(ageNum)) {
     return NextResponse.json({ error: "Please enter a valid age (18 or over)." }, { status: 400 });
   }
 
-  if (!SEXUALITIES.includes(sexuality)) {
-    return NextResponse.json({ error: "Please select an option for sexuality." }, { status: 400 });
+  const sexualityResult = resolveOtherField(sexualityRaw, sexualityOther ?? "", SEXUALITIES);
+  if (sexualityResult.error) {
+    return NextResponse.json({ error: "Please select (or tell us) your sexuality." }, { status: 400 });
   }
+  const sexuality = sexualityResult.value;
 
-  if (!HEARD_FROM_OPTIONS.includes(heardFrom)) {
+  const studyLevelResult = resolveOtherField(studyLevelRaw, studyLevelOther ?? "", STUDY_LEVELS);
+  if (studyLevelResult.error) {
+    return NextResponse.json({ error: "Please select (or tell us) your year of study." }, { status: 400 });
+  }
+  const studyLevel = studyLevelResult.value;
+
+  const heardFromResult = resolveOtherField(heardFromRaw, heardFromOther ?? "", HEARD_FROM_OPTIONS);
+  if (heardFromResult.error) {
     return NextResponse.json(
       { error: "Please let us know how you heard about us." },
       { status: 400 }
     );
   }
+  const heardFrom = heardFromResult.value;
 
   const phone = normalisePhone(String(phoneRaw ?? ""));
   if (!phone) {
@@ -84,6 +117,7 @@ export async function POST(req: NextRequest) {
     gender,
     age: ageNum,
     sexuality,
+    study_level: studyLevel,
     heard_from: heardFrom,
     university: matchedUni.university,
     founding_member: foundingMember,

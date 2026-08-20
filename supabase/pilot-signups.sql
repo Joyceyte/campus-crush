@@ -22,11 +22,17 @@ create table if not exists public.pilot_signups (
   gender                     text,   -- male / female / non-binary / other
   age                        int,
   sexuality                  text,   -- straight / gay / lesbian / bisexual / pansexual / asexual / other
+  study_level                text,   -- undergrad / honours / masters / phd / other
   heard_from                 text,   -- instagram / tiktok / friend / poster / campus-event / other
   -- Opt-in "sign up with a friend" for a group date. Honor system: not
   -- verified against a matching row on the friend's own signup — the team
   -- manually cross-checks both people signed up when pairing weekly matches.
+  -- Same demographic fields as the signer's own, so the team can match both
+  -- of you together without having to separately look the friend up.
   friend_email               text,
+  friend_gender              text,
+  friend_age                 int,
+  friend_sexuality           text,
   -- A timestamp rather than a boolean: the checkbox is a legal claim, so when
   -- it was made is part of the record.
   over_18_confirmed_at       timestamptz not null default now(),
@@ -75,3 +81,11 @@ alter table public.pilot_signups
   add column if not exists age int;
 alter table public.pilot_signups
   add column if not exists sexuality text;
+alter table public.pilot_signups
+  add column if not exists study_level text;
+alter table public.pilot_signups
+  add column if not exists friend_gender text;
+alter table public.pilot_signups
+  add column if not exists friend_age int;
+alter table public.pilot_signups
+  add column if not exists friend_sexuality text;
