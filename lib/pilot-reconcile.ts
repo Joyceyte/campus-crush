@@ -93,10 +93,16 @@ export async function reconcilePilotOrder(
   }
   const order = json.order;
   const lineItem = order.line_items?.[0];
+  // startsWith, not ===: the Square catalog item behind the standalone link
+  // has been renamed at least once (plain "campus crush pilot" ->
+  // "Campus crush pilot deposit") without this code being updated to match,
+  // which meant every real payment through the current item name was
+  // silently rejected here. Prefix-matching survives future renames as long
+  // as they keep this as the leading text.
   const isPilotPayment =
     order.total_money?.amount === PILOT_AMOUNT_CENTS &&
     order.total_money?.currency === PILOT_CURRENCY &&
-    lineItem?.name?.toLowerCase() === PILOT_ITEM_NAME;
+    !!lineItem?.name?.toLowerCase().startsWith(PILOT_ITEM_NAME);
   if (!isPilotPayment) return { status: "not-pilot-payment" };
 
   const recipient =
