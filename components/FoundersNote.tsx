@@ -143,20 +143,20 @@ export default function FoundersNote() {
             to any uni student, whether you&rsquo;re doing undergrad, masters,
             or PhD.
           </p>
+          <button type="button" className="neon-btn" onClick={signUp}>
+            Join UniMelb pilot →
+          </button>
+
           <p
             style={{
-              margin: "0.2rem 0 0",
+              margin: "-0.6rem 0 0",
               fontSize: "0.78rem",
               letterSpacing: "0.04em",
               color: "rgba(43,27,18,0.6)",
             }}
           >
-            UniMelb &middot; closing soon
+            Closing soon
           </p>
-
-          <button type="button" className="neon-btn" onClick={signUp}>
-            Join UniMelb pilot →
-          </button>
 
           <p
             style={{
