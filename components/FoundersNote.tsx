@@ -132,8 +132,8 @@ export default function FoundersNote() {
           <p
             style={{
               margin: 0,
-              fontSize: "0.95rem",
-              lineHeight: 1.75,
+              fontSize: "0.82rem",
+              lineHeight: 1.6,
               color: "rgba(43,27,18,0.82)",
               textAlign: "left",
               alignSelf: "stretch",
@@ -155,7 +155,7 @@ export default function FoundersNote() {
           </p>
 
           <button type="button" className="neon-btn" onClick={signUp}>
-            Sign up →
+            Join UniMelb pilot →
           </button>
 
           <p
@@ -188,7 +188,7 @@ export default function FoundersNote() {
             and we&rsquo;ll let you know the moment we launch at your uni.
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", alignItems: "flex-start", alignSelf: "stretch" }}>
             <p style={{ margin: 0, fontSize: "0.95rem", color: "rgba(43,27,18,0.55)" }}>
               <strong style={{ color: "var(--ink)" }}>Not sure what campus crush is yet?</strong>
             </p>
