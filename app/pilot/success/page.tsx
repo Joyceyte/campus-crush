@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { readPilotPaymentState } from "@/lib/square";
 import { sendPilotConfirmationEmail } from "@/lib/emails/pilot-confirmation";
+import MarkSignedUp from "@/components/MarkSignedUp";
 
 export const dynamic = "force-dynamic";
 
@@ -83,6 +84,7 @@ function YoureIn({ name }: { name: string }) {
   const first = name.trim().split(/\s+/)[0];
   return (
     <>
+      <MarkSignedUp />
       <p style={label}>campus crush</p>
       <h1 style={heading}>You&rsquo;re in{first ? `, ${first}` : ""}!</h1>
       <p style={lead}>Welcome to the pilot program.</p>

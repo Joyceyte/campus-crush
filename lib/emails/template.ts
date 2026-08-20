@@ -36,7 +36,7 @@ export const PALETTE = {
 export const CONTENT_WIDTH = 600;
 
 export const HEADING_FONT =
-  "font-family:'Jersey 25','Arial Narrow',Arial,sans-serif;letter-spacing:0.06em;";
+  "font-family:'Arial Narrow',Arial,sans-serif;letter-spacing:0.06em;";
 export const BODY_FONT =
   "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;";
 
@@ -163,8 +163,6 @@ export function renderEmail({
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet" />
   </head>
   <body style="margin:0;padding:0;background:${PALETTE.surface};">
     ${preheader}

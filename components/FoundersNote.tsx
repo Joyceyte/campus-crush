@@ -1,13 +1,16 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { recordFoundersNoteDismissal, shouldShowFoundersNote } from "@/lib/founders-note";
 
-// First-visit letter from Alex and Joyce. Shown once per browser, then never
-// again — a returning visitor who's already read it just gets the page.
+// First-visit letter from Alex and Joyce. Shown once per browser; if someone
+// closes it without signing up, it comes back after
+// FOUNDERS_NOTE_SNOOZE_DAYS in case they missed it or weren't ready yet.
+// Anyone who actually joins the waitlist or the pilot never sees it again
+// (see lib/founders-note.ts).
 //
 // Deliberately styled as a torn page taped into the scrapbook rather than a
 // generic dialog: it's a letter, and the whole point is that it reads as
 // personal.
-const SEEN_KEY = "cc-founders-note-seen";
 const OPEN_DELAY_MS = 1200; // let the hero land first
 
 export default function FoundersNote() {
@@ -16,26 +19,14 @@ export default function FoundersNote() {
   const previouslyFocused = useRef<Element | null>(null);
 
   useEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = window.localStorage.getItem(SEEN_KEY);
-    } catch {
-      // Private browsing or storage disabled — show it and move on rather
-      // than breaking the page over a nice-to-have.
-    }
-    if (stored) return;
-
+    if (!shouldShowFoundersNote()) return;
     const timeout = setTimeout(() => setOpen(true), OPEN_DELAY_MS);
     return () => clearTimeout(timeout);
   }, []);
 
   function dismiss() {
     setOpen(false);
-    try {
-      window.localStorage.setItem(SEEN_KEY, "1");
-    } catch {
-      /* see above */
-    }
+    recordFoundersNoteDismissal();
     (previouslyFocused.current as HTMLElement | null)?.focus?.();
   }
 
@@ -197,22 +188,48 @@ export default function FoundersNote() {
             Sign up →
           </button>
 
-          <button
-            ref={closeRef}
-            type="button"
-            onClick={dismiss}
-            style={{
-              background: "none",
-              border: "none",
-              padding: 0,
-              fontSize: "0.75rem",
-              color: "rgba(43,27,18,0.55)",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
-            Read the site first
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", alignItems: "flex-start" }}>
+            <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(43,27,18,0.55)" }}>
+              Not sure what campus crush is yet?
+            </p>
+            <button
+              ref={closeRef}
+              type="button"
+              onClick={dismiss}
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                fontSize: "0.75rem",
+                color: "rgba(43,27,18,0.55)",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+            >
+              Read the site first
+            </button>
+            <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(43,27,18,0.55)" }}>
+              Or check out our{" "}
+              <a
+                href="https://www.instagram.com/campuscrush_uni/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "var(--terracotta)" }}
+              >
+                Instagram
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://www.tiktok.com/@campus_crush.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "var(--terracotta)" }}
+              >
+                TikTok
+              </a>{" "}
+              for more info!
+            </p>
+          </div>
         </div>
       </div>
     </div>

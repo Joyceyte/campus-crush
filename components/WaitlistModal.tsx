@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSignupCount } from "@/lib/useSignupCount";
 import { normalisePhone } from "@/lib/pilot";
+import { markSignedUp } from "@/lib/founders-note";
 
 // Mirrors the accepted domains in app/api/waitlist/route.ts — kept here too
 // so the modal can give instant feedback before hitting the API.
@@ -104,6 +105,7 @@ export default function WaitlistModal() {
       const data = await res.json();
       if (res.ok) {
         setSuccess(true);
+        markSignedUp();
       } else {
         setApiError(data.error || "Something went wrong.");
       }

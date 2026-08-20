@@ -121,11 +121,13 @@ function unsubscribeMailto(email: string) {
 }
 
 // Welcome email sent to every new waitlist signup. Matches the site theme:
-// parchment background, terracotta accents, and the Jersey 25 display font for
-// the heading (loads in Apple/iOS Mail; falls back cleanly elsewhere).
+// parchment background, terracotta accents. No Google Fonts <link> here on
+// purpose — it only ever rendered in Apple/iOS Mail, and the external fetch
+// was holding up render in Gmail. The Arial Narrow fallback is what nearly
+// everyone already saw.
 // Inline styles + tables for broad email-client support. ${name} personalizes.
 function welcomeHtml(name: string, email: string) {
-  const heading = "font-family:'Jersey 25','Arial Narrow',Arial,sans-serif;letter-spacing:0.06em;";
+  const heading = "font-family:'Arial Narrow',Arial,sans-serif;letter-spacing:0.06em;";
   const body = "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;";
   return `
   <!DOCTYPE html>
@@ -134,8 +136,6 @@ function welcomeHtml(name: string, email: string) {
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <meta name="color-scheme" content="light" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet" />
     </head>
     <body style="margin:0;padding:0;background:#F7EFE1;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7EFE1;padding:32px 16px;">
@@ -154,13 +154,13 @@ function welcomeHtml(name: string, email: string) {
                     I'm the friend that texts you ready-to-go dates.
                   </p>
                   <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
-                    You're on the list — we'll let you know the moment Campus Crush opens up at your uni.
+                    You're on the list. We'll let you know the moment Campus Crush opens up at your uni.
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
                     Right now we're running a <strong style="color:#2B1B12;">semester 2, 2026 pilot at UniMelb</strong> with
                     our partnered venues. If you're at UniMelb, you can
                     <a href="https://campus-crush.org" style="color:#C1512F;">join the pilot</a> before
-                    <strong style="color:#2B1B12;">signups close</strong>. If you're not, sit tight — you'll be first
+                    <strong style="color:#2B1B12;">signups close</strong>. If you're not, sit tight. You'll be first
                     to hear when we expand.
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
@@ -170,7 +170,7 @@ function welcomeHtml(name: string, email: string) {
                     While you wait, follow us on <a href="https://www.instagram.com/campuscrush_uni/" style="color:#C1512F;">Instagram</a> and <a href="https://www.tiktok.com/@campus_crush.org" style="color:#C1512F;">TikTok</a> for behind-the-scenes and more info.
                   </p>
                   <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.55);">
-                    See you soon,<br />— Campus Crush
+                    See you soon,<br />Campus Crush
                   </p>
                 </td>
               </tr>

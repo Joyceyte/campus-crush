@@ -8,14 +8,14 @@ import { renderEmail, renderEmailText, esc, PALETTE, type Block } from "@/lib/em
 // who got that one and then pays should see the same brand, not a different
 // template. Copy is from specs/pilot-confirmation-email.md.
 
-const SIGNOFF = "See you soon,<br />— Alex &amp; Joyce, Campus Crush";
-const SIGNOFF_TEXT = "See you soon,\n— Alex & Joyce, Campus Crush";
+const SIGNOFF = "See you soon,<br />Alex &amp; Joyce, Campus Crush";
+const SIGNOFF_TEXT = "See you soon,\nAlex & Joyce, Campus Crush";
 const FOOTER_NOTE =
   "You're receiving this because you joined the Campus Crush semester 2, 2026 pilot.";
 
 function blocks(): Block[] {
   return [
-    "You&rsquo;ve successfully joined the <strong>semester 2, 2026 pilot program</strong> — thanks for being one of the first!",
+    "You&rsquo;ve successfully joined the <strong>semester 2, 2026 pilot program</strong>. Thanks for being one of the first!",
 
     { type: "h2", text: "What is the pilot?" },
     "During the pilot, students will receive a campus crush match. Students will be matched based on dating intentions, values and hobbies as well as preferences such as age, height and ethnicity. All sexualities and gender identities are welcome!",
@@ -28,7 +28,7 @@ function blocks(): Block[] {
 
     {
       type: "callout",
-      text: "Please note that due to limited pilot numbers, we cannot guarantee that everyone will receive a perfect match — please approach this with an open mind to meet new people! If you are not matched for a date, you will receive a <strong>full refund</strong>.",
+      text: "Please note that due to limited pilot numbers, we cannot guarantee that everyone will receive a perfect match. Please approach this with an open mind to meet new people! If you are not matched for a date, you will receive a <strong>full refund</strong>.",
     },
 
     { type: "h2", text: "What&rsquo;s next" },
