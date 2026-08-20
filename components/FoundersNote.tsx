@@ -11,7 +11,7 @@ import { recordFoundersNoteDismissal, shouldShowFoundersNote } from "@/lib/found
 // Deliberately styled as a torn page taped into the scrapbook rather than a
 // generic dialog: it's a letter, and the whole point is that it reads as
 // personal.
-const OPEN_DELAY_MS = 1200; // let the hero land first
+const OPEN_DELAY_MS = 400; // let the hero land first
 
 export default function FoundersNote() {
   const [open, setOpen] = useState(false);
@@ -145,6 +145,21 @@ export default function FoundersNote() {
           </p>
           <p
             style={{
+              margin: "0.2rem 0 0",
+              fontSize: "0.78rem",
+              letterSpacing: "0.04em",
+              color: "rgba(43,27,18,0.6)",
+            }}
+          >
+            UniMelb &middot; closing soon
+          </p>
+
+          <button type="button" className="neon-btn" onClick={signUp}>
+            Sign up →
+          </button>
+
+          <p
+            style={{
               margin: 0,
               fontSize: "0.95rem",
               lineHeight: 1.75,
@@ -153,7 +168,7 @@ export default function FoundersNote() {
               alignSelf: "stretch",
             }}
           >
-            Not at UniMelb?{" "}
+            <strong style={{ color: "var(--ink)" }}>Not at UniMelb?</strong>{" "}
             <button
               type="button"
               onClick={joinWaitlist}
@@ -173,24 +188,9 @@ export default function FoundersNote() {
             and we&rsquo;ll let you know the moment we launch at your uni.
           </p>
 
-          <p
-            style={{
-              margin: "0.2rem 0 0",
-              fontSize: "0.78rem",
-              letterSpacing: "0.04em",
-              color: "rgba(43,27,18,0.6)",
-            }}
-          >
-            UniMelb &middot; closing soon
-          </p>
-
-          <button type="button" className="neon-btn" onClick={signUp}>
-            Sign up →
-          </button>
-
           <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", alignItems: "flex-start" }}>
-            <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(43,27,18,0.55)" }}>
-              Not sure what campus crush is yet?
+            <p style={{ margin: 0, fontSize: "0.95rem", color: "rgba(43,27,18,0.55)" }}>
+              <strong style={{ color: "var(--ink)" }}>Not sure what campus crush is yet?</strong>
             </p>
             <button
               ref={closeRef}
@@ -200,7 +200,7 @@ export default function FoundersNote() {
                 background: "none",
                 border: "none",
                 padding: 0,
-                fontSize: "0.75rem",
+                fontSize: "0.95rem",
                 color: "rgba(43,27,18,0.55)",
                 textDecoration: "underline",
                 cursor: "pointer",
@@ -208,7 +208,7 @@ export default function FoundersNote() {
             >
               Read the site first
             </button>
-            <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(43,27,18,0.55)" }}>
+            <p style={{ margin: 0, fontSize: "0.95rem", color: "rgba(43,27,18,0.55)" }}>
               Or check out our{" "}
               <a
                 href="https://www.instagram.com/campuscrush_uni/"
