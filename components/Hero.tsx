@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 import LaunchBanner from "@/components/LaunchBanner";
 import InstagramShowcase from "@/components/InstagramShowcase";
@@ -194,6 +195,19 @@ export default function Hero() {
                 Join the pilot →
               </button>
             </div>
+            <Link
+              href="/blog/what-is-the-pilot"
+              style={{
+                display: 'block',
+                marginTop: '0.7rem',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                color: 'rgba(43,27,18,0.6)',
+                textDecoration: 'underline',
+              }}
+            >
+              What is the pilot? →
+            </Link>
             <div className="hero-closing-link" style={{ marginTop: '1.1rem' }}>
               <div className="hero-closing-row" style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', flexWrap: 'wrap' }}>
                 <span
@@ -220,7 +234,7 @@ export default function Hero() {
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  fontSize: '0.75rem',
+                  fontSize: '0.8rem',
                   fontWeight: 700,
                   color: 'rgba(43,27,18,0.6)',
                   textDecoration: 'underline',

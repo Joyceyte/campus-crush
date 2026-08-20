@@ -77,7 +77,51 @@ Dating stirs things up sometimes. If you need someone to talk to:
 Have fun out there. Text your friend when you're home.
 `;
 
+const PILOT_CONTENT = `
+Campus Crush is launching its first real-world test this semester, our pilot. Here's exactly what it is, who it's for, and what joining actually involves.
+
+This is your chance to be one of our first users and shape campus crush into something you genuinely want.
+
+## Who it's for
+
+The **pilot** is open to **all University of Melbourne students**. Any undergrad, masters or PhD student and all sexuality or gender identities are welcome. We're working on expanding to Monash, Deakin, RMIT and La Trobe next. **If you're not at UniMelb, [join our waitlist](/?open=waitlist)** and we'll let you know the moment we launch at your uni.
+
+## How matching works
+
+Once you join, you're matched with another student based on dating intentions, values and hobbies, plus preferences like age, height and ethnicity.
+
+## The date itself
+
+If you both accept the match, we plan the date for you: time, place, even an icebreaker. It'll be at one of our partnered venues, with **discounts and freebies** included:
+
+- Flovie Florist Cafe
+- Prince Alfred Carlton
+- Another mystery venue
+
+**Note:** the date itself is still self-funded.
+
+After the date, you'll get a short form asking how it went and what we can improve. Since this is a pilot, **your feedback genuinely shapes what Campus Crush will be** for our general launch.
+
+## Cost and refunds
+
+Joining the pilot costs **$5** to secure your spot. Because it's a limited pilot, we can't guarantee everyone gets a perfect match, so come in with an open mind. If you don't get a match, you'll get a **full refund**.
+
+## What happens after you join
+
+You'll get a **text and email** once we launch our pilot. **No further steps needed** on your end until then.
+
+**Before your first date:** read our [dating safety guide](/blog/safety). Or if you're ready, [join the pilot](/?open=join-pilot) and we'll take it from there.
+`;
+
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "what-is-the-pilot",
+    title: "What Is the Pilot?",
+    date: "2026-08-20",
+    excerpt:
+      "Who it's for, how matching works, what happens on the date, and what your $5 actually covers.",
+    content: PILOT_CONTENT,
+  },
   {
     slug: "safety",
     title: "Meeting Your Match Safely",

@@ -1,5 +1,6 @@
 "use client";
 import { useActionState, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { joinPilot, type JoinPilotState } from "@/app/actions/join-pilot";
 
 // Opened by dispatching `open-join-pilot` on window, mirroring the existing
@@ -105,6 +106,21 @@ export default function JoinPilotModal() {
           Semester 2, 2026 · UniMelb · $5 to secure your spot. Signups
           closing soon.
         </p>
+
+        <Link
+          href="/blog/what-is-the-pilot"
+          onClick={() => setOpen(false)}
+          style={{
+            display: "inline-block",
+            fontSize: "0.8rem",
+            fontWeight: 700,
+            color: "var(--terracotta, #C1512F)",
+            textDecoration: "underline",
+            margin: "0 0 1.5rem",
+          }}
+        >
+          What is the pilot? →
+        </Link>
 
         <form action={formAction} style={{ display: "grid", gap: "1rem" }}>
           <Field label="Full name">

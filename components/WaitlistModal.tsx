@@ -44,6 +44,17 @@ export default function WaitlistModal() {
     return () => window.removeEventListener("open-waitlist", handleOpen);
   }, []);
 
+  // Lets a link (e.g. a blog post) open the popup directly via
+  // ?open=waitlist, mirroring the same pattern JoinPilotModal uses. Strips
+  // the param afterward so a refresh or back-nav doesn't reopen it.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("open") !== "waitlist") return;
+    setIsOpen(true);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("open");
+    window.history.replaceState(null, "", url);
+  }, []);
+
   function onClose() {
     setIsOpen(false);
     setTimeout(() => {

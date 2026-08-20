@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { recordFoundersNoteDismissal, shouldShowFoundersNote } from "@/lib/founders-note";
 
 // First-visit letter from Alex and Joyce. Shown once per browser; if someone
@@ -192,6 +193,13 @@ export default function FoundersNote() {
             <p style={{ margin: 0, fontSize: "0.95rem", color: "rgba(43,27,18,0.55)" }}>
               <strong style={{ color: "var(--ink)" }}>Not sure what campus crush is yet?</strong>
             </p>
+            <Link
+              href="/blog/what-is-the-pilot"
+              onClick={dismiss}
+              style={{ fontSize: "0.95rem", color: "var(--terracotta)", textDecoration: "underline" }}
+            >
+              What is the pilot? →
+            </Link>
             <button
               ref={closeRef}
               type="button"
