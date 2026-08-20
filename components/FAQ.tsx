@@ -28,7 +28,11 @@ const faqs = [
   },
   {
     q: "What does a Campus Crush date look like?",
-    a: "We plan the whole thing at a venue near campus where you can both enjoy discounts and freebies by showing up.",
+    a: "We book a reservation at a venue near campus where you can both enjoy discounts or freebies by showing up.",
+  },
+  {
+    q: "Is the date itself paid for?",
+    a: "No. We do the work of matching you with someone and setting up the date, and you'll get a discount or a complimentary dish at the venue because we've booked you in. But the date itself is still self-funded, so you and your match cover the bill.",
   },
 ];
 

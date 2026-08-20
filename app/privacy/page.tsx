@@ -66,7 +66,7 @@ Please note that if you choose not to share certain personal information with us
 
 (h) We use your data to provide or improve user-facing features, and do not use or allow it to be used for any of the following purposes: targeted advertising; selling to data brokers; providing to information resellers; determining credit-worthiness; lending purposes; training external AI models.
 
-(i) **Venue partners.** Where we operate date offers with partner venues, we share only aggregated, de-identified information (for example, the number of matched pairs who redeemed an offer). We never disclose your identity to venue partners.
+(i) **Venues.** Where we operate date offers with venues, we share only aggregated, de-identified information (for example, the number of matched pairs who redeemed an offer). We never disclose your identity to venues.
 
 ## 6. Access and correction
 

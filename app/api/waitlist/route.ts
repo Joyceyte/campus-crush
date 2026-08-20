@@ -158,7 +158,7 @@ function welcomeHtml(name: string, email: string) {
                   </p>
                   <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:rgba(43,27,18,0.75);">
                     Right now we're running a <strong style="color:#2B1B12;">semester 2, 2026 pilot at UniMelb</strong> with
-                    our partnered venues. If you're at UniMelb, you can
+                    our venues. If you're at UniMelb, you can
                     <a href="https://campus-crush.org" style="color:#C1512F;">join the pilot</a> before
                     <strong style="color:#2B1B12;">signups close</strong>. If you're not, sit tight. You'll be first
                     to hear when we expand.

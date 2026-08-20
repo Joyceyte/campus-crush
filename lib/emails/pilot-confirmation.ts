@@ -19,7 +19,7 @@ function blocks(): Block[] {
 
     { type: "h2", text: "What is the pilot?" },
     "During the pilot, students will receive a campus crush match. Students will be matched based on dating intentions, values and hobbies as well as preferences such as age, height and ethnicity. All sexualities and gender identities are welcome!",
-    "If you both accept the date, you will be matched at one of our partnered venues where you&rsquo;ll receive discounts and freebies:",
+    "If you both accept the date, you will be matched at one of our venues where you&rsquo;ll receive discounts and freebies:",
     {
       type: "list",
       items: ["Flovie Florist Cafe", "Prince Alfred Carlton", "Another mystery venue"],

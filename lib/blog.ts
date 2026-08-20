@@ -99,7 +99,7 @@ Have fun out there. Text your friend when you're home.
 `;
 
 const PILOT_CONTENT = `
-**Every week for the duration of the pilot, you'll get matched with another student, and go on a date at one of our partnered venues with discounts or freebies included.**
+**Every week for the duration of the pilot, you'll get matched with another student. We do the work of matching you, setting up the date at one of our venues and giving you a discount or a freebie. But the date itself is self-funded.**
 
 This is your chance to be one of our first users and shape campus crush into something you genuinely want.
 
@@ -113,7 +113,7 @@ Once you join, you're matched with another student based on dating intentions, v
 
 ## The date itself
 
-If you both accept the match, we plan the date for you: time, place, even an icebreaker. It'll be at one of our partnered venues, with **discounts or freebies** included:
+If you both accept the match, we plan the date for you: time, place, even an icebreaker. It'll be at one of our venues, with **discounts or freebies** included:
 
 - Flovie Florist Cafe
 - Prince Alfred Carlton

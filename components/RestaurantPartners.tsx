@@ -69,8 +69,22 @@ export default function RestaurantPartners() {
             display: "inline-block",
           }}
         >
-          Restaurant Partnerships
+          Where your dates will happen
         </h2>
+        <p
+          style={{
+            display: "inline-block",
+            marginTop: "0.75rem",
+            padding: "0.35rem 0.9rem",
+            borderRadius: "9999px",
+            background: "var(--parchment)",
+            fontSize: "1rem",
+            fontWeight: 700,
+            color: "rgba(43,27,18,0.6)",
+          }}
+        >
+          More venues coming soon...
+        </p>
 
         {/* Polaroid wall — one taped photo per venue slot */}
         <div
