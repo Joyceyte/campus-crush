@@ -133,7 +133,7 @@ export default function WaitlistModal() {
     background: "var(--parchment)",
     border: "1px solid rgba(43,27,18,0.22)",
     borderRadius: "0.75rem",
-    padding: "0.85rem 1rem",
+    padding: "0.65rem 1rem",
     width: "100%",
     color: "var(--ink)",
     fontSize: "0.9rem",
@@ -148,7 +148,7 @@ export default function WaitlistModal() {
     letterSpacing: "0.12em",
     textTransform: "uppercase",
     color: "rgba(43,27,18,0.55)",
-    marginBottom: "0.4rem",
+    marginBottom: "0.3rem",
   };
 
   const consentLabelStyle: React.CSSProperties = {
@@ -213,10 +213,10 @@ export default function WaitlistModal() {
           maxHeight: "calc(100dvh - 2rem)",
           overflowY: "auto",
           WebkitOverflowScrolling: "touch",
-          padding: "2rem",
+          padding: "1.5rem",
           display: "flex",
           flexDirection: "column",
-          gap: "1.1rem",
+          gap: "0.75rem",
         }}
       >
         {/* X close button */}
@@ -401,7 +401,7 @@ export default function WaitlistModal() {
             {/* Email */}
             <div>
               <label htmlFor="waitlist-email" style={labelStyle}>University email</label>
-              <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+              <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", marginBottom: "0.35rem", lineHeight: 1.5 }}>
                 {EMAIL_ACCEPTED_TEXT}
               </p>
               <input
@@ -426,7 +426,7 @@ export default function WaitlistModal() {
             {/* Phone */}
             <div>
               <label htmlFor="waitlist-phone" style={labelStyle}>Phone number</label>
-              <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+              <p style={{ fontSize: "0.72rem", color: "rgba(43,27,18,0.6)", marginBottom: "0.35rem", lineHeight: 1.5 }}>
                 We&apos;ll notify you once we launch at your uni.
               </p>
               <input

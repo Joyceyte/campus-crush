@@ -159,6 +159,14 @@ export default function FoundersNote() {
             Closing soon
           </p>
 
+          <Link
+            href="/blog/what-is-the-pilot"
+            onClick={dismiss}
+            style={{ fontSize: "0.95rem", color: "var(--terracotta)", textDecoration: "underline" }}
+          >
+            What is the pilot? →
+          </Link>
+
           <p
             style={{
               margin: 0,
@@ -193,13 +201,6 @@ export default function FoundersNote() {
             <p style={{ margin: 0, fontSize: "0.95rem", color: "rgba(43,27,18,0.55)" }}>
               <strong style={{ color: "var(--ink)" }}>Not sure what campus crush is yet?</strong>
             </p>
-            <Link
-              href="/blog/what-is-the-pilot"
-              onClick={dismiss}
-              style={{ fontSize: "0.95rem", color: "var(--terracotta)", textDecoration: "underline" }}
-            >
-              What is the pilot? →
-            </Link>
             <button
               ref={closeRef}
               type="button"

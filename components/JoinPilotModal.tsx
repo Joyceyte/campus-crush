@@ -80,7 +80,7 @@ export default function JoinPilotModal() {
           boxShadow: "0 25px 60px rgba(43,27,18,0.35)",
           maxWidth: "27rem",
           width: "100%",
-          padding: "2rem 1.75rem",
+          padding: "1.5rem 1.75rem",
         }}
       >
         <h2
@@ -100,7 +100,7 @@ export default function JoinPilotModal() {
             fontSize: "0.85rem",
             lineHeight: 1.6,
             color: "rgba(43,27,18,0.7)",
-            margin: "0 0 1.5rem",
+            margin: "0 0 0.9rem",
           }}
         >
           Semester 2, 2026 · UniMelb · $5 to secure your spot. Signups
@@ -112,17 +112,17 @@ export default function JoinPilotModal() {
           onClick={() => setOpen(false)}
           style={{
             display: "inline-block",
-            fontSize: "0.8rem",
+            fontSize: "0.85rem",
             fontWeight: 700,
             color: "var(--terracotta, #C1512F)",
             textDecoration: "underline",
-            margin: "0 0 1.5rem",
+            margin: "0 0 0.9rem",
           }}
         >
           What is the pilot? →
         </Link>
 
-        <form action={formAction} style={{ display: "grid", gap: "1rem" }}>
+        <form action={formAction} style={{ display: "grid", gap: "0.75rem" }}>
           <Field label="Full name">
             <input
               ref={firstFieldRef}
@@ -310,7 +310,7 @@ export default function JoinPilotModal() {
           type="button"
           onClick={() => setOpen(false)}
           style={{
-            marginTop: "1rem",
+            marginTop: "0.75rem",
             width: "100%",
             background: "none",
             border: "none",
@@ -329,7 +329,7 @@ export default function JoinPilotModal() {
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
-  padding: "0.65rem 0.75rem",
+  padding: "0.5rem 0.75rem",
   borderRadius: "10px",
   border: "1px solid rgba(43,27,18,0.22)",
   background: "rgba(255,255,255,0.6)",
@@ -356,7 +356,7 @@ function Field({
           textTransform: "uppercase",
           fontWeight: 700,
           color: "rgba(43,27,18,0.75)",
-          marginBottom: "0.35rem",
+          marginBottom: "0.25rem",
         }}
       >
         {label}
