@@ -99,7 +99,7 @@ Have fun out there. Text your friend when you're home.
 `;
 
 const PILOT_CONTENT = `
-**Every week for the duration of the pilot, you'll get matched with another student. We do the work of matching you, setting up the date at one of our venues and giving you a discount or a freebie. But the date itself is self-funded.**
+**Every week for the duration of the pilot, you'll get matched with another student you have high compatibility with. We do the work of matching you, setting up the date at one of our venues and giving you a discount or a freebie. But the date itself is self-funded.**
 
 This is your chance to be one of our first users and shape campus crush into something you genuinely want.
 
@@ -109,7 +109,7 @@ The **pilot** is open to **all University of Melbourne students**. Any undergrad
 
 ## How matching works
 
-Once you join, you're matched with another student based on dating intentions, values and hobbies, plus preferences like age, height and ethnicity.
+Once you join, our AI gets to know **the real you** through a dynamic conversation. Every week, you're matched with someone you have high compatibility with, not just someone who ticks the same boxes. And we'll tell you exactly **why you matched**.
 
 ## The date itself
 

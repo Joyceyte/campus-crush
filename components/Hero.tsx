@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSignupCount, SIGNUP_GOAL } from "@/lib/useSignupCount";
 import LaunchBanner from "@/components/LaunchBanner";
 import InstagramShowcase from "@/components/InstagramShowcase";
+import Motto from "@/components/Motto";
 
 // Bento photo tiles — grid-area letter (A–G) maps to the `grid-template-areas`
 // in `.bento` (app/globals.css). gay-date / lesbian-date are deliberately
@@ -260,6 +261,8 @@ export default function Hero() {
         {/* Typing banner — a grid row of the hero, so it stays in the first fold */}
         <LaunchBanner />
       </section>
+
+      <Motto />
 
       {/* Bouncing hint that there's more below the fold */}
       <div className="scroll-hint" aria-hidden="true">
