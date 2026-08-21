@@ -109,7 +109,7 @@ The **pilot** is open to **all University of Melbourne students**. Any undergrad
 
 ## How matching works
 
-Once you join, our AI gets to know **the real you** through a dynamic conversation. Every week, you're matched with someone you have high compatibility with, not just someone who ticks the same boxes. And we'll tell you exactly **why you matched**.
+Once you join, our AI gets to know **the real you** through a dynamic conversation. Every week, you're matched with someone you have high compatibility with, not just someone who ticks the same boxes. Under the hood, we run a weighted compatibility model across dozens of signals pulled from that conversation to find your strongest fit in the pool. And we'll tell you exactly **why you matched**.
 
 ## The date itself
 
